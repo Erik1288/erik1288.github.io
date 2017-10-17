@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="RocketMQ," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="RocmetMQ的IndexService设计原理在RocketMQ中，IndexService底层是通过文件来存储的，所以，即使MQ的进程在中途重启过，索引的功能是不受影响的。索引文件的路径是 System.getProperty(&amp;quot;user.home&amp;quot;) + File.separator + &amp;quot;store&amp;quot;，文件名是文件创建的时间，可以有多个，但，在一个">
+<meta name="keywords" content="RocketMQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RocketMQ——IndexService 原理分析">
+<meta property="og:url" content="http://yoursite.com/2017/10/12/RocketMQ-Index-service/index.html">
+<meta property="og:site_name" content="艾瑞克笔记">
+<meta property="og:description" content="RocmetMQ的IndexService设计原理在RocketMQ中，IndexService底层是通过文件来存储的，所以，即使MQ的进程在中途重启过，索引的功能是不受影响的。索引文件的路径是 System.getProperty(&amp;quot;user.home&amp;quot;) + File.separator + &amp;quot;store&amp;quot;，文件名是文件创建的时间，可以有多个，但，在一个">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/716353-2ed415df19a3040b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-10-16T09:27:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RocketMQ——IndexService 原理分析">
+<meta name="twitter:description" content="RocmetMQ的IndexService设计原理在RocketMQ中，IndexService底层是通过文件来存储的，所以，即使MQ的进程在中途重启过，索引的功能是不受影响的。索引文件的路径是 System.getProperty(&amp;quot;user.home&amp;quot;) + File.separator + &amp;quot;store&amp;quot;，文件名是文件创建的时间，可以有多个，但，在一个">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/716353-2ed415df19a3040b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/12/RocketMQ-Index-service/"/>
+
+
+
+
+
+  <title>RocketMQ——IndexService 原理分析 | 艾瑞克笔记</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">艾瑞克笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/RocketMQ-Index-service/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RocketMQ——IndexService 原理分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T19:29:40+08:00">
+                2017-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="RocmetMQ的IndexService设计原理"><a href="#RocmetMQ的IndexService设计原理" class="headerlink" title="RocmetMQ的IndexService设计原理"></a>RocmetMQ的IndexService设计原理</h4><p>在RocketMQ中，IndexService底层是通过文件来存储的，所以，即使MQ的进程在中途重启过，索引的功能是不受影响的。<br>索引文件的路径是 <code>System.getProperty(&quot;user.home&quot;) + File.separator + &quot;store&quot;</code>，文件名是文件创建的时间，可以有多个，但，<br>在一个文件没有满的情况下，所有的topic的所有的列队的消息，全部都是顺序得存放在一个文件中的，这很重要，下面会详解。<br><img src="http://upload-images.jianshu.io/upload_images/716353-2ed415df19a3040b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>在MQ源码中，用IndexFile这个类代表索引文件，对于每一个index file，大小都是固定的，即，都是设计好的。<br>index file在逻辑上被拆分成了3个部分，IndexHead + HashSlotPart + MsgIndexPart，<br>IndexHead<br>索引的开头，和索引的结构没有关系<br>HashSlotPart<br>hash的槽位，是索引的目录，用于定位消息索引在该文件的「MsgIndexPart」的位置，<br>可能有点绕，往下就会觉得很简单，每个槽位是等长的，占4 Byte，一个文件总的槽位数量也是定的，不可改变，槽位数越大，索引的消息越多。<br>MsgIndexPart<br>真实的消息索引，即，每个msgIndex段代表改消息在CommitLog上的PhyicOffset。每个msgIndex段也是等长的，占20 Byte（int + long + int + int）。<br>等长的MsgIndexPart可以理解成功一个有capacity的数组，为了使数组的空间不浪费，那消息就要从前往后一个一个append进去。</p>
+<p>所以，在默认配置下，<br>每个索引文件的大小为<br><code>int fileTotalSize = IndexHeader.INDEX_HEADER_SIZE + (hashSlotNum * hashSlotSize) + (indexNum * indexSize);</code></p>
+<p>CommitLogDispatcherBuildIndex调用dispatch<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatch</span><span class="params">(DispatchRequest request)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (DefaultMessageStore.<span class="keyword">this</span>.messageStoreConfig.isMessageIndexEnable()) &#123;</div><div class="line">        DefaultMessageStore.<span class="keyword">this</span>.indexService.buildIndex(request);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>buildIndex时会构建好几个索引，topic#msgId=&gt;msgIndex, topic#key1=&gt;msgIndex, topic#key2=&gt;msgIndex<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildIndex</span><span class="params">(DispatchRequest req)</span> </span>&#123;</div><div class="line">    IndexFile indexFile = retryGetAndCreateIndexFile();</div><div class="line">    <span class="keyword">if</span> (indexFile != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">long</span> endPhyOffset = indexFile.getEndPhyOffset();</div><div class="line">        DispatchRequest msg = req;</div><div class="line">        String topic = msg.getTopic();</div><div class="line">        String keys = msg.getKeys();</div><div class="line"></div><div class="line">        ...</div><div class="line">        <span class="keyword">if</span> (req.getUniqKey() != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="comment">// 构建UniqKey，也就是msgId的索引</span></div><div class="line">            indexFile = putKey(indexFile, msg, buildKey(topic, req.getUniqKey()));</div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (keys != <span class="keyword">null</span> &amp;&amp; keys.length() &gt; <span class="number">0</span>) &#123;</div><div class="line">            String[] keyset = keys.split(MessageConst.KEY_SEPARATOR);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; keyset.length; i++) &#123;</div><div class="line">                String key = keyset[i];</div><div class="line">                <span class="keyword">if</span> (key.length() &gt; <span class="number">0</span>) &#123;</div><div class="line">                    <span class="comment">// 构建业务Key的索引</span></div><div class="line">                    indexFile = putKey(indexFile, msg, buildKey(topic, key));</div><div class="line">                    ...</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        log.error(<span class="string">"build index error, stop building index"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RocketMQ/" rel="tag"># RocketMQ</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/12/RocketMQ-Master-slave-high-availability/" rel="next" title="RocketMQ——Broker的主从复制原理分析（双写机制）">
+                <i class="fa fa-chevron-left"></i> RocketMQ——Broker的主从复制原理分析（双写机制）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/12/RocketMQ-Producer-balance/" rel="prev" title="RocketMQ——Producer Balance 原理分析">
+                RocketMQ——Producer Balance 原理分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
+               alt="Eric Fei" />
+          <p class="site-author-name" itemprop="name">Eric Fei</p>
+           
+              <p class="site-description motion-element" itemprop="description">费红健的原创笔记 <br> 能用代码或者作图来说明问题，绝不废话</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#RocmetMQ的IndexService设计原理"><span class="nav-number">1.</span> <span class="nav-text">RocmetMQ的IndexService设计原理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eric Fei</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
