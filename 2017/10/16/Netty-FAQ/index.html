@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="艾瑞克笔记">
 <meta property="og:description" content="Netty 编解码器ByteToMessageDecoder与LengthFieldBasedFrameDecoder的区别 重要概念 Future and Promise如何调试时间循环线程当我们用debug启动netty server时，我们不知道boss线程运行的代码，那怎么样才能发现boss线程当前的执行轨迹呢。如果能找到轨迹，对我们研究boss线程有非常大的帮助。 给boss时间循环线程">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-17T12:09:49.000Z">
+<meta property="og:updated_time" content="2017-10-20T14:31:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Netty-FAQ">
 <meta name="twitter:description" content="Netty 编解码器ByteToMessageDecoder与LengthFieldBasedFrameDecoder的区别 重要概念 Future and Promise如何调试时间循环线程当我们用debug启动netty server时，我们不知道boss线程运行的代码，那怎么样才能发现boss线程当前的执行轨迹呢。如果能找到轨迹，对我们研究boss线程有非常大的帮助。 给boss时间循环线程">
@@ -333,7 +333,9 @@
 <h3 id="重要概念-Future-and-Promise"><a href="#重要概念-Future-and-Promise" class="headerlink" title="重要概念 Future and Promise"></a>重要概念 Future and Promise</h3><h3 id="如何调试时间循环线程"><a href="#如何调试时间循环线程" class="headerlink" title="如何调试时间循环线程"></a>如何调试时间循环线程</h3><p>当我们用debug启动netty server时，我们不知道boss线程运行的代码，那怎么样才能发现boss线程当前的执行轨迹呢。如果能找到轨迹，对我们研究boss线程有非常大的帮助。</p>
 <p>给boss时间循环线程池起个名字<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"> NioEventLoopGroup boss = <span class="keyword">new</span> NioEventLoopGroup(<span class="number">0</span>, <span class="keyword">new</span> ThreadFactory() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Thread(r, <span class="string">"boss-event-loop"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
 <p>如果用的Intellij，就能实现这个效果，首先用debug模式启动netty server。在debug tag下，我们进入Threads，展开<strong>Thread Group “main”</strong>，发现<strong>boss-event-loop</strong>正在处于Running状态。选中<strong>boss-event-loop</strong>，右键点击<strong>suspend</strong>，之后就能看到代码停了下来，去<strong>Frames</strong>tab中选择某一行进行断点调试。</p>
-<h3 id="聊天程序"><a href="#聊天程序" class="headerlink" title="聊天程序"></a>聊天程序</h3><p>Web Socket技术````<br>Long Pooling技术</p>
+<h3 id="聊天程序"><a href="#聊天程序" class="headerlink" title="聊天程序"></a>聊天程序</h3><p>Web Socket技术<br>Long Pooling技术</p>
+<h3 id="原生NIO可能会被问到的问题"><a href="#原生NIO可能会被问到的问题" class="headerlink" title="原生NIO可能会被问到的问题"></a>原生NIO可能会被问到的问题</h3><h3 id="Netty线程管理，高低水位线-watermark-控制"><a href="#Netty线程管理，高低水位线-watermark-控制" class="headerlink" title="Netty线程管理，高低水位线(watermark)控制"></a>Netty线程管理，高低水位线(watermark)控制</h3><p><a href="https://stackoverflow.com/questions/25281124/netty-4-high-and-low-write-watermarks" target="_blank" rel="external">https://stackoverflow.com/questions/25281124/netty-4-high-and-low-write-watermarks</a><br><a href="http://adolgarev.blogspot.ru/2013/12/pipelining-and-flow-control.html?view=flipcard" target="_blank" rel="external">http://adolgarev.blogspot.ru/2013/12/pipelining-and-flow-control.html?view=flipcard</a></p>
+<h3 id="Netty线程模型，Netty异常对Inbound-入站-和Outbound-出站-Handler的影响"><a href="#Netty线程模型，Netty异常对Inbound-入站-和Outbound-出站-Handler的影响" class="headerlink" title="Netty线程模型，Netty异常对Inbound(入站)和Outbound(出站) Handler的影响"></a>Netty线程模型，Netty异常对Inbound(入站)和Outbound(出站) Handler的影响</h3><h3 id="Netty内存管理，怎么防止内存过度使用"><a href="#Netty内存管理，怎么防止内存过度使用" class="headerlink" title="Netty内存管理，怎么防止内存过度使用"></a>Netty内存管理，怎么防止内存过度使用</h3><p>io模型，上面图里的问题，内存池怎么管理，怎么防止泄露。<br>mq主从切换，但是网络原因master假死， 这时候slave升级为主，怎么办？<br>和mysql主从切换一个道理，我不知道怎么办。或者怎么屏蔽。</p>
 
       
     </div>
@@ -358,8 +360,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/10/15/Cobar-Reactor-design-pattern/" rel="next" title="Cobar-Reactor-design-pattern">
-                <i class="fa fa-chevron-left"></i> Cobar-Reactor-design-pattern
+              <a href="/2017/10/13/RocketMQ-Delay-message-delivery/" rel="next" title="RocketMQ——延时消息投递原理分析">
+                <i class="fa fa-chevron-left"></i> RocketMQ——延时消息投递原理分析
               </a>
             
           </div>
@@ -367,6 +369,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/18/Cobar-NIO-server/" rel="prev" title="Cobar-NIO-server">
+                Cobar-NIO-server <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -443,7 +449,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -491,7 +497,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Netty-编解码器"><span class="nav-number">1.</span> <span class="nav-text">Netty 编解码器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重要概念-Future-and-Promise"><span class="nav-number">2.</span> <span class="nav-text">重要概念 Future and Promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何调试时间循环线程"><span class="nav-number">3.</span> <span class="nav-text">如何调试时间循环线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聊天程序"><span class="nav-number">4.</span> <span class="nav-text">聊天程序</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Netty-编解码器"><span class="nav-number">1.</span> <span class="nav-text">Netty 编解码器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重要概念-Future-and-Promise"><span class="nav-number">2.</span> <span class="nav-text">重要概念 Future and Promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何调试时间循环线程"><span class="nav-number">3.</span> <span class="nav-text">如何调试时间循环线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聊天程序"><span class="nav-number">4.</span> <span class="nav-text">聊天程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原生NIO可能会被问到的问题"><span class="nav-number">5.</span> <span class="nav-text">原生NIO可能会被问到的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Netty线程管理，高低水位线-watermark-控制"><span class="nav-number">6.</span> <span class="nav-text">Netty线程管理，高低水位线(watermark)控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Netty线程模型，Netty异常对Inbound-入站-和Outbound-出站-Handler的影响"><span class="nav-number">7.</span> <span class="nav-text">Netty线程模型，Netty异常对Inbound(入站)和Outbound(出站) Handler的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Netty内存管理，怎么防止内存过度使用"><span class="nav-number">8.</span> <span class="nav-text">Netty内存管理，怎么防止内存过度使用</span></a></li></ol></div>
             
 
           </div>

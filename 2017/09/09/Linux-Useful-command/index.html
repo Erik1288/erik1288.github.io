@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="艾瑞克笔记">
 <meta property="og:description" content="文件内容替换1sudo sed -i &apos;s/aaa/bbb/g&apos; `grep -Rl aaa order_migrate_conf/` 查找目录下的所有文件中是否含有某个字符串,并且只打印出文件名1grep -Rl 1496628000000 order_migrate_conf/ 查看超大文件，vim 慎用1less file.log 超大文件从后往前查找关键词kind_pay1tac file">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-16T10:01:40.000Z">
+<meta property="og:updated_time" content="2017-10-24T05:49:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实用Linux命令整理">
 <meta name="twitter:description" content="文件内容替换1sudo sed -i &apos;s/aaa/bbb/g&apos; `grep -Rl aaa order_migrate_conf/` 查找目录下的所有文件中是否含有某个字符串,并且只打印出文件名1grep -Rl 1496628000000 order_migrate_conf/ 查看超大文件，vim 慎用1less file.log 超大文件从后往前查找关键词kind_pay1tac file">
@@ -337,6 +337,7 @@
 <p>less file_path, G(go to file end), /kind_pay + enter, N(search key word reversely)</p>
 <h4 id="分类查看各种状态的TCP连接"><a href="#分类查看各种状态的TCP连接" class="headerlink" title="分类查看各种状态的TCP连接"></a>分类查看各种状态的TCP连接</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ss  -tan|awk <span class="string">'NR&gt;1&#123;++S[$1]&#125;END&#123;for (a in S) print a,S[a]&#125;'</span></div></pre></td></tr></table></figure>
 <h4 id="查看logs目录下所有文件夹及其内容的大小"><a href="#查看logs目录下所有文件夹及其内容的大小" class="headerlink" title="查看logs目录下所有文件夹及其内容的大小"></a>查看logs目录下所有文件夹及其内容的大小</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">du -sh logs/*</div></pre></td></tr></table></figure>
+<h4 id="将需要交互的命令的结果重定向到文件中"><a href="#将需要交互的命令的结果重定向到文件中" class="headerlink" title="将需要交互的命令的结果重定向到文件中"></a>将需要交互的命令的结果重定向到文件中</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">telnet zk_ip 2181 | tee -a  -i someFile</div><div class="line"></div><div class="line">envi</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -455,7 +456,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -503,7 +504,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#文件内容替换"><span class="nav-number">1.</span> <span class="nav-text">文件内容替换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查找目录下的所有文件中是否含有某个字符串-并且只打印出文件名"><span class="nav-number">2.</span> <span class="nav-text">查找目录下的所有文件中是否含有某个字符串,并且只打印出文件名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看超大文件，vim-慎用"><span class="nav-number">3.</span> <span class="nav-text">查看超大文件，vim 慎用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#超大文件从后往前查找关键词kind-pay"><span class="nav-number">4.</span> <span class="nav-text">超大文件从后往前查找关键词kind_pay</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分类查看各种状态的TCP连接"><span class="nav-number">5.</span> <span class="nav-text">分类查看各种状态的TCP连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看logs目录下所有文件夹及其内容的大小"><span class="nav-number">6.</span> <span class="nav-text">查看logs目录下所有文件夹及其内容的大小</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#文件内容替换"><span class="nav-number">1.</span> <span class="nav-text">文件内容替换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查找目录下的所有文件中是否含有某个字符串-并且只打印出文件名"><span class="nav-number">2.</span> <span class="nav-text">查找目录下的所有文件中是否含有某个字符串,并且只打印出文件名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看超大文件，vim-慎用"><span class="nav-number">3.</span> <span class="nav-text">查看超大文件，vim 慎用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#超大文件从后往前查找关键词kind-pay"><span class="nav-number">4.</span> <span class="nav-text">超大文件从后往前查找关键词kind_pay</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分类查看各种状态的TCP连接"><span class="nav-number">5.</span> <span class="nav-text">分类查看各种状态的TCP连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看logs目录下所有文件夹及其内容的大小"><span class="nav-number">6.</span> <span class="nav-text">查看logs目录下所有文件夹及其内容的大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将需要交互的命令的结果重定向到文件中"><span class="nav-number">7.</span> <span class="nav-text">将需要交互的命令的结果重定向到文件中</span></a></li></ol></div>
             
 
           </div>

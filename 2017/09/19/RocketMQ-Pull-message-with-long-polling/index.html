@@ -97,15 +97,15 @@
 <meta name="description" content="分成两部分，Client和Broker Client:Broker:首先PullMessageProcessor用相应的线程池调用processRequest，去ConsumerQueue中找消息，如果找到了，没有什么好说的，直接用Netty模块将数据写进相应的channel，客户端获取到了数据后进行并行消费；如果没有消息，那么将当前的pullRequest放入PullRequestHoldSer">
 <meta name="keywords" content="RocketMQ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RocketMQ——高性能PullRequest秘籍之长轮询原理分析">
+<meta property="og:title" content="RocketMQ——高性能PullRequest秘籍之长轮询(长轮询)原理分析">
 <meta property="og:url" content="http://yoursite.com/2017/09/19/RocketMQ-Pull-message-with-long-polling/index.html">
 <meta property="og:site_name" content="艾瑞克笔记">
 <meta property="og:description" content="分成两部分，Client和Broker Client:Broker:首先PullMessageProcessor用相应的线程池调用processRequest，去ConsumerQueue中找消息，如果找到了，没有什么好说的，直接用Netty模块将数据写进相应的channel，客户端获取到了数据后进行并行消费；如果没有消息，那么将当前的pullRequest放入PullRequestHoldSer">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tKfTcgy1fkeelo8oxpj30za0g2adr.jpg">
-<meta property="og:updated_time" content="2017-10-16T09:27:16.000Z">
+<meta property="og:updated_time" content="2017-10-18T02:55:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RocketMQ——高性能PullRequest秘籍之长轮询原理分析">
+<meta name="twitter:title" content="RocketMQ——高性能PullRequest秘籍之长轮询(长轮询)原理分析">
 <meta name="twitter:description" content="分成两部分，Client和Broker Client:Broker:首先PullMessageProcessor用相应的线程池调用processRequest，去ConsumerQueue中找消息，如果找到了，没有什么好说的，直接用Netty模块将数据写进相应的channel，客户端获取到了数据后进行并行消费；如果没有消息，那么将当前的pullRequest放入PullRequestHoldSer">
 <meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tKfTcgy1fkeelo8oxpj30za0g2adr.jpg">
 
@@ -142,7 +142,7 @@
 
 
 
-  <title>RocketMQ——高性能PullRequest秘籍之长轮询原理分析 | 艾瑞克笔记</title>
+  <title>RocketMQ——高性能PullRequest秘籍之长轮询(长轮询)原理分析 | 艾瑞克笔记</title>
   
 
 
@@ -282,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">RocketMQ——高性能PullRequest秘籍之长轮询原理分析</h1>
+          <h1 class="post-title" itemprop="name headline">RocketMQ——高性能PullRequest秘籍之长轮询(长轮询)原理分析</h1>
         
 
         <div class="post-meta">
@@ -458,7 +458,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

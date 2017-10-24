@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="逻辑Offset队列: ConsumerQueue物理Offset队列: CommitLogMappedByteBuffer操纵MappedByteBuffer的线程或者进程必须对某一个文件的映射Buffer有独占权，在设计上，消息的顺序是由CommitLog决定，所以CommitLog在Append新的消息时，必须上锁进行互斥。 Spin Lock(自旋锁)ReentrantLock(重入锁)">
+<meta name="description" content="逻辑Offset队列: ConsumerQueue物理Offset队列: CommitLogMappedByteBuffer操纵MappedByteBuffer的线程或者进程必须对某一个文件的映射Buffer有独占权，在设计上，消息的顺序是由CommitLog决定，所以CommitLog在Append新的消息时，必须上锁进行互斥。 传统的synchronized叫做monitor lock，当一个">
 <meta name="keywords" content="RocketMQ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RocketMQ——高性能秘籍之刷盘机制">
 <meta property="og:url" content="http://yoursite.com/2017/09/19/RocketMQ-Message-flush-stategy/index.html">
 <meta property="og:site_name" content="艾瑞克笔记">
-<meta property="og:description" content="逻辑Offset队列: ConsumerQueue物理Offset队列: CommitLogMappedByteBuffer操纵MappedByteBuffer的线程或者进程必须对某一个文件的映射Buffer有独占权，在设计上，消息的顺序是由CommitLog决定，所以CommitLog在Append新的消息时，必须上锁进行互斥。 Spin Lock(自旋锁)ReentrantLock(重入锁)">
+<meta property="og:description" content="逻辑Offset队列: ConsumerQueue物理Offset队列: CommitLogMappedByteBuffer操纵MappedByteBuffer的线程或者进程必须对某一个文件的映射Buffer有独占权，在设计上，消息的顺序是由CommitLog决定，所以CommitLog在Append新的消息时，必须上锁进行互斥。 传统的synchronized叫做monitor lock，当一个">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-16T09:27:16.000Z">
+<meta property="og:updated_time" content="2017-10-18T02:49:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RocketMQ——高性能秘籍之刷盘机制">
-<meta name="twitter:description" content="逻辑Offset队列: ConsumerQueue物理Offset队列: CommitLogMappedByteBuffer操纵MappedByteBuffer的线程或者进程必须对某一个文件的映射Buffer有独占权，在设计上，消息的顺序是由CommitLog决定，所以CommitLog在Append新的消息时，必须上锁进行互斥。 Spin Lock(自旋锁)ReentrantLock(重入锁)">
+<meta name="twitter:description" content="逻辑Offset队列: ConsumerQueue物理Offset队列: CommitLogMappedByteBuffer操纵MappedByteBuffer的线程或者进程必须对某一个文件的映射Buffer有独占权，在设计上，消息的顺序是由CommitLog决定，所以CommitLog在Append新的消息时，必须上锁进行互斥。 传统的synchronized叫做monitor lock，当一个">
 
 
 
@@ -331,6 +331,8 @@
 
       
         <h3 id="逻辑Offset队列-ConsumerQueue"><a href="#逻辑Offset队列-ConsumerQueue" class="headerlink" title="逻辑Offset队列: ConsumerQueue"></a>逻辑Offset队列: ConsumerQueue</h3><h3 id="物理Offset队列-CommitLog"><a href="#物理Offset队列-CommitLog" class="headerlink" title="物理Offset队列: CommitLog"></a>物理Offset队列: CommitLog</h3><h3 id="MappedByteBuffer"><a href="#MappedByteBuffer" class="headerlink" title="MappedByteBuffer"></a>MappedByteBuffer</h3><p>操纵MappedByteBuffer的线程或者进程必须对某一个文件的映射Buffer有独占权，<br>在设计上，消息的顺序是由CommitLog决定，所以CommitLog在Append新的消息时，必须上锁进行互斥。</p>
+<p><em>传统的synchronized叫做monitor lock，当一个线程进入了synchronized的代码块时，我们说，该线程own（拥有）了monitor lock。这种锁是一种重量级锁，用mutual exclusive（互斥）的特性来实现了同步的需求。
+</em>自旋锁，JDK1.6引进，我们知道，线程状态与状态的切换，是需要内核参与的，简单点来讲，这个过程是需要点时间的。线程B已经own了一个锁，这是线程A去尝试获取锁，本来线程A应该要挂起，JVM不让它挂起，让A在那里做自旋操作，JVM要赌当前持有锁的B会很快释放锁。如果线程B确实很快释放了锁，那对于A来讲是一个非常好事情，因为A可以不用切换状态，立刻持有锁。那什么时候会用到呢？<a href="http://blog.csdn.net/u013080921/article/details/42676231" target="_blank" rel="external">http://blog.csdn.net/u013080921/article/details/42676231</a></p>
 <h4 id="Spin-Lock-自旋锁"><a href="#Spin-Lock-自旋锁" class="headerlink" title="Spin Lock(自旋锁)"></a>Spin Lock(自旋锁)</h4><h4 id="ReentrantLock-重入锁"><a href="#ReentrantLock-重入锁" class="headerlink" title="ReentrantLock(重入锁)"></a>ReentrantLock(重入锁)</h4>
       
     </div>
@@ -450,7 +452,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

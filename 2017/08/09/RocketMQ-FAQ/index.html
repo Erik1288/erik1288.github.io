@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="艾瑞克笔记">
 <meta property="og:description" content="工作和学习中使用RocketMQ产生的困惑和总结，属于临时半成品文章，整理完了会单独成文。 为什么RocketMQ性能很高？主要是消息存储的方式影响着性能。 MQ为什么内部要使用好多队列？理论上队列入口要加锁（要么是程序的锁，要么是文件的锁）来保证同步，如果队列非常多，虽然不能把锁去掉，但可以减小并发线程对锁的竞争。这个是以前的结论，但实际情况是，consume queue只有一个线程来做。首先，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-16T09:42:43.000Z">
+<meta property="og:updated_time" content="2017-10-18T02:30:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面向问题的RocketMQ原理整理">
 <meta name="twitter:description" content="工作和学习中使用RocketMQ产生的困惑和总结，属于临时半成品文章，整理完了会单独成文。 为什么RocketMQ性能很高？主要是消息存储的方式影响着性能。 MQ为什么内部要使用好多队列？理论上队列入口要加锁（要么是程序的锁，要么是文件的锁）来保证同步，如果队列非常多，虽然不能把锁去掉，但可以减小并发线程对锁的竞争。这个是以前的结论，但实际情况是，consume queue只有一个线程来做。首先，">
@@ -373,7 +373,6 @@
 <h4 id="待解决问题"><a href="#待解决问题" class="headerlink" title="待解决问题"></a>待解决问题</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">org.apache.rocketmq.client.exception.MQClientException: No route info of this topic, binlog-msg</div><div class="line">See http://rocketmq.apache.org/docs/faq/ for further details.</div><div class="line">	at org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl.sendDefaultImpl(DefaultMQProducerImpl.java:537)</div><div class="line">	at org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl.send(DefaultMQProducerImpl.java:1038)</div><div class="line">	at org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl.send(DefaultMQProducerImpl.java:996)</div><div class="line">	at org.apache.rocketmq.client.producer.DefaultMQProducer.send(DefaultMQProducer.java:212)</div><div class="line">	at org.apache.rock</div></pre></td></tr></table></figure>
 <h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>2017-10-11 07:21:38 WARN SendMessageThread_1 - Offset for /root/store/commitlog/00000000002147483648 not matched. Request offset: 4051326754958557513, index: -521875234, mappedFileSize: 1073741824, mappedFiles count: 1<br>2017-10-11 07:21:38 WARN SendMessageThread_1 - findMappedFileByOffset failure.<br>java.lang.ArrayIndexOutOfBoundsException: -521875234</p>
 <p>请教：rocketmq的这个异常应该如何解决呢？</p>
-<p>test</p>
 
       
     </div>
@@ -489,7 +488,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
