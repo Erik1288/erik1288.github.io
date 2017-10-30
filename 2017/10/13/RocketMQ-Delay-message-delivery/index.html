@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="被动延时消费主动延时消费分布式事务之 Best Effort Delivery">
+<meta name="description" content="被动延时消费1234567891011121314consumer.registerMessageListener(new MessageListenerConcurrently() &amp;#123;    @Override    public ConsumeConcurrentlyStatus consumeMessage(List&amp;lt;MessageExt&amp;gt; msgs,        C">
 <meta name="keywords" content="RocketMQ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RocketMQ——延时消息投递原理分析">
 <meta property="og:url" content="http://yoursite.com/2017/10/13/RocketMQ-Delay-message-delivery/index.html">
 <meta property="og:site_name" content="艾瑞克笔记">
-<meta property="og:description" content="被动延时消费主动延时消费分布式事务之 Best Effort Delivery">
+<meta property="og:description" content="被动延时消费1234567891011121314consumer.registerMessageListener(new MessageListenerConcurrently() &amp;#123;    @Override    public ConsumeConcurrentlyStatus consumeMessage(List&amp;lt;MessageExt&amp;gt; msgs,        C">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-16T09:27:16.000Z">
+<meta property="og:updated_time" content="2017-10-26T07:36:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RocketMQ——延时消息投递原理分析">
-<meta name="twitter:description" content="被动延时消费主动延时消费分布式事务之 Best Effort Delivery">
+<meta name="twitter:description" content="被动延时消费1234567891011121314consumer.registerMessageListener(new MessageListenerConcurrently() &amp;#123;    @Override    public ConsumeConcurrentlyStatus consumeMessage(List&amp;lt;MessageExt&amp;gt; msgs,        C">
 
 
 
@@ -330,7 +330,9 @@
       
 
       
-        <h3 id="被动延时消费"><a href="#被动延时消费" class="headerlink" title="被动延时消费"></a>被动延时消费</h3><h3 id="主动延时消费"><a href="#主动延时消费" class="headerlink" title="主动延时消费"></a>主动延时消费</h3><h3 id="分布式事务之-Best-Effort-Delivery"><a href="#分布式事务之-Best-Effort-Delivery" class="headerlink" title="分布式事务之 Best Effort Delivery"></a>分布式事务之 Best Effort Delivery</h3>
+        <h3 id="被动延时消费"><a href="#被动延时消费" class="headerlink" title="被动延时消费"></a>被动延时消费</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">consumer.registerMessageListener(<span class="keyword">new</span> MessageListenerConcurrently() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> ConsumeConcurrentlyStatus <span class="title">consumeMessage</span><span class="params">(List&lt;MessageExt&gt; msgs,</span></span></div><div class="line"><span class="function"><span class="params">        ConsumeConcurrentlyContext context)</span> </span>&#123;</div><div class="line">        <span class="comment">// 可能抛出异常</span></div><div class="line">        <span class="keyword">boolean</span> success = doConsume(msgs);</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> (success) &#123;</div><div class="line">            <span class="keyword">return</span> ConsumeConcurrentlyStatus.CONSUME_SUCCESS;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> ConsumeConcurrentlyStatus.RECONSUME_LATER;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="主动延时消费"><a href="#主动延时消费" class="headerlink" title="主动延时消费"></a>主动延时消费</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<h3 id="分布式事务之-Best-Effort-Delivery"><a href="#分布式事务之-Best-Effort-Delivery" class="headerlink" title="分布式事务之 Best Effort Delivery"></a>分布式事务之 Best Effort Delivery</h3>
       
     </div>
     
@@ -449,7 +451,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -462,7 +464,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

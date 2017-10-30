@@ -94,18 +94,22 @@
 
 
 
-<meta name="description" content="费红健的原创笔记  能用代码或者作图来说明问题，绝不废话">
+<meta name="description" content="Cobar集群部署时是无状态的，只是集群中会相互发送对等的心跳让每一台Cobar都保存完整集群列表。但网络存在的情况是非常复杂的。 问题场景列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。   CobarA和CobarB初始启动后，">
 <meta name="keywords" content="Cobar">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cobar——用分布式锁增强Cobar在集群环境的数据源切换">
 <meta property="og:url" content="http://yoursite.com/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/index.html">
 <meta property="og:site_name" content="艾瑞克笔记">
-<meta property="og:description" content="费红健的原创笔记  能用代码或者作图来说明问题，绝不废话">
+<meta property="og:description" content="Cobar集群部署时是无状态的，只是集群中会相互发送对等的心跳让每一台Cobar都保存完整集群列表。但网络存在的情况是非常复杂的。 问题场景列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。   CobarA和CobarB初始启动后，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-16T09:27:16.000Z">
+<meta property="og:image" content="http://yoursite.com/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/sign.gif">
+<meta property="og:image" content="http://yoursite.com/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/normal.gif">
+<meta property="og:image" content="http://yoursite.com/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/abnormal.gif">
+<meta property="og:updated_time" content="2017-10-30T10:46:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cobar——用分布式锁增强Cobar在集群环境的数据源切换">
-<meta name="twitter:description" content="费红健的原创笔记  能用代码或者作图来说明问题，绝不废话">
+<meta name="twitter:description" content="Cobar集群部署时是无状态的，只是集群中会相互发送对等的心跳让每一台Cobar都保存完整集群列表。但网络存在的情况是非常复杂的。 问题场景列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。   CobarA和CobarB初始启动后，">
+<meta name="twitter:image" content="http://yoursite.com/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/sign.gif">
 
 
 
@@ -330,7 +334,13 @@
       
 
       
-        
+        <p>Cobar集群部署时是无状态的，只是集群中会相互发送对等的心跳让每一台Cobar都保存完整集群列表。但网络存在的情况是非常复杂的。</p>
+<h3 id="问题场景"><a href="#问题场景" class="headerlink" title="问题场景"></a>问题场景</h3><p>列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。</p>
+<p><img src="/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/sign.gif" alt=""></p>
+<p><img src="/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/normal.gif" alt=""></p>
+<p>CobarA和CobarB初始启动后，后端的数据源都指向MySQL1-4。如果CobarA和MySQL_2之间的网络抖了下，但CobarB和MySQL_2的网络没有抖动。于是CobarA切到了MySQL_6上，CobarB还是在MySQL_2上。</p>
+<p><img src="/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/abnormal.gif" alt=""></p>
+
       
     </div>
     
@@ -424,8 +434,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
@@ -440,7 +459,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -453,7 +472,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -478,6 +497,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题场景"><span class="nav-number">1.</span> <span class="nav-text">问题场景</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
