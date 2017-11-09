@@ -94,18 +94,21 @@
 
 
 
-<meta name="description" content="原始cobar-driver问题cobar作为一套完整的分库分表方案，其负载均衡功能是由cobar-driver提供的。原始的cobar版的JDBC协议如下：jdbc:cobar://cobar_host:8066/user，只能支持连接cobar集群中的某一台机器，当整个集群中的这台机器宕机后，即使集群中的其余机器仍然可以提供服务，客户端也无法创建新的连接。为了防止这种单点故障，需要对cobar">
+<meta name="description" content="cobar作为一套完整的分库分表方案，其负载均衡功能是由cobar-driver提供的。 cobar-driver单点问题原始的cobar版的JDBC协议如下：jdbc:cobar://Cobar_A:8066/user，只能支持连接cobar集群中的某一台机器，当整个集群中的这台机器宕机后，即使集群中的其余机器仍然可以提供服务，客户端也无法创建新的连接。  HA cobar(jdbc)协议为了防">
 <meta name="keywords" content="Cobar">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cobar——扩展Cobar Driver，防止单点故障">
 <meta property="og:url" content="http://yoursite.com/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/index.html">
 <meta property="og:site_name" content="艾瑞克笔记">
-<meta property="og:description" content="原始cobar-driver问题cobar作为一套完整的分库分表方案，其负载均衡功能是由cobar-driver提供的。原始的cobar版的JDBC协议如下：jdbc:cobar://cobar_host:8066/user，只能支持连接cobar集群中的某一台机器，当整个集群中的这台机器宕机后，即使集群中的其余机器仍然可以提供服务，客户端也无法创建新的连接。为了防止这种单点故障，需要对cobar">
+<meta property="og:description" content="cobar作为一套完整的分库分表方案，其负载均衡功能是由cobar-driver提供的。 cobar-driver单点问题原始的cobar版的JDBC协议如下：jdbc:cobar://Cobar_A:8066/user，只能支持连接cobar集群中的某一台机器，当整个集群中的这台机器宕机后，即使集群中的其余机器仍然可以提供服务，客户端也无法创建新的连接。  HA cobar(jdbc)协议为了防">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-27T07:30:24.000Z">
+<meta property="og:image" content="http://yoursite.com/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/before-cobar-driver.gif">
+<meta property="og:image" content="http://yoursite.com/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/after-cobar-driver.gif">
+<meta property="og:updated_time" content="2017-10-31T03:32:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cobar——扩展Cobar Driver，防止单点故障">
-<meta name="twitter:description" content="原始cobar-driver问题cobar作为一套完整的分库分表方案，其负载均衡功能是由cobar-driver提供的。原始的cobar版的JDBC协议如下：jdbc:cobar://cobar_host:8066/user，只能支持连接cobar集群中的某一台机器，当整个集群中的这台机器宕机后，即使集群中的其余机器仍然可以提供服务，客户端也无法创建新的连接。为了防止这种单点故障，需要对cobar">
+<meta name="twitter:description" content="cobar作为一套完整的分库分表方案，其负载均衡功能是由cobar-driver提供的。 cobar-driver单点问题原始的cobar版的JDBC协议如下：jdbc:cobar://Cobar_A:8066/user，只能支持连接cobar集群中的某一台机器，当整个集群中的这台机器宕机后，即使集群中的其余机器仍然可以提供服务，客户端也无法创建新的连接。  HA cobar(jdbc)协议为了防">
+<meta name="twitter:image" content="http://yoursite.com/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/before-cobar-driver.gif">
 
 
 
@@ -330,7 +333,11 @@
       
 
       
-        <h3 id="原始cobar-driver问题"><a href="#原始cobar-driver问题" class="headerlink" title="原始cobar-driver问题"></a>原始cobar-driver问题</h3><p>cobar作为一套完整的分库分表方案，其负载均衡功能是由cobar-driver提供的。原始的cobar版的JDBC协议如下：jdbc:cobar://cobar_host:8066/user，只能支持连接cobar集群中的某一台机器，当整个集群中的这台机器宕机后，即使集群中的其余机器仍然可以提供服务，客户端也无法创建新的连接。<br>为了防止这种单点故障，需要对cobar-driver的源码进行修改，协议部分改造，URL的host部分不再只能填写一个host地址，而是像ZooKeeper一样，可以填写整个Cobar集群的地址：jdbc:cobar_cluster://cobar_1,cobar_2:8066/user，即使cobar_1宕机了，应用还是可以去cobar_2中继续创建新的连接以保证性能。</p>
+        <p>cobar作为一套完整的分库分表方案，其负载均衡功能是由cobar-driver提供的。</p>
+<h3 id="cobar-driver单点问题"><a href="#cobar-driver单点问题" class="headerlink" title="cobar-driver单点问题"></a>cobar-driver单点问题</h3><p>原始的cobar版的JDBC协议如下：<code>jdbc:cobar://Cobar_A:8066/user</code>，只能支持连接cobar集群中的某一台机器，当整个集群中的这台机器宕机后，即使集群中的其余机器仍然可以提供服务，客户端也无法创建新的连接。</p>
+<p><img src="/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/before-cobar-driver.gif" alt=""></p>
+<h3 id="HA-cobar-jdbc-协议"><a href="#HA-cobar-jdbc-协议" class="headerlink" title="HA cobar(jdbc)协议"></a>HA cobar(jdbc)协议</h3><p>为了防止这种单点故障，需要对cobar-driver的源码进行修改，协议部分改造，URL的host部分不再只能填写一个host地址，而是像ZooKeeper一样，可以填写整个Cobar集群的地址：jdbc:cobar_cluster://cobar_1,cobar_2:8066/user，即使cobar_1宕机了，应用还是可以去cobar_2中继续创建新的连接以保证性能。</p>
+<p><img src="/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/after-cobar-driver.gif" alt=""></p>
 
       
     </div>
@@ -450,7 +457,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">36</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -463,7 +470,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -498,7 +505,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#原始cobar-driver问题"><span class="nav-number">1.</span> <span class="nav-text">原始cobar-driver问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#cobar-driver单点问题"><span class="nav-number">1.</span> <span class="nav-text">cobar-driver单点问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HA-cobar-jdbc-协议"><span class="nav-number">2.</span> <span class="nav-text">HA cobar(jdbc)协议</span></a></li></ol></div>
             
 
           </div>

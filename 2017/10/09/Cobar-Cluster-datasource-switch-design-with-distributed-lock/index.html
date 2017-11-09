@@ -94,21 +94,21 @@
 
 
 
-<meta name="description" content="Cobar集群部署时是无状态的，只是集群中会相互发送对等的心跳让每一台Cobar都保存完整集群列表。但网络存在的情况是非常复杂的。 问题场景列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。   CobarA和CobarB初始启动后，">
+<meta name="description" content="Cobar集群部署时是无状态的，只是集群中会相互发送对等的心跳让每一台Cobar都保存完整集群列表。但网络存在的情况是非常复杂的。 场景列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。   CobarA和CobarB初始启动后，后端">
 <meta name="keywords" content="Cobar">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cobar——用分布式锁增强Cobar在集群环境的数据源切换">
 <meta property="og:url" content="http://yoursite.com/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/index.html">
 <meta property="og:site_name" content="艾瑞克笔记">
-<meta property="og:description" content="Cobar集群部署时是无状态的，只是集群中会相互发送对等的心跳让每一台Cobar都保存完整集群列表。但网络存在的情况是非常复杂的。 问题场景列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。   CobarA和CobarB初始启动后，">
+<meta property="og:description" content="Cobar集群部署时是无状态的，只是集群中会相互发送对等的心跳让每一台Cobar都保存完整集群列表。但网络存在的情况是非常复杂的。 场景列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。   CobarA和CobarB初始启动后，后端">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/sign.gif">
 <meta property="og:image" content="http://yoursite.com/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/normal.gif">
 <meta property="og:image" content="http://yoursite.com/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/abnormal.gif">
-<meta property="og:updated_time" content="2017-10-30T10:46:00.000Z">
+<meta property="og:updated_time" content="2017-10-30T11:20:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cobar——用分布式锁增强Cobar在集群环境的数据源切换">
-<meta name="twitter:description" content="Cobar集群部署时是无状态的，只是集群中会相互发送对等的心跳让每一台Cobar都保存完整集群列表。但网络存在的情况是非常复杂的。 问题场景列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。   CobarA和CobarB初始启动后，">
+<meta name="twitter:description" content="Cobar集群部署时是无状态的，只是集群中会相互发送对等的心跳让每一台Cobar都保存完整集群列表。但网络存在的情况是非常复杂的。 场景列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。   CobarA和CobarB初始启动后，后端">
 <meta name="twitter:image" content="http://yoursite.com/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/sign.gif">
 
 
@@ -335,11 +335,12 @@
 
       
         <p>Cobar集群部署时是无状态的，只是集群中会相互发送对等的心跳让每一台Cobar都保存完整集群列表。但网络存在的情况是非常复杂的。</p>
-<h3 id="问题场景"><a href="#问题场景" class="headerlink" title="问题场景"></a>问题场景</h3><p>列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。</p>
+<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。</p>
 <p><img src="/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/sign.gif" alt=""></p>
 <p><img src="/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/normal.gif" alt=""></p>
 <p>CobarA和CobarB初始启动后，后端的数据源都指向MySQL1-4。如果CobarA和MySQL_2之间的网络抖了下，但CobarB和MySQL_2的网络没有抖动。于是CobarA切到了MySQL_6上，CobarB还是在MySQL_2上。</p>
 <p><img src="/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/abnormal.gif" alt=""></p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>Cobar_B上执行insert，Cobar_A上执行select，binlog需要时间</p>
 
       
     </div>
@@ -370,8 +371,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/20/tree-cache-single-thread-event-handler-in-curator/" rel="next" title="tree-cache-single-thread-event-handler-in-curator">
-                <i class="fa fa-chevron-left"></i> tree-cache-single-thread-event-handler-in-curator
+              <a href="/2017/09/28/Curator-Distributed-lock/" rel="next" title="curator——分布式锁的实现之一">
+                <i class="fa fa-chevron-left"></i> curator——分布式锁的实现之一
               </a>
             
           </div>
@@ -380,8 +381,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/10/12/RocketMQ-Master-slave-high-availability/" rel="prev" title="RocketMQ——Broker的主从复制原理分析（双写机制）">
-                RocketMQ——Broker的主从复制原理分析（双写机制） <i class="fa fa-chevron-right"></i>
+              <a href="/2017/10/11/RocketMQ-Transactional-message/" rel="prev" title="RocketMQ——事务消息原理分析">
+                RocketMQ——事务消息原理分析 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -459,7 +460,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">36</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -472,7 +473,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -507,7 +508,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题场景"><span class="nav-number">1.</span> <span class="nav-text">问题场景</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#场景"><span class="nav-number">1.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">2.</span> <span class="nav-text">问题</span></a></li></ol></div>
             
 
           </div>
