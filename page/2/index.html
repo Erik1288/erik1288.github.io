@@ -94,16 +94,16 @@
 
 
 
-<meta name="description" content="费红健的原创笔记  能用代码或者作图来说明问题，绝不废话">
+<meta name="description" content="费红健的笔记  能用代码或者作图来说明问题，绝不废话">
 <meta property="og:type" content="website">
-<meta property="og:title" content="艾瑞克笔记">
+<meta property="og:title" content="艾瑞克小记">
 <meta property="og:url" content="http://yoursite.com/page/2/index.html">
-<meta property="og:site_name" content="艾瑞克笔记">
-<meta property="og:description" content="费红健的原创笔记  能用代码或者作图来说明问题，绝不废话">
+<meta property="og:site_name" content="艾瑞克小记">
+<meta property="og:description" content="费红健的笔记  能用代码或者作图来说明问题，绝不废话">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="艾瑞克笔记">
-<meta name="twitter:description" content="费红健的原创笔记  能用代码或者作图来说明问题，绝不废话">
+<meta name="twitter:title" content="艾瑞克小记">
+<meta name="twitter:description" content="费红健的笔记  能用代码或者作图来说明问题，绝不废话">
 
 
 
@@ -138,7 +138,7 @@
 
 
 
-  <title>艾瑞克笔记</title>
+  <title>艾瑞克小记</title>
   
 
 
@@ -176,7 +176,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">艾瑞克笔记</span>
+        <span class="site-title">艾瑞克小记</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -232,9 +232,43 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -263,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/27/Cobar-Enhance-cobar-mysql-heartbeat/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/10/JVM-CAS-Campare-and-swap/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -272,7 +306,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -282,7 +316,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/27/Cobar-Enhance-cobar-mysql-heartbeat/" itemprop="url">Cobar-Enhance-cobar-mysql-heartbeat</a></h1>
+                <a class="post-title-link" href="/2017/11/10/JVM-CAS-Campare-and-swap/" itemprop="url">JVM-CAS-Campare-and-swap</a></h1>
         
 
         <div class="post-meta">
@@ -294,8 +328,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-27T14:37:10+08:00">
-                2017-10-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-10T19:48:55+08:00">
+                2017-11-10
               </time>
             
 
@@ -334,165 +368,14 @@
       
         
           
-            <h3 id="Cobar与MySQL心跳实现"><a href="#Cobar与MySQL心跳实现" class="headerlink" title="Cobar与MySQL心跳实现"></a>Cobar与MySQL心跳实现</h3><p>Cobar的心跳是用原生NIO写的，相对于用Netty来发送心跳，复杂度不在一个量级上。</p>
-<h3 id="网络抖动"><a href="#网络抖动" class="headerlink" title="网络抖动"></a>网络抖动</h3><p>Cobar会向MySQL发送<code>select user()</code>的心跳，Cobar会在以下两种情况下进行数据源切换</p>
-<ul>
-<li>Cobar向MySQL发送心跳数据失败，界定为Error</li>
-<li>Cobar向MySQL发送心跳数据，但30秒（默认）内没有收到MySQL回复，界定为Timeout</li>
-</ul>
-<p>在阿里云VPC的环境中，网络抖动又是家常便饭，一旦网络出现抖动，Cobar立刻把对应dataNode的数据源从Master切到Slave或者从Slave切回Master，于是，慢SQL出现了。这时都意识到，这个数据源切换的策略不靠谱，需要重新设计。</p>
-<p>不能一发现情况一，就认定是Error，网络抖动很有可能在几秒钟之内恢复回来，这里采用的策略是，发现情况一，再试3次，如果第3次还失败，等待n秒后再试一次，如果还发送心跳失败，那就是Error，需要切换数据源。</p>
-<h3 id="过滤抖动策略"><a href="#过滤抖动策略" class="headerlink" title="过滤抖动策略"></a>过滤抖动策略</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/27/Thread-FAQ/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/27/Thread-FAQ/" itemprop="url">Thread-FAQ</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-27T11:07:35+08:00">
-                2017-10-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h3><h3 id="Future"><a href="#Future" class="headerlink" title="Future"></a>Future</h3><h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><h3 id="Difference-between-ReentrantLock-and-sync"><a href="#Difference-between-ReentrantLock-and-sync" class="headerlink" title="Difference between ReentrantLock and sync"></a>Difference between ReentrantLock and sync</h3><h3 id="Java线程面试题"><a href="#Java线程面试题" class="headerlink" title="Java线程面试题"></a>Java线程面试题</h3><p>如果用了ReentrantLock，还需要设置自旋锁么？</p>
-<p>15个Java多线程面试题及回答</p>
-<p>1)现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？</p>
-<p>这个线程问题通常会在第一轮或电话面试阶段被问到，目的是检测你对”join”方法是否熟悉。这个多线程问题比较简单，可以用join方法实现。</p>
-<p>2)在Java中Lock接口比synchronized块的优势是什么？你需要实现一个高效的缓存，它允许多个用户读，但只允许一个用户写，以此来保持它的完整性，你会怎样去实现它？</p>
-<p>lock接口在多线程和并发编程中最大的优势是它们为读和写分别提供了锁，它能满足你写像ConcurrentHashMap这样的高性能数据结构和有条件的阻塞。Java线程面试的问题越来越会根据面试者的回答来提问。我强烈建议在你去参加多线程的面试之前认真读一下Locks，因为当前其大量用于构建电子交易终统的客户端缓存和交易连接空间。</p>
-<p>3)在java中wait和sleep方法的不同？</p>
-<p>通常会在电话面试中经常被问到的Java线程面试问题。最大的不同是在等待时wait会释放锁，而sleep一直持有锁。Wait通常被用于线程间交互，sleep通常被用于暂停执行。</p>
-<p>4）用Java实现阻塞队列。</p>
-<p>这是一个相对艰难的多线程面试问题，它能达到很多的目的。第一，它可以检测侯选者是否能实际的用Java线程写程序；第二，可以检测侯选者对并发场景的理解，并且你可以根据这个问很多问题。如果他用wait()和notify()方法来实现阻塞队列，你可以要求他用最新的Java 5中的并发类来再写一次。</p>
-<p>5）用Java写代码来解决生产者——消费者问题。</p>
-<p>与上面的问题很类似，但这个问题更经典，有些时候面试都会问下面的问题。在Java中怎么解决生产者——消费者问题，当然有很多解决方法，我已经分享了一种用阻塞队列实现的方法。有些时候他们甚至会问怎么实现哲学家进餐问题。</p>
-<p>6）用Java编程一个会导致死锁的程序，你将怎么解决？</p>
-<p>这是我最喜欢的Java线程面试问题，因为即使死锁问题在写多线程并发程序时非常普遍，但是很多侯选者并不能写deadlock free code（无死锁代码？），他们很挣扎。只要告诉他们，你有N个资源和N个线程，并且你需要所有的资源来完成一个操作。为了简单这里的n可以替换为2，越大的数据会使问题看起来更复杂。通过避免Java中的死锁来得到关于死锁的更多信息。</p>
-<p>7) 什么是原子操作，Java中的原子操作是什么？</p>
-<p>非常简单的java线程面试问题，接下来的问题是你需要同步一个原子操作。</p>
-<p>8) Java中的volatile关键是什么作用？怎样使用它？在Java中它跟synchronized方法有什么不同？</p>
-<p>自从Java 5和Java内存模型改变以后，基于volatile关键字的线程问题越来越流行。应该准备好回答关于volatile变量怎样在并发环境中确保可见性。</p>
-<p>9) 什么是竞争条件？你怎样发现和解决竞争？</p>
-<p>这是一道出现在多线程面试的高级阶段的问题。大多数的面试官会问最近你遇到的竞争条件，以及你是怎么解决的。有些时间他们会写简单的代码，然后让你检测出代码的竞争条件。可以参考我之前发布的关于Java竞争条件的文章。在我看来这是最好的java线程面试问题之一，它可以确切的检测候选者解决竞争条件的经验，or writing code which is free of data race or any other race condition。关于这方面最好的书是《Concurrency practices in Java》。</p>
-<p>10) 你将如何使用thread dump？你将如何分析Thread dump？</p>
-<p>在UNIX中你可以使用kill -3，然后thread dump将会打印日志，在windows中你可以使用”CTRL+Break”。非常简单和专业的线程面试问题，但是如果他问你怎样分析它，就会很棘手。</p>
-<p>11) 为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？</p>
-<p>这是另一个非常经典的java多线程面试问题。这也是我刚开始写线程程序时候的困惑。现在这个问题通常在电话面试或者是在初中级Java面试的第一轮被问到。这个问题的回答应该是这样的，当你调用start()方法时你将创建新的线程，并且执行在run()方法里的代码。但是如果你直接调用run()方法，它不会创建新的线程也不会执行调用线程的代码。阅读我之前写的《start与run方法的区别》这篇文章来获得更多信息。</p>
-<p>12) Java中你怎样唤醒一个阻塞的线程？</p>
-<p>这是个关于线程和阻塞的棘手的问题，它有很多解决方法。如果线程遇到了IO阻塞，我并且不认为有一种方法可以中止线程。如果线程因为调用wait()、sleep()、或者join()方法而导致的阻塞，你可以中断线程，并且通过抛出InterruptedException来唤醒它。我之前写的《How to deal with blocking methods in java》有很多关于处理线程阻塞的信息。</p>
-<p>13)在Java中CycliBarriar和CountdownLatch有什么区别？</p>
-<p>这个线程问题主要用来检测你是否熟悉JDK5中的并发包。这两个的区别是CyclicBarrier可以重复使用已经通过的障碍，而CountdownLatch不能重复使用。</p>
-<p>14) 什么是不可变对象，它对写并发应用有什么帮助？</p>
-<p>另一个多线程经典面试问题，并不直接跟线程有关，但间接帮助很多。这个java面试问题可以变的非常棘手，如果他要求你写一个不可变对象，或者问你为什么String是不可变的。</p>
-<p>15) 你在多线程环境中遇到的常见的问题是什么？你是怎么解决它的？</p>
-<p>多线程和并发程序中常遇到的有Memory-interface、竞争条件、死锁、活锁和饥饿。问题是没有止境的，如果你弄错了，将很难发现和调试。这是大多数基于面试的，而不是基于实际应用的Java线程问题。</p>
+            <blockquote>
+<p>仅供学习交流,如有错误请指出,如要转载请加上出处,谢谢</p>
+</blockquote>
+<h3 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h3><p>硬件指令</p>
+<h3 id="基于CAS的无所化（Lock-Free）设计"><a href="#基于CAS的无所化（Lock-Free）设计" class="headerlink" title="基于CAS的无所化（Lock-Free）设计"></a>基于CAS的无所化（Lock-Free）设计</h3><p>也就是所谓的乐观锁<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 自旋锁</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpinLock</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> AtomicBoolean canLock = <span class="keyword">new</span> AtomicBoolean(<span class="keyword">true</span>);</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">boolean</span> b;</div><div class="line">        <span class="keyword">do</span> &#123;</div><div class="line">            b = canLock.compareAndSet(<span class="keyword">true</span>, <span class="keyword">false</span>);</div><div class="line">        &#125; <span class="keyword">while</span> (!b);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">release</span><span class="params">()</span> </span>&#123;</div><div class="line">        canLock.compareAndSet(<span class="keyword">false</span>, <span class="keyword">true</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>调用lock方法时，<code>canLock</code>初始为true，cas成功执行，返回修改后的值，也就是false。然后循环在while中，只要canLock没有被重置会true，cas一直是失败的。CPU被该线程长久占用着。</p>
+<h3 id="ABA问题"><a href="#ABA问题" class="headerlink" title="ABA问题"></a>ABA问题</h3><p>CAS本身是没有任何问题的，是操作系统的指令。但是，当我们用CAS原理来设计无锁化的互斥机制时，就一定会产生ABA问题。</p>
+<h3 id="优化ABA"><a href="#优化ABA" class="headerlink" title="优化ABA"></a>优化ABA</h3><p>对于某些系统，ABA不会产生问题，但也有不能容忍ABA的系统</p>
 
           
         
@@ -541,7 +424,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/Cobar-FAQ/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/10/Distributed-Transaction-TCC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -550,7 +433,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -560,7 +443,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/18/Cobar-FAQ/" itemprop="url">Cobar——原理整理</a></h1>
+                <a class="post-title-link" href="/2017/11/10/Distributed-Transaction-TCC/" itemprop="url">Distributed-Transaction-TCC</a></h1>
         
 
         <div class="post-meta">
@@ -572,8 +455,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-18T20:24:04+08:00">
-                2017-10-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-10T19:03:55+08:00">
+                2017-11-10
               </time>
             
 
@@ -612,129 +495,7 @@
       
         
           
-            <p>FrontendConnection默认的NioHandler是FrontendAuthenticator, 当认证信息发来时，FrontendConnection会把handler.handle()任务放入一个线程池中，当前的handler是默认的认证器，如果认证成功了，FrontendAuthenticator会反过来将FrontendConnection的handler替换成FrontendCommandHandler。</p>
-<p>Handler是由NioConnection主动触发的，在Handler处理完信息后，需要将处理完后的response回写给NioConnection, NioConnection把数据放入NioProcessor的writeQueue。</p>
-<p>Cobar将数据库连接池的大小暴露在配置文件中，但为了性能考虑（我觉得），没有严格将数据库的连接数保持在这个范围内，假设连接池的大小为50，在高并发的SQL执行下，连接数可能会冲击到80-90，此时需要注意MySQL的max_connections这个配置，如果这个值比较小，那Cobar在并发执行SQL时创建连接，而MySQL握手包的内容可能会发生变化，但Cobar不会处理这种异常情况，导致Cobar抛出一下错误：<br><img src="https://ws4.sinaimg.cn/large/006tKfTcgy1fkmo3ieklej31kw0hz7il.jpg" alt="img"></p>
-<h3 id="Cobar怎么处理半包和拆包"><a href="#Cobar怎么处理半包和拆包" class="headerlink" title="Cobar怎么处理半包和拆包"></a>Cobar怎么处理半包和拆包</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/Cobar-NIO-client/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/18/Cobar-NIO-client/" itemprop="url">Cobar-NIO-client</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-18T11:13:59+08:00">
-                2017-10-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Cobar作为一个数据库分库分表中间件，既是一台NIO Server，又是NIO Client</p>
+            <h3 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h3><h3 id="变种"><a href="#变种" class="headerlink" title="变种"></a>变种</h3><p><a href="https://github.com/1991wangliang/tx-lcn" target="_blank" rel="external">https://github.com/1991wangliang/tx-lcn</a></p>
 
           
         
@@ -783,7 +544,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/Cobar-NIO-server/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/10/RocketMQ-Remote-communication-protocol-and-serialization/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -792,7 +553,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -802,7 +563,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/18/Cobar-NIO-server/" itemprop="url">Cobar-NIO-server</a></h1>
+                <a class="post-title-link" href="/2017/11/10/RocketMQ-Remote-communication-protocol-and-serialization/" itemprop="url">RocketMQ——远程通讯协议及其序列化</a></h1>
         
 
         <div class="post-meta">
@@ -814,8 +575,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-18T11:13:40+08:00">
-                2017-10-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-10T18:41:47+08:00">
+                2017-11-10
               </time>
             
 
@@ -854,7 +615,9 @@
       
         
           
-            <p>Cobar作为一个数据库分库分表中间件，既是一台NIO Server，又是NIO Client</p>
+            <h3 id="通信协议"><a href="#通信协议" class="headerlink" title="通信协议"></a>通信协议</h3><p>LengthFieldBasedFrameDecoder</p>
+<h3 id="通信Request-Response序列化"><a href="#通信Request-Response序列化" class="headerlink" title="通信Request, Response序列化"></a>通信Request, Response序列化</h3><p>json，好像新版可以支持Protobuf</p>
+<p><a href="https://zhuanlan.zhihu.com/rocketmq" target="_blank" rel="external">https://zhuanlan.zhihu.com/rocketmq</a></p>
 
           
         
@@ -903,7 +666,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/16/Netty-FAQ/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/09/JVM-Thread-interupt/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -912,7 +675,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -922,7 +685,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/16/Netty-FAQ/" itemprop="url">Netty-原理整理</a></h1>
+                <a class="post-title-link" href="/2017/11/09/JVM-Thread-interupt/" itemprop="url">JVM——线程中断</a></h1>
         
 
         <div class="post-meta">
@@ -934,8 +697,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-16T14:25:04+08:00">
-                2017-10-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-09T20:36:45+08:00">
+                2017-11-09
               </time>
             
 
@@ -974,16 +737,7 @@
       
         
           
-            <h3 id="Netty-编解码器"><a href="#Netty-编解码器" class="headerlink" title="Netty 编解码器"></a>Netty 编解码器</h3><p>ByteToMessageDecoder与LengthFieldBasedFrameDecoder的区别</p>
-<h3 id="重要概念-Future-and-Promise"><a href="#重要概念-Future-and-Promise" class="headerlink" title="重要概念 Future and Promise"></a>重要概念 Future and Promise</h3><h3 id="Netty处理的对象"><a href="#Netty处理的对象" class="headerlink" title="Netty处理的对象"></a>Netty处理的对象</h3><p>bytes and messages.</p>
-<h3 id="如何调试时间循环线程"><a href="#如何调试时间循环线程" class="headerlink" title="如何调试时间循环线程"></a>如何调试时间循环线程</h3><p>当我们用debug启动netty server时，我们不知道boss线程运行的代码，那怎么样才能发现boss线程当前的执行轨迹呢。如果能找到轨迹，对我们研究boss线程有非常大的帮助。</p>
-<p>给boss时间循环线程池起个名字<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"> NioEventLoopGroup boss = <span class="keyword">new</span> NioEventLoopGroup(<span class="number">0</span>, <span class="keyword">new</span> ThreadFactory() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Thread(r, <span class="string">"boss-event-loop"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>如果用的Intellij，就能实现这个效果，首先用debug模式启动netty server。在debug tag下，我们进入Threads，展开<strong>Thread Group “main”</strong>，发现<strong>boss-event-loop</strong>正在处于Running状态。选中<strong>boss-event-loop</strong>，右键点击<strong>suspend</strong>，之后就能看到代码停了下来，去<strong>Frames</strong>tab中选择某一行进行断点调试。</p>
-<h3 id="聊天程序"><a href="#聊天程序" class="headerlink" title="聊天程序"></a>聊天程序</h3><p>Web Socket技术<br>Long Pooling技术</p>
-<h3 id="原生NIO可能会被问到的问题"><a href="#原生NIO可能会被问到的问题" class="headerlink" title="原生NIO可能会被问到的问题"></a>原生NIO可能会被问到的问题</h3><h3 id="Netty线程管理，高低水位线-watermark-控制"><a href="#Netty线程管理，高低水位线-watermark-控制" class="headerlink" title="Netty线程管理，高低水位线(watermark)控制"></a>Netty线程管理，高低水位线(watermark)控制</h3><p><a href="https://stackoverflow.com/questions/25281124/netty-4-high-and-low-write-watermarks" target="_blank" rel="external">https://stackoverflow.com/questions/25281124/netty-4-high-and-low-write-watermarks</a><br><a href="http://adolgarev.blogspot.ru/2013/12/pipelining-and-flow-control.html?view=flipcard" target="_blank" rel="external">http://adolgarev.blogspot.ru/2013/12/pipelining-and-flow-control.html?view=flipcard</a></p>
-<h3 id="Netty线程模型，Netty异常对Inbound-入站-和Outbound-出站-Handler的影响"><a href="#Netty线程模型，Netty异常对Inbound-入站-和Outbound-出站-Handler的影响" class="headerlink" title="Netty线程模型，Netty异常对Inbound(入站)和Outbound(出站) Handler的影响"></a>Netty线程模型，Netty异常对Inbound(入站)和Outbound(出站) Handler的影响</h3><h3 id="Netty内存管理，怎么防止内存过度使用"><a href="#Netty内存管理，怎么防止内存过度使用" class="headerlink" title="Netty内存管理，怎么防止内存过度使用"></a>Netty内存管理，怎么防止内存过度使用</h3><p>io模型，上面图里的问题，内存池怎么管理，怎么防止泄露。<br>mq主从切换，但是网络原因master假死， 这时候slave升级为主，怎么办？<br>和mysql主从切换一个道理，我不知道怎么办。或者怎么屏蔽。</p>
-<h3 id="Netty-bind-方法"><a href="#Netty-bind-方法" class="headerlink" title="Netty bind()方法"></a>Netty bind()方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doRegister</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    <span class="keyword">boolean</span> selected = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">for</span> (;;) &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            selectionKey = javaChannel().register(eventLoop().unwrappedSelector(), <span class="number">0</span>, <span class="keyword">this</span>);</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125; <span class="keyword">catch</span> (CancelledKeyException e) &#123;</div><div class="line">            <span class="keyword">if</span> (!selected) &#123;</div><div class="line">                <span class="comment">// Force the Selector to select now as the "canceled" SelectionKey may still be</span></div><div class="line">                <span class="comment">// cached and not removed because no Select.select(..) operation was called yet.</span></div><div class="line">                eventLoop().selectNow();</div><div class="line">                selected = <span class="keyword">true</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">// We forced a select operation on the selector before but the SelectionKey is still cached</span></div><div class="line">                <span class="comment">// for whatever reason. JDK bug ?</span></div><div class="line">                <span class="keyword">throw</span> e;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>注意到，register的第二个参数为0，也就是说，selector和serverSocketChannel之间仅仅有了注册关系，但没有指定selector到底interest什么事件，那问题是，selector和serverSocketChannel之间的OP_ACCEPT是什么时候完成的？</p>
+            <p><a href="http://luojinping.com/2015/04/13/Java%E7%BA%BF%E7%A8%8B%E4%B8%AD%E6%96%AD/" target="_blank" rel="external">http://luojinping.com/2015/04/13/Java%E7%BA%BF%E7%A8%8B%E4%B8%AD%E6%96%AD/</a></p>
 
           
         
@@ -1032,7 +786,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/13/RocketMQ-Delay-message-delivery/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/09/JVM-Atomic-operation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -1041,7 +795,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -1051,7 +805,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/13/RocketMQ-Delay-message-delivery/" itemprop="url">RocketMQ——延时消息投递原理分析</a></h1>
+                <a class="post-title-link" href="/2017/11/09/JVM-Atomic-operation/" itemprop="url">JVM-Atomic-operation</a></h1>
         
 
         <div class="post-meta">
@@ -1063,8 +817,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-13T10:38:19+08:00">
-                2017-10-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-09T10:12:31+08:00">
+                2017-11-09
               </time>
             
 
@@ -1103,132 +857,12 @@
       
         
           
-            <h3 id="被动延时消费"><a href="#被动延时消费" class="headerlink" title="被动延时消费"></a>被动延时消费</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">consumer.registerMessageListener(<span class="keyword">new</span> MessageListenerConcurrently() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> ConsumeConcurrentlyStatus <span class="title">consumeMessage</span><span class="params">(List&lt;MessageExt&gt; msgs,</span></span></div><div class="line"><span class="function"><span class="params">        ConsumeConcurrentlyContext context)</span> </span>&#123;</div><div class="line">        <span class="comment">// 可能抛出异常</span></div><div class="line">        <span class="keyword">boolean</span> success = doConsume(msgs);</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> (success) &#123;</div><div class="line">            <span class="keyword">return</span> ConsumeConcurrentlyStatus.CONSUME_SUCCESS;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> ConsumeConcurrentlyStatus.RECONSUME_LATER;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h3 id="主动延时消费"><a href="#主动延时消费" class="headerlink" title="主动延时消费"></a>主动延时消费</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
-<h3 id="分布式事务之-Best-Effort-Delivery"><a href="#分布式事务之-Best-Effort-Delivery" class="headerlink" title="分布式事务之 Best Effort Delivery"></a>分布式事务之 Best Effort Delivery</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/" itemprop="url">Cobar——扩展Cobar Driver，防止单点故障</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T20:07:23+08:00">
-                2017-10-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>cobar作为一套完整的分库分表方案，其负载均衡功能是由cobar-driver提供的。</p>
-<h3 id="cobar-driver单点问题"><a href="#cobar-driver单点问题" class="headerlink" title="cobar-driver单点问题"></a>cobar-driver单点问题</h3><p>原始的cobar版的JDBC协议如下：<code>jdbc:cobar://Cobar_A:8066/user</code>，只能支持连接cobar集群中的某一台机器，当整个集群中的这台机器宕机后，即使集群中的其余机器仍然可以提供服务，客户端也无法创建新的连接。</p>
-<p><img src="/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/before-cobar-driver.gif" alt=""></p>
-<h3 id="HA-cobar-jdbc-协议"><a href="#HA-cobar-jdbc-协议" class="headerlink" title="HA cobar(jdbc)协议"></a>HA cobar(jdbc)协议</h3><p>为了防止这种单点故障，需要对cobar-driver的源码进行修改，协议部分改造，URL的host部分不再只能填写一个host地址，而是像ZooKeeper一样，可以填写整个Cobar集群的地址：jdbc:cobar_cluster://cobar_1,cobar_2:8066/user，即使cobar_1宕机了，应用还是可以去cobar_2中继续创建新的连接以保证性能。</p>
-<p><img src="/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/after-cobar-driver.gif" alt=""></p>
+            <h3 id="Volatile关键词"><a href="#Volatile关键词" class="headerlink" title="Volatile关键词"></a>Volatile关键词</h3><h4 id="主内存与线程工作内存"><a href="#主内存与线程工作内存" class="headerlink" title="主内存与线程工作内存"></a>主内存与线程工作内存</h4><h3 id="MVCC-Copy-on-write"><a href="#MVCC-Copy-on-write" class="headerlink" title="MVCC Copy on write"></a>MVCC Copy on write</h3><p>CopyOnWriteArrayList 实现细节</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CopyOnWriteArrayList</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">/** The lock protecting all mutators */</span></div><div class="line">    <span class="keyword">final</span> <span class="keyword">transient</span> ReentrantLock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line"></div><div class="line">    <span class="comment">/** The array, accessed only via getArray/setArray. */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> Object[] array;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Gets the array.  Non-private so as to also be accessible</span></div><div class="line"><span class="comment">     * from CopyOnWriteArraySet class.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="keyword">final</span> Object[] getArray() &#123;</div><div class="line">        <span class="keyword">return</span> array;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Sets the array.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setArray</span><span class="params">(Object[] a)</span> </span>&#123;</div><div class="line">        array = a;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * &#123;<span class="doctag">@inheritDoc</span>&#125;</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="doctag">@inheritDoc</span>&#125;</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> get(getArray(), index);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Appends the specified element to the end of this list.</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> e element to be appended to this list</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; (as specified by &#123;<span class="doctag">@link</span> Collection#add&#125;)</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</div><div class="line">        lock.lock();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Object[] elements = getArray();</div><div class="line">            <span class="keyword">int</span> len = elements.length;</div><div class="line">            Object[] newElements = Arrays.copyOf(elements, len + <span class="number">1</span>);</div><div class="line">            newElements[len] = e;</div><div class="line">            setArray(newElements);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            lock.unlock();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Removes the element at the specified position in this list.</span></div><div class="line"><span class="comment">     * Shifts any subsequent elements to the left (subtracts one from their</span></div><div class="line"><span class="comment">     * indices).  Returns the element that was removed from the list.</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="doctag">@inheritDoc</span>&#125;</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</div><div class="line">        lock.lock();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Object[] elements = getArray();</div><div class="line">            <span class="keyword">int</span> len = elements.length;</div><div class="line">            E oldValue = get(elements, index);</div><div class="line">            <span class="keyword">int</span> numMoved = len - index - <span class="number">1</span>;</div><div class="line">            <span class="keyword">if</span> (numMoved == <span class="number">0</span>)</div><div class="line">                setArray(Arrays.copyOf(elements, len - <span class="number">1</span>));</div><div class="line">            <span class="keyword">else</span> &#123;</div><div class="line">                Object[] newElements = <span class="keyword">new</span> Object[len - <span class="number">1</span>];</div><div class="line">                System.arraycopy(elements, <span class="number">0</span>, newElements, <span class="number">0</span>, index);</div><div class="line">                System.arraycopy(elements, index + <span class="number">1</span>, newElements, index,</div><div class="line">                                 numMoved);</div><div class="line">                setArray(newElements);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> oldValue;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            lock.unlock();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到，对CopyOnWriteArrayList的「写」操作，代码中都是有加互斥锁——ReentrantLock的，而对于「读」操作，没有任何锁机制。所以也就决定了CopyOnWriteArrayList一般在有大量并发读，少量并发写的场景下使用。</p>
+<blockquote>
+<p>参考：<a href="http://www.cnblogs.com/aigongsi/archive/2012/04/01/2429166.html" target="_blank" rel="external">http://www.cnblogs.com/aigongsi/archive/2012/04/01/2429166.html</a></p>
+</blockquote>
 
           
         
@@ -1277,7 +911,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/Cobar-How-to-monitor-cobar/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/08/Distributed-unique-id/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -1286,7 +920,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -1296,7 +930,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/12/Cobar-How-to-monitor-cobar/" itemprop="url">Cobar——近实时监控Cobar前后端连接与线程池</a></h1>
+                <a class="post-title-link" href="/2017/11/08/Distributed-unique-id/" itemprop="url">Distributed-unique-id</a></h1>
         
 
         <div class="post-meta">
@@ -1308,8 +942,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T20:04:26+08:00">
-                2017-10-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-08T14:39:03+08:00">
+                2017-11-08
               </time>
             
 
@@ -1348,7 +982,9 @@
       
         
           
-            
+            <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * Twitter_Snowflake&lt;br&gt;</span></div><div class="line"><span class="comment"> * SnowFlake的结构如下(每部分用-分开):&lt;br&gt;</span></div><div class="line"><span class="comment"> * 0 - 0000000000 0000000000 0000000000 0000000000 0 - 00000 - 00000 - 000000000000 &lt;br&gt;</span></div><div class="line"><span class="comment"> * 1位标识，由于long基本类型在Java中是带符号的，最高位是符号位，正数是0，负数是1，所以id一般是正数，最高位是0&lt;br&gt;</span></div><div class="line"><span class="comment"> * 41位时间截(毫秒级)，注意，41位时间截不是存储当前时间的时间截，而是存储时间截的差值（当前时间截 - 开始时间截)</span></div><div class="line"><span class="comment"> * 得到的值），这里的的开始时间截，一般是我们的id生成器开始使用的时间，由我们程序来指定的（如下下面程序IdWorker类的startTime属性）。41位的时间截，可以使用69年，年T = (1L &lt;&lt; 41) / (1000L * 60 * 60 * 24 * 365) = 69&lt;br&gt;</span></div><div class="line"><span class="comment"> * 10位的数据机器位，可以部署在1024个节点，包括5位datacenterId和5位workerId&lt;br&gt;</span></div><div class="line"><span class="comment"> * 12位序列，毫秒内的计数，12位的计数顺序号支持每个节点每毫秒(同一机器，同一时间截)产生4096个ID序号&lt;br&gt;</span></div><div class="line"><span class="comment"> * 加起来刚好64位，为一个Long型。&lt;br&gt;</span></div><div class="line"><span class="comment"> * SnowFlake的优点是，整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞(由数据中心ID和机器ID作区分)，并且效率较高，经测试，SnowFlake每秒能够产生26万ID左右。</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SnowflakeIdWorker</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// ==============================Fields===========================================</span></div><div class="line">    <span class="comment">/** 开始时间截 (2015-01-01) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> twepoch = <span class="number">1420041600000L</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** 机器id所占的位数 */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> workerIdBits = <span class="number">5L</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** 数据标识id所占的位数 */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> datacenterIdBits = <span class="number">5L</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** 支持的最大机器id，结果是31 (这个移位算法可以很快的计算出几位二进制数所能表示的最大十进制数) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> maxWorkerId = -<span class="number">1L</span> ^ (-<span class="number">1L</span> &lt;&lt; workerIdBits);</div><div class="line"></div><div class="line">    <span class="comment">/** 支持的最大数据标识id，结果是31 */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> maxDatacenterId = -<span class="number">1L</span> ^ (-<span class="number">1L</span> &lt;&lt; datacenterIdBits);</div><div class="line"></div><div class="line">    <span class="comment">/** 序列在id中占的位数 */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> sequenceBits = <span class="number">12L</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** 机器ID向左移12位 */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> workerIdShift = sequenceBits;</div><div class="line"></div><div class="line">    <span class="comment">/** 数据标识id向左移17位(12+5) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> datacenterIdShift = sequenceBits + workerIdBits;</div><div class="line"></div><div class="line">    <span class="comment">/** 时间截向左移22位(5+5+12) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;</div><div class="line"></div><div class="line">    <span class="comment">/** 生成序列的掩码，这里为4095 (0b111111111111=0xfff=4095) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> sequenceMask = -<span class="number">1L</span> ^ (-<span class="number">1L</span> &lt;&lt; sequenceBits);</div><div class="line"></div><div class="line">    <span class="comment">/** 工作机器ID(0~31) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> workerId;</div><div class="line"></div><div class="line">    <span class="comment">/** 数据中心ID(0~31) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> datacenterId;</div><div class="line"></div><div class="line">    <span class="comment">/** 毫秒内序列(0~4095) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> sequence = <span class="number">0L</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** 上次生成ID的时间截 */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> lastTimestamp = -<span class="number">1L</span>;</div><div class="line"></div><div class="line">    <span class="comment">//==============================Constructors=====================================</span></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 构造函数</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> workerId 工作ID (0~31)</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> datacenterId 数据中心ID (0~31)</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SnowflakeIdWorker</span><span class="params">(<span class="keyword">long</span> workerId, <span class="keyword">long</span> datacenterId)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (workerId &gt; maxWorkerId || workerId &lt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(String.format(<span class="string">"worker Id can't be greater than %d or less than 0"</span>, maxWorkerId));</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (datacenterId &gt; maxDatacenterId || datacenterId &lt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(String.format(<span class="string">"datacenter Id can't be greater than %d or less than 0"</span>, maxDatacenterId));</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.workerId = workerId;</div><div class="line">        <span class="keyword">this</span>.datacenterId = datacenterId;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// ==============================Methods==========================================</span></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 获得下一个ID (该方法是线程安全的)</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> SnowflakeId</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">long</span> <span class="title">nextId</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> timestamp = timeGen();</div><div class="line"></div><div class="line">        <span class="comment">//如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常</span></div><div class="line">        <span class="keyword">if</span> (timestamp &lt; lastTimestamp) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(</div><div class="line">                    String.format(<span class="string">"Clock moved backwards.  Refusing to generate id for %d milliseconds"</span>, lastTimestamp - timestamp));</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//如果是同一时间生成的，则进行毫秒内序列</span></div><div class="line">        <span class="keyword">if</span> (lastTimestamp == timestamp) &#123;</div><div class="line">            sequence = (sequence + <span class="number">1</span>) &amp; sequenceMask;</div><div class="line">            <span class="comment">//毫秒内序列溢出</span></div><div class="line">            <span class="keyword">if</span> (sequence == <span class="number">0</span>) &#123;</div><div class="line">                <span class="comment">//阻塞到下一个毫秒,获得新的时间戳</span></div><div class="line">                timestamp = tilNextMillis(lastTimestamp);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//时间戳改变，毫秒内序列重置</span></div><div class="line">        <span class="keyword">else</span> &#123;</div><div class="line">            sequence = <span class="number">0L</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//上次生成ID的时间截</span></div><div class="line">        lastTimestamp = timestamp;</div><div class="line"></div><div class="line">        <span class="comment">//移位并通过或运算拼到一起组成64位的ID</span></div><div class="line">        <span class="keyword">return</span> ((timestamp - twepoch) &lt;&lt; timestampLeftShift) <span class="comment">//</span></div><div class="line">                | (datacenterId &lt;&lt; datacenterIdShift) <span class="comment">//</span></div><div class="line">                | (workerId &lt;&lt; workerIdShift) <span class="comment">//</span></div><div class="line">                | sequence;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 阻塞到下一个毫秒，直到获得新的时间戳</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> lastTimestamp 上次生成ID的时间截</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> 当前时间戳</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">long</span> <span class="title">tilNextMillis</span><span class="params">(<span class="keyword">long</span> lastTimestamp)</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> timestamp = timeGen();</div><div class="line">        <span class="keyword">while</span> (timestamp &lt;= lastTimestamp) &#123;</div><div class="line">            timestamp = timeGen();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> timestamp;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 返回以毫秒为单位的当前时间</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> 当前时间(毫秒)</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">long</span> <span class="title">timeGen</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> System.currentTimeMillis();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//==============================Test=============================================</span></div><div class="line">    <span class="comment">/** 测试 */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        SnowflakeIdWorker idWorker = <span class="keyword">new</span> SnowflakeIdWorker(<span class="number">0</span>, <span class="number">0</span>);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) &#123;</div><div class="line">            <span class="keyword">long</span> id = idWorker.nextId();</div><div class="line">            System.out.println(Long.toBinaryString(id));</div><div class="line">            System.out.println(id);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="baidu-uid-generator"><a href="#baidu-uid-generator" class="headerlink" title="baidu uid-generator"></a>baidu uid-generator</h3><p><a href="https://github.com/baidu/uid-generator" target="_blank" rel="external">https://github.com/baidu/uid-generator</a></p>
+
           
         
       
@@ -1396,7 +1032,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/RocketMQ-Index-service/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/07/JVM-Profiling/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -1405,7 +1041,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -1415,7 +1051,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/12/RocketMQ-Index-service/" itemprop="url">RocketMQ——IndexService 原理分析</a></h1>
+                <a class="post-title-link" href="/2017/11/07/JVM-Profiling/" itemprop="url">JVM-Profiling</a></h1>
         
 
         <div class="post-meta">
@@ -1427,8 +1063,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T19:29:40+08:00">
-                2017-10-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-07T15:36:54+08:00">
+                2017-11-07
               </time>
             
 
@@ -1467,11 +1103,501 @@
       
         
           
-            <h4 id="RocmetMQ的IndexService设计原理"><a href="#RocmetMQ的IndexService设计原理" class="headerlink" title="RocmetMQ的IndexService设计原理"></a>RocmetMQ的IndexService设计原理</h4><p><img src="/2017/10/12/RocketMQ-Index-service/index-file.gif" alt="你想输入的替代文字"></p>
-<p>在RocketMQ中，IndexService底层是通过文件来存储的，所以，即使MQ的进程在中途重启过，索引的功能是不受影响的。<br>索引文件的路径是 <code>System.getProperty(&quot;user.home&quot;) + File.separator + &quot;store&quot;</code>，文件名是文件创建的时间，可以有多个，但，<br>在一个文件没有满的情况下，所有的topic的所有的列队的消息，全部都是顺序得存放在一个文件中的，这很重要，下面会详解。<br><img src="http://upload-images.jianshu.io/upload_images/716353-2ed415df19a3040b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>在MQ源码中，用IndexFile这个类代表索引文件，对于每一个index file，大小都是固定的，即，都是设计好的。<br>index file在逻辑上被拆分成了3个部分，IndexHead + HashSlotPart + MsgIndexPart，<br>IndexHead<br>索引的开头，和索引的结构没有关系<br>HashSlotPart<br>hash的槽位，是索引的目录，用于定位消息索引在该文件的「MsgIndexPart」的位置，<br>可能有点绕，往下就会觉得很简单，每个槽位是等长的，占4 Byte，一个文件总的槽位数量也是定的，不可改变，槽位数越大，索引的消息越多。<br>MsgIndexPart<br>真实的消息索引，即，每个msgIndex段代表改消息在CommitLog上的PhyicOffset。每个msgIndex段也是等长的，占20 Byte（int + long + int + int）。<br>等长的MsgIndexPart可以理解成功一个有capacity的数组，为了使数组的空间不浪费，那消息就要从前往后一个一个append进去。</p>
-<p>所以，在默认配置下，<br>每个索引文件的大小为<br><code>int fileTotalSize = IndexHeader.INDEX_HEADER_SIZE + (hashSlotNum * hashSlotSize) + (indexNum * indexSize);</code></p>
-<p>CommitLogDispatcherBuildIndex调用dispatch<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatch</span><span class="params">(DispatchRequest request)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (DefaultMessageStore.<span class="keyword">this</span>.messageStoreConfig.isMessageIndexEnable()) &#123;</div><div class="line">        DefaultMessageStore.<span class="keyword">this</span>.indexService.buildIndex(request);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>buildIndex时会构建好几个索引，topic#msgId=&gt;msgIndex, topic#key1=&gt;msgIndex, topic#key2=&gt;msgIndex<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildIndex</span><span class="params">(DispatchRequest req)</span> </span>&#123;</div><div class="line">    IndexFile indexFile = retryGetAndCreateIndexFile();</div><div class="line">    <span class="keyword">if</span> (indexFile != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">long</span> endPhyOffset = indexFile.getEndPhyOffset();</div><div class="line">        DispatchRequest msg = req;</div><div class="line">        String topic = msg.getTopic();</div><div class="line">        String keys = msg.getKeys();</div><div class="line"></div><div class="line">        ...</div><div class="line">        <span class="keyword">if</span> (req.getUniqKey() != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="comment">// 构建UniqKey，也就是msgId的索引</span></div><div class="line">            indexFile = putKey(indexFile, msg, buildKey(topic, req.getUniqKey()));</div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (keys != <span class="keyword">null</span> &amp;&amp; keys.length() &gt; <span class="number">0</span>) &#123;</div><div class="line">            String[] keyset = keys.split(MessageConst.KEY_SEPARATOR);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; keyset.length; i++) &#123;</div><div class="line">                String key = keyset[i];</div><div class="line">                <span class="keyword">if</span> (key.length() &gt; <span class="number">0</span>) &#123;</div><div class="line">                    <span class="comment">// 构建业务Key的索引</span></div><div class="line">                    indexFile = putKey(indexFile, msg, buildKey(topic, key));</div><div class="line">                    ...</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        log.error(<span class="string">"build index error, stop building index"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+            <p><a href="https://yq.aliyun.com/articles/2390" target="_blank" rel="external">https://yq.aliyun.com/articles/2390</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/06/JVM-Optimization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/06/JVM-Optimization/" itemprop="url">JVM-Optimization</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-06T14:43:26+08:00">
+                2017-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://blog.csdn.net/matt8/article/details/52298397" target="_blank" rel="external">http://blog.csdn.net/matt8/article/details/52298397</a></p>
+<p><a href="https://www.ibm.com/developerworks/cn/java/j-lo-jvm-optimize-experience/index.html#icomments" target="_blank" rel="external">https://www.ibm.com/developerworks/cn/java/j-lo-jvm-optimize-experience/index.html#icomments</a></p>
+<p><a href="https://www.ibm.com/developerworks/cn/java/j-lo-JVMGarbageCollection/#icomments" target="_blank" rel="external">https://www.ibm.com/developerworks/cn/java/j-lo-JVMGarbageCollection/#icomments</a></p>
+<p>Java ReentrantLock（重入锁）带来的改变</p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote>
+<p>ReentrantLock称为重入锁，它比内部锁synchronized拥有更强大的功能，它可中断、可定时，JDK5中，在高并发的情况下，它比synchronized有明显的性能优势，在JDK6中由于jvm的优化，两者差别不是很大。</p>
+</blockquote>
+<p>synchronized原语和ReentrantLock在一般情况下没有什么区别，但是在非常复杂的同步应用中，请考虑使用ReentrantLock，特别是遇到下面2种需求的时候。<br>1.某个线程在等待一个锁的控制权的这段时间需要中断<br>2.需要分开处理一些wait-notify，ReentrantLock里面的Condition应用，能够控制notify哪个线程<br>3.具有公平锁功能，每个到来的线程都将排队等候 </p>
+<p>先说第一种情况，ReentrantLock的lock机制有2种，忽略中断锁和响应中断锁，这给我们带来了很大的灵活性。比如：如果A、B2个线程去竞争锁，A线程得到了锁，B线程等待，但是A线程这个时候实在有太多事情要处理，就是一直不返回，B线程可能就会等不及了，想中断自己，不再等待这个锁了，转而处理其他事情。这个时候ReentrantLock就提供了2种机制，第一，B线程中断自己（或者别的线程中断它），但是ReentrantLock不去响应，继续让B线程等待，你再怎么中断，我全当耳边风（synchronized原语就是如此）；第二，B线程中断自己（或者别的线程中断它），ReentrantLock处理了这个中断，并且不再等待这个锁的到来，完全放弃。（如果你没有了解java的中断机制，请参考下相关资料，再回头看这篇文章，80%的人根本没有真正理解什么是java的中断，呵呵） </p>
+<p>这里来做个试验，首先搞一个Buffer类，它有读操作和写操作，为了不读到脏数据，写和读都需要加锁，我们先用synchronized原语来加锁，如下： </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.eric.lock;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Buffer</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Object lock;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Buffer</span><span class="params">()</span> </span>&#123;</div><div class="line">        lock = <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">            <span class="keyword">long</span> startTime = System.currentTimeMillis();</div><div class="line">            System.out.println(<span class="string">"开始往这个buff写入数据…"</span>);</div><div class="line">            <span class="comment">// 模拟要处理很长时间</span></div><div class="line">            <span class="keyword">for</span> (; ; ) &#123;</div><div class="line">                <span class="keyword">if</span> (System.currentTimeMillis() - startTime &gt; Integer.MAX_VALUE)</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">            System.out.println(<span class="string">"终于写完了"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">read</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">            System.out.println(<span class="string">"从这个buff读数据"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>接着，我们来定义2个线程，一个线程去写，一个线程去读。</p>
+<p><a href="http://www.importnew.com/15311.html" target="_blank" rel="external">http://www.importnew.com/15311.html</a><br>G1垃圾回收</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/06/JVM-Lock/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/06/JVM-Lock/" itemprop="url">JVM-Lock</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-06T10:16:02+08:00">
+                2017-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="同步的原理"><a href="#同步的原理" class="headerlink" title="同步的原理"></a>同步的原理</h3><p>JVM规范规定JVM基于进入和退出Monitor对象来实现方法同步和代码块同步，但两者的实现细节不一样。代码块同步是使用monitorenter和monitorexit指令实现，而方法同步是使用另外一种方式实现的，细节在JVM规范里并没有详细说明，但是方法的同步同样可以使用这两个指令来实现。monitorenter指令是在编译后插入到同步代码块的开始位置，而monitorexit是插入到方法结束处和异常处， JVM要保证每个monitorenter必须有对应的monitorexit与之配对。任何对象都有一个 monitor 与之关联，当且一个monitor 被持有后，它将处于锁定状态。线程执行到 monitorenter 指令时，将会尝试获取对象所对应的 monitor 的所有权，即尝试获得对象的锁。</p>
+<h3 id="Java对象头"><a href="#Java对象头" class="headerlink" title="Java对象头"></a>Java对象头</h3><p>锁存在Java对象头里。如果对象是数组类型，则虚拟机用3个Word（字宽）存储对象头，如果对象是非数组类型，则用2字宽存储对象头。在32位虚拟机中，一字宽等于四字节，即32bit。</p>
+<table>
+<thead>
+<tr>
+<th>长度</th>
+<th style="text-align:center">内容</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>32/64bit</td>
+<td style="text-align:center">Mark Word</td>
+<td style="text-align:left">存储对象的hashCode或锁信息等</td>
+</tr>
+<tr>
+<td>32/64bit</td>
+<td style="text-align:center">Class Metadata Address</td>
+<td style="text-align:left">存储到对象类型数据的指针</td>
+</tr>
+<tr>
+<td>32/64bit</td>
+<td style="text-align:center">Array length</td>
+<td style="text-align:left">数组的长度（如果当前对象是数组）</td>
+</tr>
+</tbody>
+</table>
+<p>Java对象头里的Mark Word里默认存储对象的HashCode，分代年龄和锁标记位。32位JVM的Mark Word的默认存储结构如下：</p>
+<p>25 bit    4bit    1bit<br>是否是偏向锁    2bit<br>锁标志位<br>无锁状态    对象的hashCode    对象分代年龄    0    01</p>
+<p>在运行期间Mark Word里存储的数据会随着锁标志位的变化而变化。Mark Word可能变化为存储以下4种数据：<br><img src="/2017/11/06/JVM-Lock/markword_state.jpg" alt="你想输入的替代文字"></p>
+<h3 id="几种锁的类型"><a href="#几种锁的类型" class="headerlink" title="几种锁的类型"></a>几种锁的类型</h3><p><strong>线程的阻塞和唤醒需要CPU从用户态转为核心态，频繁的阻塞和唤醒对CPU来说是一件负担很重的工作。</strong><br>Java SE1.6为了减少获得锁和释放锁所带来的性能消耗，引入了“偏向锁”和“轻量级锁”，所以在Java SE1.6里锁一共有四种状态，无锁状态，偏向锁状态，轻量级锁状态和重量级锁状态，它会随着竞争情况逐渐升级。<br><strong>锁可以升级但不能降级，意味着偏向锁升级成轻量级锁后不能降级成偏向锁。这种锁升级却不能降级的策略，目的是为了提高获得锁和释放锁的效率。</strong></p>
+<h4 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h4><p>Hotspot的作者经过以往的研究发现大多数情况下锁不仅不存在多线程竞争，而且总是由同一线程多次获得。偏向锁的目的是在某个线程获得锁之后，消除这个线程锁重入（CAS）的开销，看起来让这个线程得到了偏护。<br><img src="/2017/11/06/JVM-Lock/biased_lock_flow.jpg" alt="你想输入的替代文字"></p>
+<h5 id="偏向锁的进一步理解"><a href="#偏向锁的进一步理解" class="headerlink" title="偏向锁的进一步理解"></a>偏向锁的进一步理解</h5><p>偏向锁的释放不需要做任何事情，这也就意味着加过偏向锁的MarkValue会一直保留偏向锁的状态，因此即便同一个线程持续不断地加锁解锁，也是没有开销的。</p>
+<p>另一方面，偏向锁比轻量锁更容易被终结，轻量锁是在有锁竞争出现时升级为重量锁，而一般偏向锁是在有不同线程申请锁时升级为轻量锁，这也就意味着假如一个对象先被线程1加锁解锁，再被线程2加锁解锁，这过程中没有锁冲突，也一样会发生偏向锁失效，不同的是这回要先退化为无锁的状态，再加轻量锁，如图：</p>
+<p>另外，JVM对那种会有多线程加锁，但不存在锁竞争的情况也做了优化，听起来比较拗口，但在现实应用中确实是可能出现这种情况，因为线程之前除了互斥之外也可能发生同步关系，被同步的两个线程（一前一后）对共享对象锁的竞争很可能是没有冲突的。对这种情况，JVM用一个epoch表示一个偏向锁的时间戳（真实地生成一个时间戳代价还是蛮大的，因此这里应当理解为一种类似时间戳的identifier），对epoch，官方是这么解释的：</p>
+<h5 id="偏向锁的获取"><a href="#偏向锁的获取" class="headerlink" title="偏向锁的获取"></a>偏向锁的获取</h5><p>当一个线程访问同步块并获取锁时，<strong>会在对象头和栈帧中的锁记录里存储锁偏向的线程ID，以后该线程在进入和退出同步块时不需要花费CAS操作来加锁和解锁，而只需简单的测试一下对象头的Mark Word里是否存储着指向当前线程的偏向锁</strong>，如果测试成功，表示线程已经获得了锁，如果测试失败，则需要再测试下Mark Word中偏向锁的标识是否设置成1（表示当前是偏向锁），如果没有设置，则使用CAS竞争锁，如果设置了，则尝试使用CAS将对象头的偏向锁指向当前线程。</p>
+<h5 id="偏向锁的撤销"><a href="#偏向锁的撤销" class="headerlink" title="偏向锁的撤销"></a>偏向锁的撤销</h5><p><strong>偏向锁使用了一种等到竞争出现才释放锁的机制</strong>，所以当其他线程尝试竞争偏向锁时，持有偏向锁的线程才会释放锁。偏向锁的撤销，需要等待全局安全点（在这个时间点上没有字节码正在执行），它会首先暂停拥有偏向锁的线程，然后检查持有偏向锁的线程是否活着，如果线程不处于活动状态，则将对象头设置成无锁状态，如果线程仍然活着，拥有偏向锁的栈会被执行，遍历偏向对象的锁记录，栈中的锁记录和对象头的Mark Word要么重新偏向于其他线程，要么恢复到无锁或者标记对象不适合作为偏向锁，最后唤醒暂停的线程。下图中的线程1演示了偏向锁初始化的流程，线程2演示了偏向锁撤销的流程。</p>
+<h5 id="偏向锁的设置"><a href="#偏向锁的设置" class="headerlink" title="偏向锁的设置"></a>偏向锁的设置</h5><p>关闭偏向锁：偏向锁在Java 6和Java 7里是默认启用的，但是它在应用程序启动几秒钟之后才激活，如有必要可以使用JVM参数来关闭延迟-XX：BiasedLockingStartupDelay = 0。如果你确定自己应用程序里所有的锁通常情况下处于竞争状态，可以通过JVM参数关闭偏向锁-XX:-UseBiasedLocking=false，那么默认会进入轻量级锁状态。</p>
+<h4 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h4><p>线程的阻塞和唤醒需要CPU从用户态转为核心态，频繁的阻塞和唤醒对CPU来说是一件负担很重的工作。同时我们可以发现，很多对象锁的锁定状态只会持续很短的一段时间，例如整数的自加操作，在很短的时间内阻塞并唤醒线程显然不值得，为此引入了自旋锁。<br>所谓“自旋”，就是让线程去执行一个无意义的循环，循环结束后再去重新竞争锁，如果竞争不到继续循环，循环过程中线程会一直处于running状态，但是基于JVM的线程调度，会出让时间片，所以其他线程依旧有申请锁和释放锁的机会。<br>自旋锁省去了阻塞锁的时间空间（队列的维护等）开销，但是长时间自旋就变成了“忙式等待”，忙式等待显然还不如阻塞锁。所以自旋的次数一般控制在一个范围内，例如10,100等，在超出这个范围后，自旋锁会升级为阻塞锁。<br>对自旋锁周期的选择上，HotSpot认为最佳时间应是一个线程上下文切换的时间，但目前并没有做到。经过调查，目前只是通过汇编暂停了几个CPU周期，除了自旋周期选择，HotSpot还进行许多其他的自旋优化策略，具体如下：<br>如果平均负载小于CPUs则一直自旋<br>如果有超过(CPUs/2)个线程正在自旋，则后来线程直接阻塞<br>如果正在自旋的线程发现Owner发生了变化则延迟自旋时间（自旋计数）或进入阻塞 如果CPU处于节电模式则停止自旋<br>自旋时间的最坏情况是CPU的存储延迟（CPU A存储了一个数据，到CPU B得知这个数据直接的时间差）</p>
+<h4 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h4><h5 id="轻量级锁加锁"><a href="#轻量级锁加锁" class="headerlink" title="轻量级锁加锁"></a>轻量级锁加锁</h5><p>线程在执行同步块之前，JVM会先在当前线程的栈桢中创建用于存储锁记录的空间，并将对象头中的Mark Word复制到锁记录中，官方称为Displaced Mark Word。<strong>然后线程尝试使用CAS将对象头中的Mark Word替换为指向锁记录的指针。如果成功，当前线程获得锁，如果失败，则自旋获取锁，当自旋获取锁仍然失败时，表示存在其他线程竞争锁(两条或两条以上的线程竞争同一个锁)，则轻量级锁会膨胀成重量级锁。</strong></p>
+<h5 id="轻量级锁解锁"><a href="#轻量级锁解锁" class="headerlink" title="轻量级锁解锁"></a>轻量级锁解锁</h5><p><strong>轻量级解锁时，会使用原子的CAS操作来将Displaced Mark Word替换回到对象头，如果成功，则表示同步过程已完成。</strong>如果失败，表示有其他线程尝试过获取该锁，则要在释放锁的同时唤醒被挂起的线程。下图是两个线程同时争夺锁，导致锁膨胀的流程图。</p>
+<p><img src="/2017/11/06/JVM-Lock/light_lock_flow.jpg" alt="你想输入的替代文字"></p>
+<h3 id="锁的优缺点总结"><a href="#锁的优缺点总结" class="headerlink" title="锁的优缺点总结"></a>锁的优缺点总结</h3><table>
+<thead>
+<tr>
+<th>锁</th>
+<th style="text-align:center">优点</th>
+<th style="text-align:left">缺点</th>
+<th style="text-align:left">适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>偏向锁</td>
+<td style="text-align:center">加锁和解锁不需要额外的消耗，和执行非同步方法比仅存在纳秒级的差距</td>
+<td style="text-align:left">如果线程间存在锁竞争，会带来额外的锁撤销的消耗</td>
+<td style="text-align:left">适用于只有一个线程访问同步块场景</td>
+</tr>
+<tr>
+<td>轻量级锁</td>
+<td style="text-align:center">竞争的线程不会阻塞，提高了程序的响应速度</td>
+<td style="text-align:left">如果始终得不到锁竞争的线程使用自旋会消耗CPU</td>
+<td style="text-align:left">追求响应时间,锁占用时间很短</td>
+</tr>
+<tr>
+<td>重量级锁</td>
+<td style="text-align:center">线程竞争不使用自旋，不会消耗CPU</td>
+<td style="text-align:left">线程阻塞，响应时间缓慢</td>
+<td style="text-align:left">追求吞吐量,锁占用时间较长</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>内容参考：<a href="http://luojinping.com/2015/07/09/java%E9%94%81%E4%BC%98%E5%8C%96/" target="_blank" rel="external">http://luojinping.com/2015/07/09/java%E9%94%81%E4%BC%98%E5%8C%96/</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/03/RocketMQ-Message-send-and-persistence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/03/RocketMQ-Message-send-and-persistence/" itemprop="url">RocketMQ——消息发送与落盘（三）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-03T14:38:10+08:00">
+                2017-11-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="异步刷盘有两种方式"><a href="#异步刷盘有两种方式" class="headerlink" title="异步刷盘有两种方式"></a>异步刷盘有两种方式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Synchronization flush</span></div><div class="line"><span class="keyword">if</span> (FlushDiskType.SYNC_FLUSH == <span class="keyword">this</span>.defaultMessageStore.getMessageStoreConfig().getFlushDiskType()) &#123;</div><div class="line">    <span class="keyword">final</span> GroupCommitService service = (GroupCommitService) <span class="keyword">this</span>.flushCommitLogService;</div><div class="line">&#125;</div><div class="line"><span class="comment">// Asynchronous flush</span></div><div class="line"><span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.defaultMessageStore.getMessageStoreConfig().isTransientStorePoolEnable()) &#123;</div><div class="line">        <span class="comment">// FlushRealTimeService</span></div><div class="line">        flushCommitLogService.wakeup();</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// CommitRealTimeService</span></div><div class="line">        commitLogService.wakeup();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isTransientStorePoolEnable</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> transientStorePoolEnable &amp;&amp; FlushDiskType.ASYNC_FLUSH == getFlushDiskType()</div><div class="line">        &amp;&amp; BrokerRole.SLAVE != getBrokerRole();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>transientStorePoolEnable的具体含义是什么？<br>FlushRealTimeService和CommitRealTimeService刷盘的方式有什么区别，在性能有什么区别？</p>
+<p><img src="/2017/11/03/RocketMQ-Message-send-and-persistence/disc-fall.gif" alt="你想输入的替代文字"></p>
+<h3 id="逻辑Offset队列-ConsumerQueue"><a href="#逻辑Offset队列-ConsumerQueue" class="headerlink" title="逻辑Offset队列: ConsumerQueue"></a>逻辑Offset队列: ConsumerQueue</h3><h3 id="物理Offset队列-CommitLog"><a href="#物理Offset队列-CommitLog" class="headerlink" title="物理Offset队列: CommitLog"></a>物理Offset队列: CommitLog</h3><h3 id="MappedByteBuffer"><a href="#MappedByteBuffer" class="headerlink" title="MappedByteBuffer"></a>MappedByteBuffer</h3><p>操纵MappedByteBuffer的线程或者进程必须对某一个文件的映射Buffer有独占权，<br>在设计上，消息的顺序是由CommitLog决定，所以CommitLog在Append新的消息时，必须上锁进行互斥。</p>
+<p><em>传统的synchronized叫做monitor lock，当一个线程进入了synchronized的代码块时，我们说，该线程own（拥有）了monitor lock。这种锁是一种重量级锁，用mutual exclusive（互斥）的特性来实现了同步的需求。
+</em>自旋锁，JDK1.6引进，我们知道，线程状态与状态的切换，是需要内核参与的，简单点来讲，这个过程是需要点时间的。线程B已经own了一个锁，这是线程A去尝试获取锁，本来线程A应该要挂起，JVM不让它挂起，让A在那里做自旋操作，JVM要赌当前持有锁的B会很快释放锁。如果线程B确实很快释放了锁，那对于A来讲是一个非常好事情，因为A可以不用切换状态，立刻持有锁。那什么时候会用到呢？<a href="http://blog.csdn.net/u013080921/article/details/42676231" target="_blank" rel="external">http://blog.csdn.net/u013080921/article/details/42676231</a></p>
+<h4 id="Spin-Lock-自旋锁"><a href="#Spin-Lock-自旋锁" class="headerlink" title="Spin Lock(自旋锁)"></a>Spin Lock(自旋锁)</h4><h4 id="ReentrantLock-重入锁"><a href="#ReentrantLock-重入锁" class="headerlink" title="ReentrantLock(重入锁)"></a>ReentrantLock(重入锁)</h4><h3 id="异步刷盘机制"><a href="#异步刷盘机制" class="headerlink" title="异步刷盘机制"></a>异步刷盘机制</h3><p><a href="http://blog.csdn.net/vonzhoufz/article/details/47248777" target="_blank" rel="external">http://blog.csdn.net/vonzhoufz/article/details/47248777</a></p>
+<h4 id="磁盘顺序读写与随机读写的差异"><a href="#磁盘顺序读写与随机读写的差异" class="headerlink" title="磁盘顺序读写与随机读写的差异"></a>磁盘顺序读写与随机读写的差异</h4><p><a href="https://kafka.apache.org/documentation/#design_filesystem" target="_blank" rel="external">https://kafka.apache.org/documentation/#design_filesystem</a></p>
+<p><a href="http://blog.csdn.net/evankaka/article/details/48464013" target="_blank" rel="external">http://blog.csdn.net/evankaka/article/details/48464013</a></p>
+<p>需要好好研究：<a href="http://blog.csdn.net/javahongxi/article/details/72956619?locationNum=2&amp;fps=1" target="_blank" rel="external">http://blog.csdn.net/javahongxi/article/details/72956619?locationNum=2&amp;fps=1</a><br>虽然讲的是kafka，研究价值极高：<a href="http://blog.csdn.net/tototuzuoquan/article/details/73437890" target="_blank" rel="external">http://blog.csdn.net/tototuzuoquan/article/details/73437890</a><br>pagecache是一个现在操作系统带有的天然的缓存！！！！！</p>
+<p><a href="http://blog.csdn.net/mg0832058/article/details/5890688" target="_blank" rel="external">http://blog.csdn.net/mg0832058/article/details/5890688</a><br>内存映射文件原理探索</p>
+<p>如何查看内存的 PAGESIZE<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">getconf PAGESIZE</div></pre></td></tr></table></figure></p>
+<p>终于理解了！！！！ 首先，Kafka重度依赖底层操作系统提供的PageCache功能。当上层有写操作时，操作系统只是将数据写入PageCache，同时标记Page属性为Dirty。当读操作发生时，先从PageCache中查找，如果发生缺页才进行磁盘调度，最终返回需要的数据。实际上PageCache是把尽可能多的空闲内存都当做了磁盘缓存来使用。同时如果有其他进程申请内存，回收PageCache的代价又很小，所以现代的OS都支持PageCache。 </p>
+<p>所以说 commit(atLeastSize)的参数就是现代操作系统pagecache的大小。</p>
+<p><a href="http://www.jianshu.com/p/6494e33c9b1f" target="_blank" rel="external">http://www.jianshu.com/p/6494e33c9b1f</a><br>Consume Queue 顺序写，顺序读 几乎都是完全命中Page Cache，和内存速度几乎一样<br>Commit Log 顺序写，顺序跳跃读，相比完全的随机读，性能也还好</p>
+<p><a href="http://blog.csdn.net/mg0832058/article/details/5890688" target="_blank" rel="external">http://blog.csdn.net/mg0832058/article/details/5890688</a><br>内存映射文件原理探索</p>
+<p><a href="http://www.jianshu.com/p/6494e33c9b1f" target="_blank" rel="external">http://www.jianshu.com/p/6494e33c9b1f</a><br>1).充分利用page cache降低读数据的时间开销. 读取时尽可能让其命中page cache, 减少IO读操作, 所以内存越大越好. 如果系统中堆积的消息过多, 读数据要访问磁盘会不会由于随机读导致系统性能急剧下降, 答案是否定的.<br>访问page cache 时, 即使只访问1k的消息, 系统也会提前预读出更多数据, 在下次读时, 就可能命中内存.<br>随机访问Commit Log磁盘数据, 系统IO调度算法设置为NOOP方式, 会在一定程度上将完全的随机读变成顺序跳跃方式, 而顺序跳跃方式读较完全的随机读性能会高5倍以上.<br>另外4k的消息在完全随机访问情况下, 仍然可以达到8K次每秒以上的读性能.<br>由于Consume Queue存储数据量极少, 而且是顺序读, 在PAGECACHE预读作用下, Consume Queue的读性能几乎与内存一致, 即使堆积情况下. 所以可认为Consume Queue完全不会阻碍读性能.<br>2).Commit Log中存储了所有的元信息, 包含消息体, 类似于Mysql、Oracle的redolog, 所以只要有Commit Log在, Consume Queue即使数据丢失, 仍然可以恢复出来.</p>
+<p><a href="https://segmentfault.com/a/1190000003985468" target="_blank" rel="external">https://segmentfault.com/a/1190000003985468</a><br>kafka底层原理</p>
+<p>linux最多可以容忍多少大小的脏页。脏页－linux内核中的概念，因为硬盘的读写速度远赶不上内存的速度，系统就把读写比较频繁的数据事先放到内存中，以提高读写速度，这就叫高速缓存，linux是以页作为高速缓存的单位，当进程修改了高速缓存里的数据时，该页就被内核标记为脏页，内核将会在合适的时间把脏页的数据写到磁盘中去，以保持高速缓存中的数据和磁盘中的数据是一致的。</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>page cache是内存的东西（物理内存还是虚拟内存），我们写文件时先写进内存page cache，然后从page cache刷到disc上</p>
+<p>现在MQ异步刷盘是有个间隔的，如果说pagecache中的数据一直没有被刷进磁盘，那所谓的脏页会越来越大，jvm crash后会丢失数据么。那什么时候是不会丢消息的</p>
+<p>对于读是好理解的，但对于写，如果文件是顺序写的，commit log和consume queue都是顺序写的，那pagecache的存在如何让速度提升了？是从java heap到pagecache的速度提升了，还是说从pagecache到disc的速度提升了？</p>
+<p>producer发送消息，如果是立马被消费这种场景<br>1.对于consume queue，肯定是顺序读写，所以写进pagecache（物理内存）后，直接就从pagecache（物理内存）被读出来了<br>2.对于commit log，虽然不是顺序读，但也是基本有序读，最后大部分也能命中pagecache，不需要走系统IO</p>
+<p>如果是消费历史消息，很大程度上，会发现在pagecache（虚拟内存）中没有，由系统产生缺页中断，从磁盘中重新读到pagecache中（可能还会根据顺序预读很多），然后再将数据从pagecache复制到socket中传输到consumer。</p>
+<p>MappedByteBuffer 能不能映射大于操作系统内存的文件？<br>MappedByteBuffer所占用的内存是堆外内存，那什么时候才能被回收</p>
+<p><a href="http://www.iocoder.cn/RocketMQ/message-store/" target="_blank" rel="external">http://www.iocoder.cn/RocketMQ/message-store/</a><br>CommitRealTimeService    异步刷盘 &amp;&amp; 开启内存字节缓冲区    第一<br>FlushRealTimeService    异步刷盘 &amp;&amp; 关闭内存字节缓冲区    第二<br>GroupCommitService    同步刷盘    第三<br>没看懂</p>
+<p><a href="http://blog.csdn.net/iie_libi/article/details/54289580" target="_blank" rel="external">http://blog.csdn.net/iie_libi/article/details/54289580</a><br>零拷贝技术</p>
+<p>Consumer 消费消息过程，使用了零拷贝技术，因为有小块数据传输的需求，效果会比 sendfile 更好，所以RocketMQ选择了mmap+write方式。<br>① 优点：即使频繁调用，使用小块文件传输，效率也很高<br>② 缺点：不能很好的利用 DMA 方式，会比 sendfile 多消耗CPU，内存安全性控制复杂，需要避免JVM Crash问题。</p>
+<p>文件系统</p>
+<p>建议选择ext4文件系统，删除文件的实时性强。<br>调优：文件系统的io调度算法需要调整为deadline，因为deadline 算法在随机读情况下，可以合并读请求为顺序跳跃方式，从而提高读IO 吞吐量。</p>
+<p>文件读写冲突？</p>
+<p>写文件的时候，如果消费者在读怎么办？<br>依赖于操作系统对文件读写操作的处理，，，永远一个一个进程在写文件，如果其他进程需要访问文件，只能是读，或者是再创建一个副本，写文件。（读写锁+写时复制） 读写锁在哪里</p>
+<p>提高pagecache？</p>
+<p>RocketMQ用的是FileChannel.map()出来的MappedByteBuffer，这种Buffer是堆外内存，MQ怎么对这部分的内存进行回收？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">clean</span><span class="params">(<span class="keyword">final</span> ByteBuffer buffer)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (buffer == <span class="keyword">null</span> || !buffer.isDirect() || buffer.capacity() == <span class="number">0</span>)</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    invoke(invoke(viewed(buffer), <span class="string">"cleaner"</span>), <span class="string">"clean"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Deallocator</span></span></div><div class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Unsafe unsafe = Unsafe.getUnsafe();</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> address;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> size;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> capacity;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Deallocator</span><span class="params">(<span class="keyword">long</span> address, <span class="keyword">long</span> size, <span class="keyword">int</span> capacity)</span> </span>&#123;</div><div class="line">        <span class="keyword">assert</span> (address != <span class="number">0</span>);</div><div class="line">        <span class="keyword">this</span>.address = address;</div><div class="line">        <span class="keyword">this</span>.size = size;</div><div class="line">        <span class="keyword">this</span>.capacity = capacity;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (address == <span class="number">0</span>) &#123;</div><div class="line">            <span class="comment">// Paranoia</span></div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        unsafe.freeMemory(address);</div><div class="line">        address = <span class="number">0</span>;</div><div class="line">        Bits.unreserveMemory(size, capacity);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>堆外内存的回收需要依赖显式Full GC或者隐式Full GC，一般来说DisableExplicitGC可以开，也可以关，但是如果禁用了显式GC，当系统没有足够的Full GC时，堆外内存无法回收。</p>
+<p>  想要提高pagecache的命中率，即尽量让访问的页在物理内存中，而不是在虚拟内存中，减少IO 读操作，所以从硬件的角度，当然是内存越大越好。<br>而在软件角度，rocketmq有以下策略：<br>尽量顺序读<br> 如果需要随机读的话：<br>访问 PAGECACHE 时，即使只访问 1k 的消息，系统也会提前预读出更多数据，在下次读时，就可能命中内存。<br> 随机访问 Commit Log 磁盘数据，系统 IO 调度算法设置为NOOP 方式，会在一定程度上将完全的随机读变成顺序跳跃方式，而顺序跳跃方式读较完全的随机读性能会高5 倍以上。</p>
+<p> 可能的优化策略</p>
+<p> 1．线程绑定核+线程池（取模）<br> a) 将每个线程绑定核，一个函数就可以<br> b) 优势：避免线程核间调度<br> 2．改用互斥锁为读写锁<br> a) 读读场景的线程可以并行<br> 3．使用xxhash代替crc算法，性能可以提高很多<br> a) 参考链接：<a href="https://cyan4973.github.io/xxHash/" target="_blank" rel="external">https://cyan4973.github.io/xxHash/</a><br> 4．使用topic划分多个逻辑队列（链表）<br> a) 避免topic的多次字符串的比较<br> 5．改用STL的deque来替代MESA list<br> a) Deque类似于vector，可以支持随机访问<br> b) 常量时间内在头部和尾部插入，删除元素<br> 6．改用跳表来代替MESA list<br> a) 跳表可以高并发+log（n）的随机访问<br> b) 不能删除元素<br> i. 设为标志位，当内存数据达到一定阈值时，写到磁盘或者持久化到leveldb中（hbase也是这样做的）。</p>
+<p> <em>java.nio.channels.FileChannel</em><br> <code>public abstract void force(boolean metaData) throws java.io.IOException</code><br> Forces any updates to this channel’s file to be written to the storage device that contains it.<br> If this channel’s file resides on a local storage device then when this method returns it is guaranteed that all changes made to the file since this channel was created, or since this method was last invoked, will have been written to that device. This is useful for ensuring that critical information is not lost in the event of a system crash.<br> If the file does not reside on a local device then no such guarantee is made.<br> The metaData parameter can be used to limit the number of I/O operations that this method is required to perform. Passing false for this parameter indicates that only updates to the file’s content need be written to storage; passing true indicates that updates to both the file’s content and metadata must be written, which generally requires at least one more I/O operation. Whether this parameter actually has any effect is dependent upon the underlying operating system and is therefore unspecified.<br> Invoking this method may cause an I/O operation to occur even if the channel was only opened for reading. Some operating systems, for example, maintain a last-access time as part of a file’s metadata, and this time is updated whenever the file is read. Whether or not this is actually done is system-dependent and is therefore unspecified.<br> This method is only guaranteed to force changes that were made to this channel’s file via the methods defined in this class. <strong>It may or may not force changes that were made by modifying the content of a mapped byte buffer obtained by invoking the map method. Invoking the force method of the mapped byte buffer will force changes made to the buffer’s content to be written.</strong></p>
+<p> <em>java.nio.MappedByteBuffer</em><br> <code>public final MappedByteBuffer force()</code><br> Forces any changes made to this buffer’s content to be written to the storage device containing the mapped file.<br> If the file mapped into this buffer resides on a local storage device then when this method returns it is guaranteed that all changes made to the buffer since it was created, or since this method was last invoked, will have been written to that device.<br> If the file does not reside on a local device then no such guarantee is made.<br> If this buffer was not mapped in read/write mode (java.nio.channels.FileChannel.MapMode.READ_WRITE) then invoking this method has no effect.</p>
+<h3 id="写得超级好的一篇文章"><a href="#写得超级好的一篇文章" class="headerlink" title="写得超级好的一篇文章"></a>写得超级好的一篇文章</h3><p> <a href="http://blog.csdn.net/a417930422/article/details/52585862" target="_blank" rel="external">http://blog.csdn.net/a417930422/article/details/52585862</a></p>
+<p>包括下面的问题：</p>
+<p>wangbin00162017-08-08 17:011楼<br>楼主确定 零拷贝-sendfile 对应到java中<br>为FileChannel.transferTo(long position, long count, WritableByteChannel target)//？？</p>
+<p>rocketmq 文档上面写到 RocketMQ选择了第一种方式，mmap+write方式，因为有小块数据传输的需求，效果会比sendfile更好。</p>
+<p>源码里面使用的是netty的FileRegion 用的是FileChannel.transferTo</p>
+<p>FileRegion fileRegion =<br>new ManyMessageTransfer(response.encodeHeader(getMessageResult.getBufferTotalSize()), getMessageResult);<br>channel.writeAndFlush(fileRegion)<br>            回复  2条回复<br>             a417930422<br>            a4179304222017-09-21 10:35<br>            回复wangbin0016：另外，rocketmq主要使用的是mmap，即java的MappedByteBuffer用于快速读写。<br>             a417930422<br>            a4179304222017-09-21 10:32<br>            回复wangbin0016：rocketmq文档中写的是Consumer 消费消息过程使用了mmap+write，即内存映射文件的方式，请参照我写的rocketmq存储相关文章：<a href="http://blog.csdn.net/a417930422/article/details/52585180" target="_blank" rel="external">http://blog.csdn.net/a417930422/article/details/52585180</a>.<br>            你说的netty的FileRegion其实是被rocketmq重新实现的ManyMessageTransfer，而transfer过程其实是将GetMessageResult对象的数据写到netty的channel中，本质是从内核获取数据直接发送至socket，不会复制到用户空间。<br>            GetMessageResult其实是mmap的一个子缓冲区而已。<br>            有兴趣可以看看源码 com.alibaba.rocketmq.store.DefaultMessageStore.getMessage方法</p>
 
           
         
@@ -1511,7 +1637,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1549,7 +1675,7 @@
                alt="Eric Fei" />
           <p class="site-author-name" itemprop="name">Eric Fei</p>
            
-              <p class="site-description motion-element" itemprop="description">费红健的原创笔记 <br> 能用代码或者作图来说明问题，绝不废话</p>
+              <p class="site-description motion-element" itemprop="description">费红健的笔记 <br> 能用代码或者作图来说明问题，绝不废话</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -1557,7 +1683,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">50</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1570,7 +1696,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1748,6 +1874,323 @@
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 

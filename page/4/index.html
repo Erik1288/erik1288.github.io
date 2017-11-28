@@ -94,16 +94,16 @@
 
 
 
-<meta name="description" content="费红健的原创笔记  能用代码或者作图来说明问题，绝不废话">
+<meta name="description" content="费红健的笔记  能用代码或者作图来说明问题，绝不废话">
 <meta property="og:type" content="website">
-<meta property="og:title" content="艾瑞克笔记">
+<meta property="og:title" content="艾瑞克小记">
 <meta property="og:url" content="http://yoursite.com/page/4/index.html">
-<meta property="og:site_name" content="艾瑞克笔记">
-<meta property="og:description" content="费红健的原创笔记  能用代码或者作图来说明问题，绝不废话">
+<meta property="og:site_name" content="艾瑞克小记">
+<meta property="og:description" content="费红健的笔记  能用代码或者作图来说明问题，绝不废话">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="艾瑞克笔记">
-<meta name="twitter:description" content="费红健的原创笔记  能用代码或者作图来说明问题，绝不废话">
+<meta name="twitter:title" content="艾瑞克小记">
+<meta name="twitter:description" content="费红健的笔记  能用代码或者作图来说明问题，绝不废话">
 
 
 
@@ -138,7 +138,7 @@
 
 
 
-  <title>艾瑞克笔记</title>
+  <title>艾瑞克小记</title>
   
 
 
@@ -176,7 +176,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">艾瑞克笔记</span>
+        <span class="site-title">艾瑞克小记</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -232,9 +232,43 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -263,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/10/MySQL-Explain/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/13/RocketMQ-Delay-message-delivery/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -272,7 +306,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -282,7 +316,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/10/MySQL-Explain/" itemprop="url">MySQL Explain 整理</a></h1>
+                <a class="post-title-link" href="/2017/10/13/RocketMQ-Delay-message-delivery/" itemprop="url">RocketMQ——延时消息投递原理分析</a></h1>
         
 
         <div class="post-meta">
@@ -294,8 +328,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-10T13:11:34+08:00">
-                2017-09-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-13T10:38:19+08:00">
+                2017-10-13
               </time>
             
 
@@ -334,8 +368,132 @@
       
         
           
-            <h2 id="select-id"><a href="#select-id" class="headerlink" title="select id"></a>select id</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> student <span class="keyword">where</span> stu_id = <span class="string">'1000003'</span>;</div><div class="line"><span class="keyword">explain</span> <span class="keyword">delete</span> <span class="keyword">from</span> student <span class="keyword">where</span> stu_id = <span class="string">'11111'</span>;</div><div class="line">#数值越大越先执行</div><div class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> (<span class="keyword">select</span> * <span class="keyword">from</span> student <span class="keyword">where</span> stu_id = <span class="string">'1000003'</span>) tmp; </div><div class="line">#只有union的结果是没有 select id 的</div><div class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> student <span class="keyword">where</span> stu_id = <span class="string">'1000003'</span> <span class="keyword">union</span> <span class="keyword">select</span> * <span class="keyword">from</span> student <span class="keyword">where</span> stu_id = <span class="string">'1000004'</span>;</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://dev.mysql.com/doc/refman/5.7/en/explain-output.html" target="_blank" rel="external">MySQL DOC</a></p>
+            <h3 id="被动延时消费"><a href="#被动延时消费" class="headerlink" title="被动延时消费"></a>被动延时消费</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">consumer.registerMessageListener(<span class="keyword">new</span> MessageListenerConcurrently() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> ConsumeConcurrentlyStatus <span class="title">consumeMessage</span><span class="params">(List&lt;MessageExt&gt; msgs,</span></span></div><div class="line"><span class="function"><span class="params">        ConsumeConcurrentlyContext context)</span> </span>&#123;</div><div class="line">        <span class="comment">// 可能抛出异常</span></div><div class="line">        <span class="keyword">boolean</span> success = doConsume(msgs);</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> (success) &#123;</div><div class="line">            <span class="keyword">return</span> ConsumeConcurrentlyStatus.CONSUME_SUCCESS;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> ConsumeConcurrentlyStatus.RECONSUME_LATER;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="主动延时消费"><a href="#主动延时消费" class="headerlink" title="主动延时消费"></a>主动延时消费</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<h3 id="分布式事务之-Best-Effort-Delivery"><a href="#分布式事务之-Best-Effort-Delivery" class="headerlink" title="分布式事务之 Best Effort Delivery"></a>分布式事务之 Best Effort Delivery</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/" itemprop="url">Cobar——扩展Cobar Driver，防止单点故障</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T20:07:23+08:00">
+                2017-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>cobar作为一套完整的分库分表方案，其负载均衡功能是由cobar-driver提供的。</p>
+<h3 id="cobar-driver单点问题"><a href="#cobar-driver单点问题" class="headerlink" title="cobar-driver单点问题"></a>cobar-driver单点问题</h3><p>原始的cobar版的JDBC协议如下：<code>jdbc:cobar://Cobar_A:8066/user</code>，只能支持连接cobar集群中的某一台机器，当整个集群中的这台机器宕机后，即使集群中的其余机器仍然可以提供服务，客户端也无法创建新的连接。</p>
+<p><img src="/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/before-cobar-driver.gif" alt=""></p>
+<h3 id="HA-cobar-jdbc-协议"><a href="#HA-cobar-jdbc-协议" class="headerlink" title="HA cobar(jdbc)协议"></a>HA cobar(jdbc)协议</h3><p>为了防止这种单点故障，需要对cobar-driver的源码进行修改，协议部分改造，URL的host部分不再只能填写一个host地址，而是像ZooKeeper一样，可以填写整个Cobar集群的地址：jdbc:cobar_cluster://cobar_1,cobar_2:8066/user，即使cobar_1宕机了，应用还是可以去cobar_2中继续创建新的连接以保证性能。</p>
+<p><img src="/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/after-cobar-driver.gif" alt=""></p>
 
           
         
@@ -384,7 +542,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/09/Linux-Useful-command/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/Cobar-How-to-monitor-cobar/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -393,7 +551,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -403,7 +561,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/09/Linux-Useful-command/" itemprop="url">实用Linux命令整理</a></h1>
+                <a class="post-title-link" href="/2017/10/12/Cobar-How-to-monitor-cobar/" itemprop="url">Cobar——近实时监控Cobar前后端连接与线程池</a></h1>
         
 
         <div class="post-meta">
@@ -415,8 +573,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-09T17:16:00+08:00">
-                2017-09-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T20:04:26+08:00">
+                2017-10-12
               </time>
             
 
@@ -455,14 +613,7 @@
       
         
           
-            <h4 id="文件内容替换"><a href="#文件内容替换" class="headerlink" title="文件内容替换"></a>文件内容替换</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo sed -i <span class="string">'s/aaa/bbb/g'</span> `grep -Rl aaa order_migrate_conf/`</div></pre></td></tr></table></figure>
-<h4 id="查找目录下的所有文件中是否含有某个字符串-并且只打印出文件名"><a href="#查找目录下的所有文件中是否含有某个字符串-并且只打印出文件名" class="headerlink" title="查找目录下的所有文件中是否含有某个字符串,并且只打印出文件名"></a>查找目录下的所有文件中是否含有某个字符串,并且只打印出文件名</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep -Rl 1496628000000 order_migrate_conf/</div></pre></td></tr></table></figure>
-<h4 id="查看超大文件，vim-慎用"><a href="#查看超大文件，vim-慎用" class="headerlink" title="查看超大文件，vim 慎用"></a>查看超大文件，vim 慎用</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">less file.log</div></pre></td></tr></table></figure>
-<h4 id="超大文件从后往前查找关键词kind-pay"><a href="#超大文件从后往前查找关键词kind-pay" class="headerlink" title="超大文件从后往前查找关键词kind_pay"></a>超大文件从后往前查找关键词kind_pay</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tac file_path | grep kind_pay</div></pre></td></tr></table></figure>
-<p>less file_path, G(go to file end), /kind_pay + enter, N(search key word reversely)</p>
-<h4 id="分类查看各种状态的TCP连接"><a href="#分类查看各种状态的TCP连接" class="headerlink" title="分类查看各种状态的TCP连接"></a>分类查看各种状态的TCP连接</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ss  -tan|awk <span class="string">'NR&gt;1&#123;++S[$1]&#125;END&#123;for (a in S) print a,S[a]&#125;'</span></div></pre></td></tr></table></figure>
-<h4 id="查看logs目录下所有文件夹及其内容的大小"><a href="#查看logs目录下所有文件夹及其内容的大小" class="headerlink" title="查看logs目录下所有文件夹及其内容的大小"></a>查看logs目录下所有文件夹及其内容的大小</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">du -sh logs/*</div></pre></td></tr></table></figure>
-<h4 id="将需要交互的命令的结果重定向到文件中"><a href="#将需要交互的命令的结果重定向到文件中" class="headerlink" title="将需要交互的命令的结果重定向到文件中"></a>将需要交互的命令的结果重定向到文件中</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">telnet zk_ip 2181 | tee -a  -i someFile</div><div class="line"></div><div class="line">envi</div></pre></td></tr></table></figure>
+            
           
         
       
@@ -510,7 +661,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/21/RocketMQ-Netty-imp-sync-and-async-invoke/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/RocketMQ-Index-service/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -519,7 +670,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -529,7 +680,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/08/21/RocketMQ-Netty-imp-sync-and-async-invoke/" itemprop="url">RocketMQ——Netty实现的远程同步与异步调用（二）</a></h1>
+                <a class="post-title-link" href="/2017/10/12/RocketMQ-Index-service/" itemprop="url">RocketMQ——IndexService 原理分析</a></h1>
         
 
         <div class="post-meta">
@@ -541,8 +692,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-21T12:36:42+08:00">
-                2017-08-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T19:29:40+08:00">
+                2017-10-12
               </time>
             
 
@@ -581,142 +732,11 @@
       
         
           
-            <h3 id="Netty-IO框架"><a href="#Netty-IO框架" class="headerlink" title="Netty IO框架"></a>Netty IO框架</h3><p>netty是一个异步IO框架，异步API最大的特点就是基于事件，netty当然也不例外。</p>
-<h3 id="Remote同步调用"><a href="#Remote同步调用" class="headerlink" title="Remote同步调用"></a>Remote同步调用</h3><p><img src="/2017/08/21/RocketMQ-Netty-imp-sync-and-async-invoke/invokeSync.png" alt="你想输入的替代文字"></p>
-<h3 id="Remote异步调用"><a href="#Remote异步调用" class="headerlink" title="Remote异步调用"></a>Remote异步调用</h3><p>异步调用不会使Caller线程等待，理论上可以在短时间内不限次数得调用，这将对系统造成非常大压力，所以在异步调用设计中引入了限流机制<br><img src="/2017/08/21/RocketMQ-Netty-imp-sync-and-async-invoke/invokeAsync.png" alt="你想输入的替代文字"></p>
-<p>###</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/20/RocketMQ-Debug-with-intellij/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/20/RocketMQ-Debug-with-intellij/" itemprop="url">RocketMQ在Intellij中的终极调试技巧（一）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-20T13:28:52+08:00">
-                2017-08-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="调试难点"><a href="#调试难点" class="headerlink" title="调试难点"></a>调试难点</h3><p>如果虚拟机够多<br>可以规划将MQ的各个部分部署在不同机器上，并且在所有子系统启动时加上远程调试。然后Intellij创建几个Remote debug窗口。</p>
-<p>如果没有虚拟机，只有一台Mac，接下去的内容将对RocketMQ的调试有非常大的帮助。</p>
-<h3 id="调试界面"><a href="#调试界面" class="headerlink" title="调试界面"></a>调试界面</h3><p><img src="http://upload-images.jianshu.io/upload_images/716353-1c36c4f4f54283e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h3 id="Name-Server"><a href="#Name-Server" class="headerlink" title="Name Server"></a>Name Server</h3><h3 id="Broker"><a href="#Broker" class="headerlink" title="Broker"></a>Broker</h3><p>Broker的调试最为麻烦，<br>如果在学习RocketMQ的初期，建议单启动一个Broker，减少复杂度，关注主要流程代码。<br>如果要深入学习和调试，要启动Master和Slave，开启主从同步功能，也是会发生端口和文件目录冲突的地方。</p>
-<p>store的目录都为<code>System.getProperty(&quot;user.home&quot;) + File.separator + &quot;store&quot;</code>，<br>所以我们需要对Master和Slave进行分离，方法很多种，这里介绍一种，在启动参数中配置不同的<code>user.home</code>。</p>
-<p>Port的分离可以放在不同的配置文件中：broker-a.properties，broker-a-s.properties</p>
-<h4 id="Master-Broker"><a href="#Master-Broker" class="headerlink" title="Master Broker"></a>Master Broker</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">VM options:-Drocketmq.home.dir=/Users/eric/Code/middleware/incubator-rocketmq -Drocketmq.namesrv.addr=mac:9876 -Duser.home=/Users/eric/store/master</div><div class="line">Program arguments:-c /Users/eric/Code/middleware/incubator-rocketmq/conf/2m-2s-sync/broker-a.properties</div><div class="line"></div><div class="line">broker-a.properties:</div><div class="line">brokerClusterName=DefaultCluster</div><div class="line">brokerName=broker-a</div><div class="line">brokerId=0</div><div class="line">deleteWhen=04</div><div class="line">fileReservedTime=48</div><div class="line">brokerRole=SYNC_MASTER</div><div class="line">flushDiskType=ASYNC_FLUSH</div><div class="line">listenPort=11111</div></pre></td></tr></table></figure>
-<p><img src="http://upload-images.jianshu.io/upload_images/716353-269519f3558de100.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h4 id="Slave-Broker"><a href="#Slave-Broker" class="headerlink" title="Slave Broker"></a>Slave Broker</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">VM options:-Drocketmq.home.dir=/Users/eric/Code/middleware/incubator-rocketmq -Drocketmq.namesrv.addr=mac:9876 -Duser.home=/Users/eric/store/slave</div><div class="line">Program arguments:-c /Users/eric/Code/middleware/incubator-rocketmq/conf/2m-2s-sync/broker-a-s.properties</div><div class="line"></div><div class="line">broker-a-s.properties:</div><div class="line">brokerClusterName=DefaultCluster</div><div class="line">brokerName=broker-a</div><div class="line">brokerId=1</div><div class="line">deleteWhen=04</div><div class="line">fileReservedTime=48</div><div class="line">brokerRole=SLAVE</div><div class="line">flushDiskType=ASYNC_FLUSH</div><div class="line">listenPort=22222</div></pre></td></tr></table></figure>
-<p><img src="http://upload-images.jianshu.io/upload_images/716353-473218e8e6936674.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>配置完后依次启动 Name Server, Master Broker, Slave Broker， Producer</p>
-<p>完整的Store目录结构截图</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1fkedpuigp8j317e1a80zy.jpg" alt=""></p>
+            <h4 id="RocmetMQ的IndexService设计原理"><a href="#RocmetMQ的IndexService设计原理" class="headerlink" title="RocmetMQ的IndexService设计原理"></a>RocmetMQ的IndexService设计原理</h4><p><img src="/2017/10/12/RocketMQ-Index-service/index-file.gif" alt="你想输入的替代文字"></p>
+<p>在RocketMQ中，IndexService底层是通过文件来存储的，所以，即使MQ的进程在中途重启过，索引的功能是不受影响的。<br>索引文件的路径是 <code>System.getProperty(&quot;user.home&quot;) + File.separator + &quot;store&quot;</code>，文件名是文件创建的时间，可以有多个，但，<br>在一个文件没有满的情况下，所有的topic的所有的列队的消息，全部都是顺序得存放在一个文件中的，这很重要，下面会详解。<br><img src="http://upload-images.jianshu.io/upload_images/716353-2ed415df19a3040b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>在MQ源码中，用IndexFile这个类代表索引文件，对于每一个index file，大小都是固定的，即，都是设计好的。<br>index file在逻辑上被拆分成了3个部分，IndexHead + HashSlotPart + MsgIndexPart，<br>IndexHead<br>索引的开头，和索引的结构没有关系<br>HashSlotPart<br>hash的槽位，是索引的目录，用于定位消息索引在该文件的「MsgIndexPart」的位置，<br>可能有点绕，往下就会觉得很简单，每个槽位是等长的，占4 Byte，一个文件总的槽位数量也是定的，不可改变，槽位数越大，索引的消息越多。<br>MsgIndexPart<br>真实的消息索引，即，每个msgIndex段代表改消息在CommitLog上的PhyicOffset。每个msgIndex段也是等长的，占20 Byte（int + long + int + int）。<br>等长的MsgIndexPart可以理解成功一个有capacity的数组，为了使数组的空间不浪费，那消息就要从前往后一个一个append进去。</p>
+<p>所以，在默认配置下，<br>每个索引文件的大小为<br><code>int fileTotalSize = IndexHeader.INDEX_HEADER_SIZE + (hashSlotNum * hashSlotSize) + (indexNum * indexSize);</code></p>
+<p>CommitLogDispatcherBuildIndex调用dispatch<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatch</span><span class="params">(DispatchRequest request)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (DefaultMessageStore.<span class="keyword">this</span>.messageStoreConfig.isMessageIndexEnable()) &#123;</div><div class="line">        DefaultMessageStore.<span class="keyword">this</span>.indexService.buildIndex(request);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>buildIndex时会构建好几个索引，topic#msgId=&gt;msgIndex, topic#key1=&gt;msgIndex, topic#key2=&gt;msgIndex<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildIndex</span><span class="params">(DispatchRequest req)</span> </span>&#123;</div><div class="line">    IndexFile indexFile = retryGetAndCreateIndexFile();</div><div class="line">    <span class="keyword">if</span> (indexFile != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">long</span> endPhyOffset = indexFile.getEndPhyOffset();</div><div class="line">        DispatchRequest msg = req;</div><div class="line">        String topic = msg.getTopic();</div><div class="line">        String keys = msg.getKeys();</div><div class="line"></div><div class="line">        ...</div><div class="line">        <span class="keyword">if</span> (req.getUniqKey() != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="comment">// 构建UniqKey，也就是msgId的索引</span></div><div class="line">            indexFile = putKey(indexFile, msg, buildKey(topic, req.getUniqKey()));</div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (keys != <span class="keyword">null</span> &amp;&amp; keys.length() &gt; <span class="number">0</span>) &#123;</div><div class="line">            String[] keyset = keys.split(MessageConst.KEY_SEPARATOR);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; keyset.length; i++) &#123;</div><div class="line">                String key = keyset[i];</div><div class="line">                <span class="keyword">if</span> (key.length() &gt; <span class="number">0</span>) &#123;</div><div class="line">                    <span class="comment">// 构建业务Key的索引</span></div><div class="line">                    indexFile = putKey(indexFile, msg, buildKey(topic, key));</div><div class="line">                    ...</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        log.error(<span class="string">"build index error, stop building index"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
           
         
@@ -765,7 +785,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/09/RocketMQ-FAQ/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/RocketMQ-Master-slave-high-availability/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -774,7 +794,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -784,7 +804,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/08/09/RocketMQ-FAQ/" itemprop="url">面向问题的RocketMQ原理整理</a></h1>
+                <a class="post-title-link" href="/2017/10/12/RocketMQ-Master-slave-high-availability/" itemprop="url">RocketMQ——Broker的主从复制原理分析（双写机制）</a></h1>
         
 
         <div class="post-meta">
@@ -796,8 +816,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-09T14:42:53+08:00">
-                2017-08-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T16:28:24+08:00">
+                2017-10-12
               </time>
             
 
@@ -836,52 +856,9 @@
       
         
           
-            <p>工作和学习中使用RocketMQ产生的困惑和总结，属于临时半成品文章，整理完了会单独成文。</p>
-<h4 id="为什么RocketMQ性能很高？"><a href="#为什么RocketMQ性能很高？" class="headerlink" title="为什么RocketMQ性能很高？"></a>为什么RocketMQ性能很高？</h4><p>主要是消息存储的方式影响着性能。</p>
-<h4 id="MQ为什么内部要使用好多队列？"><a href="#MQ为什么内部要使用好多队列？" class="headerlink" title="MQ为什么内部要使用好多队列？"></a>MQ为什么内部要使用好多队列？</h4><p>理论上队列入口要加锁（要么是程序的锁，要么是文件的锁）来保证同步，如果队列非常多，虽然不能把锁去掉，但可以减小并发线程对锁的竞争。这个是以前的结论，但实际情况是，consume queue只有一个线程来做。首先，commit log文件只有一个，假如要执行sendMessage，一定要用sync或者自旋锁（之后的版本为了考虑性能），消息都是顺序写进commit log的。对于一个topic的某一个consumer group，consumerQueue文件就有很多个，写consumerQueue文件由一个ReputMessageService的线程近实时空转而触发，也是单个线程。从写consumerQueue文件（send message）的角度来分析，多个队列是没有好处的。如果从读consumerQueue文件（pull message）的角度来分析。</p>
-<h4 id="MQ的NameServer集群节点中间有没有同步数据？与Zookeeper集群的区别是什么？"><a href="#MQ的NameServer集群节点中间有没有同步数据？与Zookeeper集群的区别是什么？" class="headerlink" title="MQ的NameServer集群节点中间有没有同步数据？与Zookeeper集群的区别是什么？"></a>MQ的NameServer集群节点中间有没有同步数据？与Zookeeper集群的区别是什么？</h4><h4 id="MQ的topic有序性怎么保证"><a href="#MQ的topic有序性怎么保证" class="headerlink" title="MQ的topic有序性怎么保证"></a>MQ的topic有序性怎么保证</h4><p>MessageQueueSelector中的List<messagequeue> mqs指的是所有的broker加起来的队列。</messagequeue></p>
-<h4 id="怎么让两个Broker中都有某个topic的信息，如果只有一个有，就没法做send的双broker负载均衡"><a href="#怎么让两个Broker中都有某个topic的信息，如果只有一个有，就没法做send的双broker负载均衡" class="headerlink" title="怎么让两个Broker中都有某个topic的信息，如果只有一个有，就没法做send的双broker负载均衡"></a>怎么让两个Broker中都有某个topic的信息，如果只有一个有，就没法做send的双broker负载均衡</h4><p>Client发送一个新的topic，在name server上是取不到信息的，所以先用在本地放上Map来缓存，那问题是Broker什么时候给name server发送创建Topic route info的请求？在checkMsg方法中，this.brokerController.registerBrokerAll(false, true);<br>MQ的消费者端如果是用push的方式回调，执行listener会开启新的线程用来接收和返回（确认）ack，但一般我们会再开我们的新线程去做消费的事情，这个时候如果由于外界原因进程死亡，那么这些消息就丢失了。</p>
-<h4 id="哪些情况会引起rebalance"><a href="#哪些情况会引起rebalance" class="headerlink" title="哪些情况会引起rebalance?"></a>哪些情况会引起rebalance?</h4><p>mq数量，客户端数量</p>
-<h4 id="怎么设计Netty的同步调用与异步调用？"><a href="#怎么设计Netty的同步调用与异步调用？" class="headerlink" title="怎么设计Netty的同步调用与异步调用？"></a>怎么设计Netty的同步调用与异步调用？</h4><p>掌握CountDownLatch和（限流）</p>
-<h4 id="万一NameServer都被重启过，那producer或者consumer调用getTopicRouteInfo，信息从何而来？"><a href="#万一NameServer都被重启过，那producer或者consumer调用getTopicRouteInfo，信息从何而来？" class="headerlink" title="万一NameServer都被重启过，那producer或者consumer调用getTopicRouteInfo，信息从何而来？"></a>万一NameServer都被重启过，那producer或者consumer调用getTopicRouteInfo，信息从何而来？</h4><ol>
-<li>UpdateRouteInfo应该会上传一个新的Topic的信息。</li>
-</ol>
-<h4 id="RocketMQ落盘是异步-定时的，还是就异步的？"><a href="#RocketMQ落盘是异步-定时的，还是就异步的？" class="headerlink" title="RocketMQ落盘是异步+定时的，还是就异步的？"></a>RocketMQ落盘是异步+定时的，还是就异步的？</h4><p>异步+定时，时间默认为500ms。</p>
-<p>Client向broker pull message 都是以一个一个queue为单位的。processQueueTable代表，这里面的queue正在源源不断向broker请求数据中。而broker的queue的数量是可能发生变化的，所以，要时常对processQueueTable进行必要的整理。</p>
-<p>一个Subscription对应一次rebalance调用，一般的情况是n个topic+1个Retry topic。每一次rebalance调用，都会对当前的topic分配broker中的MQ队列，如果分到n个，那个生成n个PullRequest。</p>
-<p>RebalanceServer生成 PullRequest 会调用PullMessageService 放入 PullRequest的pullRequestQueue中，PullMessageService从pullRequestQueue队列中take出PullRequest，异步调用Netty。当网络将数据传输回来时，调用PullCallback中的ConsumeMessageService，遍历所有原始消费，对每个消息，生成一个ConsumeRequest，开启多线程进行消费。消费时，返回值怎么处理？比如 Re-consume-later, success。客户端开启一个线程定时去更新Broker的consumerOffset。</p>
-<h4 id="为什么一旦有producer发送了消息，consumer会几乎无延迟得立刻收到消息？"><a href="#为什么一旦有producer发送了消息，consumer会几乎无延迟得立刻收到消息？" class="headerlink" title="为什么一旦有producer发送了消息，consumer会几乎无延迟得立刻收到消息？"></a>为什么一旦有producer发送了消息，consumer会几乎无延迟得立刻收到消息？</h4><p>首先网络层，和基于事件编程的Netty有关。跟网络有关，网络收到数据后，立刻进入回调代码。ReputService空轮询有关。</p>
-<p>技巧</p>
-<ol>
-<li>充分利用作者写好的单元测试，对原理的掌握会有帮助</li>
-<li>RocketMQ有太多的事情是用 （短时间）定时+唤醒 的方式异步执行的，想要更好得了解原理，最好把定时的时间改得大一点，这样多线程的调试会好做很多。</li>
-</ol>
-<p>未解决问题：</p>
-<h4 id="Broker里面的protectBroker是用来做什么的？"><a href="#Broker里面的protectBroker是用来做什么的？" class="headerlink" title="Broker里面的protectBroker是用来做什么的？"></a>Broker里面的protectBroker是用来做什么的？</h4><h4 id="CommitLog和ConsumerQueue这两个文件的读写是顺序的么？效率怎么样？"><a href="#CommitLog和ConsumerQueue这两个文件的读写是顺序的么？效率怎么样？" class="headerlink" title="CommitLog和ConsumerQueue这两个文件的读写是顺序的么？效率怎么样？"></a>CommitLog和ConsumerQueue这两个文件的读写是顺序的么？效率怎么样？</h4><h4 id="RocketMQ在哪几种情况下，可能会出现消息重复的问题？"><a href="#RocketMQ在哪几种情况下，可能会出现消息重复的问题？" class="headerlink" title="RocketMQ在哪几种情况下，可能会出现消息重复的问题？"></a>RocketMQ在哪几种情况下，可能会出现消息重复的问题？</h4><ol>
-<li>一个consume_group一开始订阅了*tag，之后加了具体的，会发生什么。</li>
-</ol>
-<h4 id="afka的发送消息性能非常高，常用于日志缓冲，是不是用「Oneway」的方式？不然producer发送请求，broker处理请求，producer接受响应，这三段的时间是无论如何都无法缩减的。"><a href="#afka的发送消息性能非常高，常用于日志缓冲，是不是用「Oneway」的方式？不然producer发送请求，broker处理请求，producer接受响应，这三段的时间是无论如何都无法缩减的。" class="headerlink" title="afka的发送消息性能非常高，常用于日志缓冲，是不是用「Oneway」的方式？不然producer发送请求，broker处理请求，producer接受响应，这三段的时间是无论如何都无法缩减的。"></a>afka的发送消息性能非常高，常用于日志缓冲，是不是用「Oneway」的方式？不然producer发送请求，broker处理请求，producer接受响应，这三段的时间是无论如何都无法缩减的。</h4><h4 id="RocketMQ的事务消息是什么？"><a href="#RocketMQ的事务消息是什么？" class="headerlink" title="RocketMQ的事务消息是什么？"></a>RocketMQ的事务消息是什么？</h4><p>看到一段描述很有趣，当发送了分布式事务消息时，如果Producer因为意外宕机，Broker会回调Producer Group的另一一台Producer来确认事务状态。</p>
-<ol>
-<li>Commit Log 中存储了所有的元信息，包含消息体，类似于 Mysql、Oracle 的 redolog，所以只要有 Commit<br>Log 在，Consume Queue 即使数据丢失，仍然可以恢复出来。怎么理解？</li>
-<li>在Broker的SendMessageProcessor中，主干线程中只做了一件事，那就是把最新的消息Append到CommitLog中，并且通知Flush线程去force() mmap。所以，构建ConsumeQueue，构建索引这些事情都是异步的，那好像也没有看到通知这些线程，究竟是在哪里通知的呢？ Dispatcher（调度器）ReputMessageService。</li>
-</ol>
-<h4 id="Debug形式启动Producer，Producer发送消息，断点停止后，Producer发送消息会超时失败3次，但此时如果松开断点，让他执行完，那消息是在CommitLog中呢，还是不在？"><a href="#Debug形式启动Producer，Producer发送消息，断点停止后，Producer发送消息会超时失败3次，但此时如果松开断点，让他执行完，那消息是在CommitLog中呢，还是不在？" class="headerlink" title="Debug形式启动Producer，Producer发送消息，断点停止后，Producer发送消息会超时失败3次，但此时如果松开断点，让他执行完，那消息是在CommitLog中呢，还是不在？"></a>Debug形式启动Producer，Producer发送消息，断点停止后，Producer发送消息会超时失败3次，但此时如果松开断点，让他执行完，那消息是在CommitLog中呢，还是不在？</h4><h4 id="MQ在关闭的时候，CommitLog的内容和ConsumeQueue的内容需要能对上号的，但万一异常关闭导致没有对上号，应该怎么处理？CheckPoint机制有没有用？"><a href="#MQ在关闭的时候，CommitLog的内容和ConsumeQueue的内容需要能对上号的，但万一异常关闭导致没有对上号，应该怎么处理？CheckPoint机制有没有用？" class="headerlink" title="MQ在关闭的时候，CommitLog的内容和ConsumeQueue的内容需要能对上号的，但万一异常关闭导致没有对上号，应该怎么处理？CheckPoint机制有没有用？"></a>MQ在关闭的时候，CommitLog的内容和ConsumeQueue的内容需要能对上号的，但万一异常关闭导致没有对上号，应该怎么处理？CheckPoint机制有没有用？</h4><h4 id="一个消息已经消费过了，能在控制台上选择进行重复投递么？"><a href="#一个消息已经消费过了，能在控制台上选择进行重复投递么？" class="headerlink" title="一个消息已经消费过了，能在控制台上选择进行重复投递么？"></a>一个消息已经消费过了，能在控制台上选择进行重复投递么？</h4><p>可以。</p>
-<h4 id="Page-Cache到底是个什么东西？"><a href="#Page-Cache到底是个什么东西？" class="headerlink" title="Page Cache到底是个什么东西？"></a>Page Cache到底是个什么东西？</h4><h4 id="对于不可读的Consume-Queue，Consumer-rebalance时会不会考虑到？"><a href="#对于不可读的Consume-Queue，Consumer-rebalance时会不会考虑到？" class="headerlink" title="对于不可读的Consume Queue，Consumer rebalance时会不会考虑到？"></a>对于不可读的Consume Queue，Consumer rebalance时会不会考虑到？</h4><p>如果没有考虑到，那不可读的队列也分给了Consumer，造成Consumer的浪费。看过源码了，没有问题。</p>
-<h4 id="topic中有readQ-writeQ-那topic本身的权限是用来做什么的？"><a href="#topic中有readQ-writeQ-那topic本身的权限是用来做什么的？" class="headerlink" title="topic中有readQ, writeQ, 那topic本身的权限是用来做什么的？"></a>topic中有readQ, writeQ, 那topic本身的权限是用来做什么的？</h4><h4 id="多个namesrv不一致问题"><a href="#多个namesrv不一致问题" class="headerlink" title="多个namesrv不一致问题"></a>多个namesrv不一致问题</h4><h4 id="如果某个topic的consume-queue上有数据，那设置可读可写队列为0后，数据是不是读不到了。（我知道不会丢失）"><a href="#如果某个topic的consume-queue上有数据，那设置可读可写队列为0后，数据是不是读不到了。（我知道不会丢失）" class="headerlink" title="如果某个topic的consume queue上有数据，那设置可读可写队列为0后，数据是不是读不到了。（我知道不会丢失）"></a>如果某个topic的consume queue上有数据，那设置可读可写队列为0后，数据是不是读不到了。（我知道不会丢失）</h4><h4 id="写Consume-queue完全是一个单线程DefaultMessageStore-ReputMessageService中，那就没有锁竞争了，一个Topic到底放多少个队列效率达到最高，是越少越好，还是越多越好？"><a href="#写Consume-queue完全是一个单线程DefaultMessageStore-ReputMessageService中，那就没有锁竞争了，一个Topic到底放多少个队列效率达到最高，是越少越好，还是越多越好？" class="headerlink" title="写Consume queue完全是一个单线程DefaultMessageStore.ReputMessageService中，那就没有锁竞争了，一个Topic到底放多少个队列效率达到最高，是越少越好，还是越多越好？"></a>写Consume queue完全是一个单线程DefaultMessageStore.ReputMessageService中，那就没有锁竞争了，一个Topic到底放多少个队列效率达到最高，是越少越好，还是越多越好？</h4><h4 id="namesrv是无状态的，可以随意部署，但Broker启动后怎么是怎么知道新增加的namesrv的？"><a href="#namesrv是无状态的，可以随意部署，但Broker启动后怎么是怎么知道新增加的namesrv的？" class="headerlink" title="namesrv是无状态的，可以随意部署，但Broker启动后怎么是怎么知道新增加的namesrv的？"></a>namesrv是无状态的，可以随意部署，但Broker启动后怎么是怎么知道新增加的namesrv的？</h4><h4 id="如果发送了某个topic的某个tag的消息，那订阅了该topic的consumer是有可能过滤掉该tag的信息的。那怎么样才能知道该消息是“订阅了，被过滤了”的状态呢？"><a href="#如果发送了某个topic的某个tag的消息，那订阅了该topic的consumer是有可能过滤掉该tag的信息的。那怎么样才能知道该消息是“订阅了，被过滤了”的状态呢？" class="headerlink" title="如果发送了某个topic的某个tag的消息，那订阅了该topic的consumer是有可能过滤掉该tag的信息的。那怎么样才能知道该消息是“订阅了，被过滤了”的状态呢？"></a>如果发送了某个topic的某个tag的消息，那订阅了该topic的consumer是有可能过滤掉该tag的信息的。那怎么样才能知道该消息是“订阅了，被过滤了”的状态呢？</h4><h4 id="ConsumerQueue文件删除了，能够复原么？原理"><a href="#ConsumerQueue文件删除了，能够复原么？原理" class="headerlink" title="ConsumerQueue文件删除了，能够复原么？原理"></a>ConsumerQueue文件删除了，能够复原么？原理</h4><h4 id="index-file删除了，能够复原么？原理"><a href="#index-file删除了，能够复原么？原理" class="headerlink" title="index file删除了，能够复原么？原理"></a>index file删除了，能够复原么？原理</h4><h4 id="ReputMessageService中空转监听是Commitog的offset，当有新的消息时，先是构建consume-queue，然后通知PullMessageHoldService，那整个过程在哪里对消息进行过滤，过滤用的是tag，consume-queue中也有tag的hash，是不是只需要对比这两个值就好？"><a href="#ReputMessageService中空转监听是Commitog的offset，当有新的消息时，先是构建consume-queue，然后通知PullMessageHoldService，那整个过程在哪里对消息进行过滤，过滤用的是tag，consume-queue中也有tag的hash，是不是只需要对比这两个值就好？" class="headerlink" title="ReputMessageService中空转监听是Commitog的offset，当有新的消息时，先是构建consume queue，然后通知PullMessageHoldService，那整个过程在哪里对消息进行过滤，过滤用的是tag，consume queue中也有tag的hash，是不是只需要对比这两个值就好？"></a>ReputMessageService中空转监听是Commitog的offset，当有新的消息时，先是构建consume queue，然后通知PullMessageHoldService，那整个过程在哪里对消息进行过滤，过滤用的是tag，consume queue中也有tag的hash，是不是只需要对比这两个值就好？</h4><ol>
-<li>如果一个4G的文件用mmap映射到Java的MappedByteBuffer中，是绝对不可能整体加载进内存的。一个ByteBuffer就是一个有限的byte数组，但是，我们理论上可以在这个数组的任何位置（position）对数组进行读和写，然后映射进文件。如果OS能预感到我们的文件是顺序读写的，那么内存到文件的速度会非常快，如果是随机的，OS没法预测下次的读写位置，这样速度会变慢（这部分去查询下）</li>
-<li>PullConsumer：用consumer.pull(MessageQueue mq, String subExpression, long offset, int maxNums)方法去获取Broker的消息，如果第一次offset传了0，获取到了数据，第二次还是传0，还是能获取到数据，是什么原因？Broker的consumerOffset.json为什么不起作用？Pull和Push消费到的点什么时候会被persist到config/consumerOffset.json?详见MQClientInstance.persistAllConsumerOffset会把offsetTable定时发到Broker。</li>
-</ol>
-<h4 id="程序中处理MappedByteBuffer要特别注意些什么？"><a href="#程序中处理MappedByteBuffer要特别注意些什么？" class="headerlink" title="程序中处理MappedByteBuffer要特别注意些什么？"></a>程序中处理MappedByteBuffer要特别注意些什么？</h4><p>A MemoryMappedBuffer has a fixed size, but the file it’s mapped to is elastic.所以一旦当前的程序（或者说当前的线程）对文件的内容失去了独占权，比如文件的内容被其它的线程改了，那原先的线程访问MappedByteBuffer对应位置的缓存就会抛出异常，所以，当我们要用MappedByteBuffer时，一定要确保在多线程下是互斥的。</p>
-<h4 id="RocketMQ发送，接受消息的性能与队列数量的关系。"><a href="#RocketMQ发送，接受消息的性能与队列数量的关系。" class="headerlink" title="RocketMQ发送，接受消息的性能与队列数量的关系。"></a>RocketMQ发送，接受消息的性能与队列数量的关系。</h4><p>可以查看kafka相关的信息。</p>
-<h4 id="如果让你设计一个消息中间件？你会怎么设计？"><a href="#如果让你设计一个消息中间件？你会怎么设计？" class="headerlink" title="如果让你设计一个消息中间件？你会怎么设计？"></a>如果让你设计一个消息中间件？你会怎么设计？</h4><h4 id="如果一个消息没有消费成功，会隔1s-5s-ns重新消费，这个是怎么实现的？"><a href="#如果一个消息没有消费成功，会隔1s-5s-ns重新消费，这个是怎么实现的？" class="headerlink" title="如果一个消息没有消费成功，会隔1s,5s,ns重新消费，这个是怎么实现的？"></a>如果一个消息没有消费成功，会隔1s,5s,ns重新消费，这个是怎么实现的？</h4><h4 id="构建IndexService是否可以做成异步？"><a href="#构建IndexService是否可以做成异步？" class="headerlink" title="构建IndexService是否可以做成异步？"></a>构建IndexService是否可以做成异步？</h4><p>因为它如果卡住，会影响长轮询，从而影响消息接收的实时性。</p>
-<h4 id="Netty线程问题"><a href="#Netty线程问题" class="headerlink" title="Netty线程问题"></a>Netty线程问题</h4><p>netty在触发channelRead0的时候，所用的线程是不是workEventLoopGroup所指定的线程<br>nettyClientWorkerThread</p>
-<h4 id="netty-eventLoopGroup-是什么？"><a href="#netty-eventLoopGroup-是什么？" class="headerlink" title="netty eventLoopGroup 是什么？"></a>netty eventLoopGroup 是什么？</h4><h4 id="网络端口映射"><a href="#网络端口映射" class="headerlink" title="网络端口映射"></a>网络端口映射</h4><p>Server:8080<br>curl ‘localhost:8080’<br>lsof -i:8080</p>
-<h4 id="待解决问题"><a href="#待解决问题" class="headerlink" title="待解决问题"></a>待解决问题</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">org.apache.rocketmq.client.exception.MQClientException: No route info of this topic, binlog-msg</div><div class="line">See http://rocketmq.apache.org/docs/faq/ for further details.</div><div class="line">	at org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl.sendDefaultImpl(DefaultMQProducerImpl.java:537)</div><div class="line">	at org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl.send(DefaultMQProducerImpl.java:1038)</div><div class="line">	at org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl.send(DefaultMQProducerImpl.java:996)</div><div class="line">	at org.apache.rocketmq.client.producer.DefaultMQProducer.send(DefaultMQProducer.java:212)</div><div class="line">	at org.apache.rock</div></pre></td></tr></table></figure>
-<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>2017-10-11 07:21:38 WARN SendMessageThread_1 - Offset for /root/store/commitlog/00000000002147483648 not matched. Request offset: 4051326754958557513, index: -521875234, mappedFileSize: 1073741824, mappedFiles count: 1<br>2017-10-11 07:21:38 WARN SendMessageThread_1 - findMappedFileByOffset failure.<br>java.lang.ArrayIndexOutOfBoundsException: -521875234</p>
-<p>请教：rocketmq的这个异常应该如何解决呢？</p>
-<h4 id="RocketMQ水位线设置"><a href="#RocketMQ水位线设置" class="headerlink" title="RocketMQ水位线设置"></a>RocketMQ水位线设置</h4><p>非常重要</p>
-<h4 id="RocketMQ-业务KEY相同导致哈希冲突"><a href="#RocketMQ-业务KEY相同导致哈希冲突" class="headerlink" title="RocketMQ 业务KEY相同导致哈希冲突"></a>RocketMQ 业务KEY相同导致哈希冲突</h4><h4 id="RocketMQ协议"><a href="#RocketMQ协议" class="headerlink" title="RocketMQ协议"></a>RocketMQ协议</h4><p>RocketMQ LengthBasedField</p>
-<h4 id="MQ系统限流和Flow-Control"><a href="#MQ系统限流和Flow-Control" class="headerlink" title="MQ系统限流和Flow Control"></a>MQ系统限流和Flow Control</h4>
+            <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<p><img src="https://ws3.sinaimg.cn/large/006tNbRwgy1fkfij3xtx8j31kw1514e0.jpg" alt=""></p>
+
           
         
       
@@ -929,7 +906,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/24/Cobar-Reactor-design-pattern/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/11/RocketMQ-Transactional-message/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -938,7 +915,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -948,7 +925,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/07/24/Cobar-Reactor-design-pattern/" itemprop="url">Cobar——Reactor设计模式</a></h1>
+                <a class="post-title-link" href="/2017/10/11/RocketMQ-Transactional-message/" itemprop="url">RocketMQ——事务消息原理分析</a></h1>
         
 
         <div class="post-meta">
@@ -960,8 +937,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-24T18:00:58+08:00">
-                2017-07-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-11T16:27:43+08:00">
+                2017-10-11
               </time>
             
 
@@ -1000,13 +977,506 @@
       
         
           
-            <h3 id="I-O多路复用技术（multiplexing）是什么？"><a href="#I-O多路复用技术（multiplexing）是什么？" class="headerlink" title="I/O多路复用技术（multiplexing）是什么？"></a>I/O多路复用技术（multiplexing）是什么？</h3><p>引用下别人的言论：</p>
-<p>作者：郭春阳<br>链接：<a href="https://www.zhihu.com/question/28594409/answer/52835876" target="_blank" rel="external">https://www.zhihu.com/question/28594409/answer/52835876</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-<p>下面举一个例子，模拟一个tcp服务器处理30个客户socket。假设你是一个老师，让30个学生解答一道题目，然后检查学生做的是否正确，你有下面几个选择：1. 第一种选择：按顺序逐个检查，先检查A，然后是B，之后是C、D。。。这中间如果有一个学生卡主，全班都会被耽误。这种模式就好比，你用循环挨个处理socket，根本不具有并发能力。2. 第二种选择：你创建30个分身，每个分身检查一个学生的答案是否正确。 这种类似于为每一个用户创建一个进程或者线程处理连接。3. 第三种选择，你站在讲台上等，谁解答完谁举手。这时C、D举手，表示他们解答问题完毕，你下去依次检查C、D的答案，然后继续回到讲台上等。此时E、A又举手，然后去处理E和A。。。 这种就是IO复用模型，Linux下的select、poll和epoll就是干这个的。将用户socket对应的fd注册进epoll，然后epoll帮你监听哪些socket上有消息到达，这样就避免了大量的无用操作。此时的socket应该采用非阻塞模式。这样，整个过程只在调用select、poll、epoll这些调用的时候才会阻塞，收发客户消息是不会阻塞的，整个进程或者线程就被充分利用起来，这就是事件驱动，所谓的reactor模式。</p>
-<h3 id="demultiplexing"><a href="#demultiplexing" class="headerlink" title="demultiplexing"></a>demultiplexing</h3><p><a href="http://www.dre.vanderbilt.edu/~schmidt/PDF/reactor-siemens.pdf" target="_blank" rel="external">http://www.dre.vanderbilt.edu/~schmidt/PDF/reactor-siemens.pdf</a></p>
-<p><img src="/2017/07/24/Cobar-Reactor-design-pattern/CobarReactorSign.gif" alt=""></p>
-<h3 id="NIO原生API"><a href="#NIO原生API" class="headerlink" title="NIO原生API"></a>NIO原生API</h3><p><img src="/2017/07/24/Cobar-Reactor-design-pattern/NioRegister.gif" alt=""></p>
-<h3 id="Cobar-NIO-Server线程模型"><a href="#Cobar-NIO-Server线程模型" class="headerlink" title="Cobar NIO Server线程模型"></a>Cobar NIO Server线程模型</h3><p><img src="/2017/07/24/Cobar-Reactor-design-pattern/CobarReactor.gif" alt=""></p>
+            <p><a href="https://help.aliyun.com/document_detail/43348.html?spm=5176.doc43490.6.566.Zd5Bl7" target="_blank" rel="external">https://help.aliyun.com/document_detail/43348.html?spm=5176.doc43490.6.566.Zd5Bl7</a></p>
+<p><img src="/2017/10/11/RocketMQ-Transactional-message/transaction_rocketmq.gif" alt="你想输入的替代文字"></p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>producer发送half msg时，broker如果当它是一条普通的消息，那consumer会立刻在long pooling中收到，但实现是不会收到的，是在哪一个环节设置的。<br>事务消息，提交（COMMIT）后才生成 ConsumeQueue<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommitLogDispatcherBuildConsumeQueue</span> <span class="keyword">implements</span> <span class="title">CommitLogDispatcher</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatch</span><span class="params">(DispatchRequest request)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> tranType = MessageSysFlag.getTransactionValue(request.getSysFlag());</div><div class="line">        <span class="keyword">switch</span> (tranType) &#123;</div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_NOT_TYPE:</div><div class="line">            <span class="comment">// 虽然所有的状态都会存储到commit log中，只有 TRANSACTION_COMMIT_TYPE 状态才会构建consume queue</span></div><div class="line">            <span class="comment">// 也就是说让consumer进行消费</span></div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_COMMIT_TYPE:</div><div class="line">                DefaultMessageStore.<span class="keyword">this</span>.putMessagePositionInfo(request);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_PREPARED_TYPE:</div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_ROLLBACK_TYPE:</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/" itemprop="url">Cobar——用分布式锁增强Cobar在集群环境的数据源切换</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-09T17:31:06+08:00">
+                2017-10-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Cobar集群部署时是无状态的，只是集群中会相互发送对等的心跳让每一台Cobar都保存完整集群列表。但网络存在的情况是非常复杂的。</p>
+<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。</p>
+<p><img src="/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/sign.gif" alt=""></p>
+<p><img src="/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/normal.gif" alt=""></p>
+<p>CobarA和CobarB初始启动后，后端的数据源都指向MySQL1-4。如果CobarA和MySQL_2之间的网络抖了下，但CobarB和MySQL_2的网络没有抖动。于是CobarA切到了MySQL_6上，CobarB还是在MySQL_2上。</p>
+<p><img src="/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/abnormal.gif" alt=""></p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>Cobar_B上执行insert，Cobar_A上执行select，binlog需要时间</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/28/Curator-Distributed-lock/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/28/Curator-Distributed-lock/" itemprop="url">curator——分布式锁的实现之一</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-28T16:58:05+08:00">
+                2017-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>MySQL实现</li>
+<li>Redis</li>
+<li>ZooKeeper</li>
+<li>RedLock</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InterProcessMutexTest</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String LOCK_PATH = <span class="string">"/curator-kick-off/lock"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> CuratorFramework client;</div><div class="line"></div><div class="line">    <span class="meta">@BeforeClass</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</div><div class="line">        client = CuratorFrameworkFactory.newClient(</div><div class="line">                <span class="string">"127.0.0.1:2181"</span>,</div><div class="line">                <span class="number">1000</span> * <span class="number">10</span>,</div><div class="line">                <span class="number">3000</span>, <span class="keyword">new</span> ExponentialBackoffRetry(</div><div class="line">                        <span class="number">1000</span>,</div><div class="line">                        <span class="number">3</span>));</div><div class="line">        client.start();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        InterProcessMutex lock = <span class="keyword">new</span> InterProcessMutex(client, LOCK_PATH);</div><div class="line">        <span class="keyword">boolean</span> acquire = lock.acquire(<span class="number">5</span>, TimeUnit.SECONDS);</div><div class="line">        System.out.println(acquire);</div><div class="line">        System.out.println(<span class="string">"done"</span>);</div><div class="line">        lock.release();</div><div class="line">        System.in.read();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/25/RocketMQ-Consumer-rebalance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/25/RocketMQ-Consumer-rebalance/" itemprop="url">RocketMQ——Consumer Rebalance 原理分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-25T16:58:43+08:00">
+                2017-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/20/RocketMQ-Pull-message-with-long-polling/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/20/RocketMQ-Pull-message-with-long-polling/" itemprop="url">RocketMQ——高性能PullRequest秘籍之长轮询(长轮询)原理分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-20T16:58:52+08:00">
+                2017-09-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>分成两部分，Client和Broker</p>
+<h3 id="Client"><a href="#Client" class="headerlink" title="Client:"></a>Client:</h3><h3 id="Broker"><a href="#Broker" class="headerlink" title="Broker:"></a>Broker:</h3><p>首先PullMessageProcessor用相应的线程池调用processRequest，去ConsumerQueue中找消息，<br>如果找到了，没有什么好说的，直接用Netty模块将数据写进相应的channel，客户端获取到了数据后进行并行消费；<br>如果没有消息，那么将当前的pullRequest放入PullRequestHoldService的pullRequestTable进行suspend。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">case</span> ResponseCode.PULL_NOT_FOUND:</div><div class="line">    <span class="keyword">if</span> (brokerAllowSuspend &amp;&amp; hasSuspendFlag) &#123;</div><div class="line">        <span class="keyword">long</span> pollingTimeMills = suspendTimeoutMillisLong;</div><div class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.brokerController.getBrokerConfig().isLongPollingEnable()) &#123;</div><div class="line">            pollingTimeMills = <span class="keyword">this</span>.brokerController.getBrokerConfig().getShortPollingTimeMills();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        String topic = requestHeader.getTopic();</div><div class="line">        <span class="keyword">long</span> offset = requestHeader.getQueueOffset();</div><div class="line">        <span class="keyword">int</span> queueId = requestHeader.getQueueId();</div><div class="line">        PullRequest pullRequest = <span class="keyword">new</span> PullRequest(request, channel, pollingTimeMills,</div><div class="line">            <span class="keyword">this</span>.brokerController.getMessageStore().now(), offset, subscriptionData, messageFilter);</div><div class="line">        <span class="keyword">this</span>.brokerController.getPullRequestHoldService().suspendPullRequest(topic, queueId, pullRequest);</div><div class="line">        <span class="comment">// 此处将repsonse设置为null，remote-server将不会给对应的channel发送响应信息。那响应的信息何时发送，有两种情况：</span></div><div class="line">        <span class="comment">// 1. PullRequestHoldService hold了足够的时间后</span></div><div class="line">        <span class="comment">// 2. 有新的信息被发送至队列后</span></div><div class="line">        response = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>那么，消息刷入CommitLog后，怎么样让这个Hold住的PullRequest感知到消息的到来？<br>答案是，DefaultMessageStore.ReputMessageService线程。<br>ReputMessageService开启时就进行了一个近实时的空循环(Busy Spin)，不释放CPU进行等待事件<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span> (!<span class="keyword">this</span>.isStopped()) &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        Thread.sleep(<span class="number">1</span>);</div><div class="line">        <span class="keyword">this</span>.doReput();</div><div class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">        DefaultMessageStore.log.warn(<span class="keyword">this</span>.getServiceName() + <span class="string">" service has exception. "</span>, e);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>检测CommitLog中的MaxOffset是否在变大，变大了说明有新的消息已经存进了CommitLog，紧接着构建一个dispatchRequest，再让DefaultMessageStore调用doDispatch(dispatchRequest)，<br>该方法并没有开启新的线程，一个做了几件事情，<br>第一，将新的消息刷入consumerQueue，最小2页，作用也非常明显，到时候要获取一个消息，consumerQueue可以用logicOffset定位到CommitLog的PhyicOffset，是一个无法或缺的索引，<br>第二，将新的消息写入index file用于后续更加复杂的查询，<br>第三，计算bitmap。当doDispatch顺利执行完后。</p>
+<p>重点来了，之后触发messageArrivingListener的arriving方法，让pullRequestHoldService调用notifyMessageArriving，<br>开启新的线程再一次让PullMessageProcessor调用processRequest来处理原来的那个pullRequest，但此时由于consumerQueue已经构建好了，所以会正常获取到消息，正常用netty模块进行一个对client的应答。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 用一个接近空轮询</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doReput</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">boolean</span> doNext = <span class="keyword">true</span>; <span class="keyword">this</span>.isCommitLogAvailable() &amp;&amp; doNext; ) &#123;</div><div class="line">        ...</div><div class="line">        SelectMappedBufferResult result = DefaultMessageStore.<span class="keyword">this</span>.commitLog.getData(reputFromOffset);</div><div class="line">        ...</div><div class="line">        <span class="keyword">this</span>.reputFromOffset = result.getStartOffset();</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> readSize = <span class="number">0</span>; readSize &lt; result.getSize() &amp;&amp; doNext; ) &#123;</div><div class="line">            DispatchRequest dispatchRequest =</div><div class="line">                DefaultMessageStore.<span class="keyword">this</span>.commitLog.checkMessageAndReturnSize(result.getByteBuffer(), <span class="keyword">false</span>, <span class="keyword">false</span>);</div><div class="line">            <span class="keyword">int</span> size = dispatchRequest.getMsgSize();</div><div class="line">            ...</div><div class="line">            <span class="keyword">if</span> (size &gt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="comment">// dispatch到构建consumerQueue和index file的调度器中</span></div><div class="line">                DefaultMessageStore.<span class="keyword">this</span>.doDispatch(dispatchRequest);</div><div class="line">                </div><div class="line">                <span class="keyword">if</span> (BrokerRole.SLAVE != DefaultMessageStore.<span class="keyword">this</span>.getMessageStoreConfig().getBrokerRole()</div><div class="line">                    &amp;&amp; DefaultMessageStore.<span class="keyword">this</span>.brokerConfig.isLongPollingEnable()) &#123;</div><div class="line">                    <span class="comment">// 通知suspend pullRequest的PullRequestHoldService解除对pullRequest的hold</span></div><div class="line">                    DefaultMessageStore.<span class="keyword">this</span>.messageArrivingListener.arriving(dispatchRequest.getTopic(),</div><div class="line">                        dispatchRequest.getQueueId(), dispatchRequest.getConsumeQueueOffset() + <span class="number">1</span>,</div><div class="line">                        dispatchRequest.getTagsCode(), dispatchRequest.getStoreTimestamp(),</div><div class="line">                        dispatchRequest.getBitMap(), dispatchRequest.getPropertiesMap());</div><div class="line">                &#125;</div><div class="line"></div><div class="line">            &#125; </div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>整个过程时序图</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tKfTcgy1fkeelo8oxpj30za0g2adr.jpg" alt=""></p>
 
           
         
@@ -1046,7 +1516,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1084,7 +1554,7 @@
                alt="Eric Fei" />
           <p class="site-author-name" itemprop="name">Eric Fei</p>
            
-              <p class="site-description motion-element" itemprop="description">费红健的原创笔记 <br> 能用代码或者作图来说明问题，绝不废话</p>
+              <p class="site-description motion-element" itemprop="description">费红健的笔记 <br> 能用代码或者作图来说明问题，绝不废话</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -1092,7 +1562,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">50</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1105,7 +1575,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1283,6 +1753,323 @@
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 

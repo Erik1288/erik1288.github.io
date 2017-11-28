@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[Linux-Mmap]]></title>
+    <url>%2F2017%2F11%2F20%2FLinux-Mmap%2F</url>
+    <content type="text"><![CDATA[http://xiaoz5919.iteye.com/blog/2093323]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Netty-ChannelOption]]></title>
+    <url>%2F2017%2F11%2F20%2FNetty-ChannelOption%2F</url>
+    <content type="text"><![CDATA[在用netty作为底层网络通信的时候关于ChannelOption的参数让我一直模糊不清楚，于是去看一下linux网络编程，发现ChannelOption的各种属性在套接字选项中都有对应 下面简单的总结一下ChannelOption的含义已及使用的场景 1、ChannelOption.SO_BACKLOG ChannelOption.SO_BACKLOG对应的是tcp/ip协议listen函数中的backlog参数，函数listen(int socketfd,int backlog)用来初始化服务端可连接队列， 服务端处理客户端连接请求是顺序处理的，所以同一时间只能处理一个客户端连接，多个客户端来的时候，服务端将不能处理的客户端连接请求放在队列中等待处理，backlog参数指定了队列的大小 2、ChannelOption.SO_REUSEADDR ChanneOption.SO_REUSEADDR对应于套接字选项中的SO_REUSEADDR，这个参数表示允许重复使用本地地址和端口， 比如，某个服务器进程占用了TCP的80端口进行监听，此时再次监听该端口就会返回错误，使用该参数就可以解决问题，该参数允许共用该端口，这个在服务器程序中比较常使用， 比如某个进程非正常退出，该程序占用的端口可能要被占用一段时间才能允许其他进程使用，而且程序死掉以后，内核一需要一定的时间才能够释放此端口，不设置SO_REUSEADDR 就无法正常使用该端口。 3、ChannelOption.SO_KEEPALIVE Channeloption.SO_KEEPALIVE参数对应于套接字选项中的SO_KEEPALIVE，该参数用于设置TCP连接，当设置该选项以后，连接会测试链接的状态，这个选项用于可能长时间没有数据交流的 连接。当设置该选项以后，如果在两小时内没有数据的通信时，TCP会自动发送一个活动探测数据报文。 4、ChannelOption.SO_SNDBUF和ChannelOpSNDBUF和ChannelOptiontion.SO_RCVBUF ChannelOption.SO_SNDBUF参数对应于套接字选项中的SO_SNDBUF，ChannelOption.SO_RCVBUF参数对应于套接字选项中的SO_RCVBUF这两个参数用于操作接收缓冲区和发送缓冲区 的大小，接收缓冲区用于保存网络协议站内收到的数据，直到应用程序读取成功，发送缓冲区用于保存发送数据，直到发送成功。 5、ChannelOption.SO_LINGER ChannelOption.SO_LINGER参数对应于套接字选项中的SO_LINGER,Linux内核默认的处理方式是当用户调用close（）方法的时候，函数返回，在可能的情况下，尽量发送数据，不一定保证 会发生剩余的数据，造成了数据的不确定性，使用SO_LINGER可以阻塞close()的调用时间，直到数据完全发送 6、ChannelOption.TCP_NODELAY ChannelOption.TCP_NODELAY参数对应于套接字选项中的TCP_NODELAY,该参数的使用与Nagle算法有关 Nagle算法是将小的数据包组装为更大的帧然后进行发送，而不是输入一次发送一次,因此在数据包不足的时候会等待其他数据的到了，组装成大的数据包进行发送，虽然该方式有效提高网络的有效 负载，但是却造成了延时，而该参数的作用就是禁止使用Nagle算法，使用于小数据即时传输，于TCP_NODELAY相对应的是TCP_CORK，该选项是需要等到发送的数据量最大的时候，一次性发送 数据，适用于文件传输。 http://budairenqin.iteye.com/blog/2215899大神的文章]]></content>
+      <tags>
+        <tag>Netty</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Interview-Questions]]></title>
+    <url>%2F2017%2F11%2F20%2FInterview-Questions%2F</url>
+    <content type="text"><![CDATA[如果让你设计一个异步调用的服务，你会注意些什么？异步结果（Future &amp; Promise）设计异步没有被调用者的反馈（Feed Back），如果没有限流，将会被调用垮掉]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Kafka-FAQ]]></title>
+    <url>%2F2017%2F11%2F17%2FKafka-FAQ%2F</url>
+    <content type="text"><![CDATA[Kafka写CommitLog时用了什么锁机制? sync;lock-free;reentrant lock 第九课. Kafka高性能之道 9.1 顺序写磁盘 9.2 零拷贝 9.3 批处理 9.4 基于ISR的动态平衡一致性算法]]></content>
+      <tags>
+        <tag>Kafka</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Linux-Zero-Copy]]></title>
+    <url>%2F2017%2F11%2F16%2FLinux-Zero-Copy%2F</url>
+    <content type="text"><![CDATA[如今的系统，感觉没有用到 Zero copy 都不好意思拿出手 参考资料https://www.ibm.com/developerworks/library/j-zerocopy/http://www.cnblogs.com/zemliu/p/3695549.html]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Distributed-Consensus-Raft]]></title>
+    <url>%2F2017%2F11%2F15%2FDistributed-Consensus-Raft%2F</url>
+    <content type="text"><![CDATA[https://zhuanlan.zhihu.com/p/27910576http://thesecretlivesofdata.com/raft/ 不想当将军的兵不是好兵将军永远想独裁为了生存，要隐忍]]></content>
+      <tags>
+        <tag>Raft</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Netty-Buffer-Allocator]]></title>
+    <url>%2F2017%2F11%2F15%2FNetty-Buffer-Allocator%2F</url>
+    <content type="text"></content>
+      <tags>
+        <tag>Netty</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[OS-Kernel-space-and-User-space]]></title>
+    <url>%2F2017%2F11%2F14%2FLinux-Kernel-space-and-User-space%2F</url>
+    <content type="text"><![CDATA[http://www.cnblogs.com/Anker/p/3269106.html]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Kafka——高速低延时之秘诀「Page Cache」]]></title>
+    <url>%2F2017%2F11%2F12%2FKafka-High-performance-design-with-pagecache%2F</url>
+    <content type="text"><![CDATA[一切的秘密，都在下面的几篇文章中 http://blog.csdn.net/tototuzuoquan/article/details/73437890 http://www.jianshu.com/p/eba0067b1e1a大神作者 https://tech.meituan.com/kafka-fs-design-theory.html java.nio.channels.FileChannelpublic abstract void force(boolean metaData) throws java.io.IOExceptionForces any updates to this channel’s file to be written to the storage device that contains it.If this channel’s file resides on a local storage device then when this method returns it is guaranteed that all changes made to the file since this channel was created, or since this method was last invoked, will have been written to that device. This is useful for ensuring that critical information is not lost in the event of a system crash.If the file does not reside on a local device then no such guarantee is made.The metaData parameter can be used to limit the number of I/O operations that this method is required to perform. Passing false for this parameter indicates that only updates to the file’s content need be written to storage; passing true indicates that updates to both the file’s content and metadata must be written, which generally requires at least one more I/O operation. Whether this parameter actually has any effect is dependent upon the underlying operating system and is therefore unspecified.Invoking this method may cause an I/O operation to occur even if the channel was only opened for reading. Some operating systems, for example, maintain a last-access time as part of a file’s metadata, and this time is updated whenever the file is read. Whether or not this is actually done is system-dependent and is therefore unspecified.This method is only guaranteed to force changes that were made to this channel’s file via the methods defined in this class. It may or may not force changes that were made by modifying the content of a mapped byte buffer obtained by invoking the map method. Invoking the force method of the mapped byte buffer will force changes made to the buffer’s content to be written. java.nio.MappedByteBufferpublic final MappedByteBuffer force()Forces any changes made to this buffer’s content to be written to the storage device containing the mapped file.If the file mapped into this buffer resides on a local storage device then when this method returns it is guaranteed that all changes made to the buffer since it was created, or since this method was last invoked, will have been written to that device.If the file does not reside on a local device then no such guarantee is made.If this buffer was not mapped in read/write mode (java.nio.channels.FileChannel.MapMode.READ_WRITE) then invoking this method has no effect. Don’t fear the filesystem!Kafka relies heavily on the filesystem for storing and caching messages. There is a general perception that “disks are slow” which makes people skeptical that a persistent structure can offer competitive performance. In fact disks are both much slower and much faster than people expect depending on how they are used; and a properly designed disk structure can often be as fast as the network. The key fact about disk performance is that the throughput of hard drives has been diverging from the latency of a disk seek for the last decade. As a result the performance of linear writes on a JBOD configuration with six 7200rpm SATA RAID-5 array is about 600MB/sec but the performance of random writes is only about 100k/sec—a difference of over 6000X. These linear reads and writes are the most predictable of all usage patterns, and are heavily optimized by the operating system. A modern operating system provides read-ahead and write-behind techniques that prefetch data in large block multiples and group smaller logical writes into large physical writes. A further discussion of this issue can be found in this ACM Queue article; they actually find that sequential disk access can in some cases be faster than random memory access! To compensate for this performance divergence, modern operating systems have become increasingly aggressive in their use of main memory for disk caching. A modern OS will happily divert all free memory to disk caching with little performance penalty when the memory is reclaimed. All disk reads and writes will go through this unified cache. This feature cannot easily be turned off without using direct I/O, so even if a process maintains an in-process cache of the data, this data will likely be duplicated in OS pagecache, effectively storing everything twice. Furthermore, we are building on top of the JVM, and anyone who has spent any time with Java memory usage knows two things: The memory overhead of objects is very high, often doubling the size of the data stored (or worse).Java garbage collection becomes increasingly fiddly and slow as the in-heap data increases.As a result of these factors using the filesystem and relying on pagecache is superior to maintaining an in-memory cache or other structure—we at least double the available cache by having automatic access to all free memory, and likely double again by storing a compact byte structure rather than individual objects. Doing so will result in a cache of up to 28-30GB on a 32GB machine without GC penalties. Furthermore, this cache will stay warm even if the service is restarted, whereas the in-process cache will need to be rebuilt in memory (which for a 10GB cache may take 10 minutes) or else it will need to start with a completely cold cache (which likely means terrible initial performance). This also greatly simplifies the code as all logic for maintaining coherency between the cache and filesystem is now in the OS, which tends to do so more efficiently and more correctly than one-off in-process attempts. If your disk usage favors linear reads then read-ahead is effectively pre-populating this cache with useful data on each disk read. This suggests a design which is very simple: rather than maintain as much as possible in-memory and flush it all out to the filesystem in a panic when we run out of space, we invert that. All data is immediately written to a persistent log on the filesystem without necessarily flushing to disk. In effect this just means that it is transferred into the kernel’s pagecache. This style of pagecache-centric design is described in an article on the design of Varnish here (along with a healthy dose of arrogance). sendfilesendfile() copies data between one file descriptor and another. Because this copying is done within the kernel, sendfile() is moreefficient than the combination of read(2) and write(2), which wouldrequire transferring data to and from user space. conventional read and write]]></content>
+      <tags>
+        <tag>Kafka</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SourceCode-Map]]></title>
+    <url>%2F2017%2F11%2F12%2FSourceCode-Map%2F</url>
+    <content type="text"><![CDATA[http://www.importnew.com/26049.htmlConcurrentHashMap http://pettyandydog.com/2016/08/28/HashMap_infinite_loop/#moreHashMap HashMap HashMap的工作原理是什么内部的数据结构是什么HashMap 的 table的容量如何确定？loadFactor 是什么？ 该容量如何变化？这种变化会带来什么问题？HashMap 实现的数据结构是什么？如何实现HashMap 和 HashTable、ConcurrentHashMap 的区别HashMap的遍历方式及效率HashMap、LinkedMap、TreeMap的区别如何决定选用HashMap还是TreeMap如果HashMap的大小超过了负载因子(load factor)定义的容量，怎么办HashMap 是线程安全的吗？并发下使用的 Map 是什么，它们内部原理分别是什么，比如存储方式、 hashcode、扩容、 默认容量等]]></content>
+      <tags>
+        <tag>SourceCode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JVM-CAS-Campare-and-swap]]></title>
+    <url>%2F2017%2F11%2F10%2FJVM-CAS-Campare-and-swap%2F</url>
+    <content type="text"><![CDATA[仅供学习交流,如有错误请指出,如要转载请加上出处,谢谢 CAS硬件指令 基于CAS的无所化（Lock-Free）设计也就是所谓的乐观锁1234567891011121314151617/** * 自旋锁 */public class SpinLock &#123; private AtomicBoolean canLock = new AtomicBoolean(true); public void lock() &#123; boolean b; do &#123; b = canLock.compareAndSet(true, false); &#125; while (!b); &#125; public void release() &#123; canLock.compareAndSet(false, true); &#125;&#125; 调用lock方法时，canLock初始为true，cas成功执行，返回修改后的值，也就是false。然后循环在while中，只要canLock没有被重置会true，cas一直是失败的。CPU被该线程长久占用着。 ABA问题CAS本身是没有任何问题的，是操作系统的指令。但是，当我们用CAS原理来设计无锁化的互斥机制时，就一定会产生ABA问题。 优化ABA对于某些系统，ABA不会产生问题，但也有不能容忍ABA的系统]]></content>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Distributed-Transaction-TCC]]></title>
+    <url>%2F2017%2F11%2F10%2FDistributed-Transaction-TCC%2F</url>
+    <content type="text"><![CDATA[TCC变种https://github.com/1991wangliang/tx-lcn]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[RocketMQ——远程通讯协议及其序列化]]></title>
+    <url>%2F2017%2F11%2F10%2FRocketMQ-Remote-communication-protocol-and-serialization%2F</url>
+    <content type="text"><![CDATA[通信协议LengthFieldBasedFrameDecoder 通信Request, Response序列化json，好像新版可以支持Protobuf https://zhuanlan.zhihu.com/rocketmq]]></content>
+      <tags>
+        <tag>RocketMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JVM——线程中断]]></title>
+    <url>%2F2017%2F11%2F09%2FJVM-Thread-interupt%2F</url>
+    <content type="text"><![CDATA[http://luojinping.com/2015/04/13/Java%E7%BA%BF%E7%A8%8B%E4%B8%AD%E6%96%AD/]]></content>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JVM-Atomic-operation]]></title>
+    <url>%2F2017%2F11%2F09%2FJVM-Atomic-operation%2F</url>
+    <content type="text"><![CDATA[Volatile关键词主内存与线程工作内存MVCC Copy on writeCopyOnWriteArrayList 实现细节 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384public class CopyOnWriteArrayList&lt;E&gt; &#123; /** The lock protecting all mutators */ final transient ReentrantLock lock = new ReentrantLock(); /** The array, accessed only via getArray/setArray. */ private transient volatile Object[] array; /** * Gets the array. Non-private so as to also be accessible * from CopyOnWriteArraySet class. */ final Object[] getArray() &#123; return array; &#125; /** * Sets the array. */ final void setArray(Object[] a) &#123; array = a; &#125; /** * &#123;@inheritDoc&#125; * * @throws IndexOutOfBoundsException &#123;@inheritDoc&#125; */ public E get(int index) &#123; return get(getArray(), index); &#125; /** * Appends the specified element to the end of this list. * * @param e element to be appended to this list * @return &#123;@code true&#125; (as specified by &#123;@link Collection#add&#125;) */ public boolean add(E e) &#123; final ReentrantLock lock = this.lock; lock.lock(); try &#123; Object[] elements = getArray(); int len = elements.length; Object[] newElements = Arrays.copyOf(elements, len + 1); newElements[len] = e; setArray(newElements); return true; &#125; finally &#123; lock.unlock(); &#125; &#125; /** * Removes the element at the specified position in this list. * Shifts any subsequent elements to the left (subtracts one from their * indices). Returns the element that was removed from the list. * * @throws IndexOutOfBoundsException &#123;@inheritDoc&#125; */ public E remove(int index) &#123; final ReentrantLock lock = this.lock; lock.lock(); try &#123; Object[] elements = getArray(); int len = elements.length; E oldValue = get(elements, index); int numMoved = len - index - 1; if (numMoved == 0) setArray(Arrays.copyOf(elements, len - 1)); else &#123; Object[] newElements = new Object[len - 1]; System.arraycopy(elements, 0, newElements, 0, index); System.arraycopy(elements, index + 1, newElements, index, numMoved); setArray(newElements); &#125; return oldValue; &#125; finally &#123; lock.unlock(); &#125; &#125; &#125; 可以看到，对CopyOnWriteArrayList的「写」操作，代码中都是有加互斥锁——ReentrantLock的，而对于「读」操作，没有任何锁机制。所以也就决定了CopyOnWriteArrayList一般在有大量并发读，少量并发写的场景下使用。 参考：http://www.cnblogs.com/aigongsi/archive/2012/04/01/2429166.html]]></content>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Distributed-unique-id]]></title>
+    <url>%2F2017%2F11%2F08%2FDistributed-unique-id%2F</url>
+    <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144/** * Twitter_Snowflake&lt;br&gt; * SnowFlake的结构如下(每部分用-分开):&lt;br&gt; * 0 - 0000000000 0000000000 0000000000 0000000000 0 - 00000 - 00000 - 000000000000 &lt;br&gt; * 1位标识，由于long基本类型在Java中是带符号的，最高位是符号位，正数是0，负数是1，所以id一般是正数，最高位是0&lt;br&gt; * 41位时间截(毫秒级)，注意，41位时间截不是存储当前时间的时间截，而是存储时间截的差值（当前时间截 - 开始时间截) * 得到的值），这里的的开始时间截，一般是我们的id生成器开始使用的时间，由我们程序来指定的（如下下面程序IdWorker类的startTime属性）。41位的时间截，可以使用69年，年T = (1L &lt;&lt; 41) / (1000L * 60 * 60 * 24 * 365) = 69&lt;br&gt; * 10位的数据机器位，可以部署在1024个节点，包括5位datacenterId和5位workerId&lt;br&gt; * 12位序列，毫秒内的计数，12位的计数顺序号支持每个节点每毫秒(同一机器，同一时间截)产生4096个ID序号&lt;br&gt; * 加起来刚好64位，为一个Long型。&lt;br&gt; * SnowFlake的优点是，整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞(由数据中心ID和机器ID作区分)，并且效率较高，经测试，SnowFlake每秒能够产生26万ID左右。 */public class SnowflakeIdWorker &#123; // ==============================Fields=========================================== /** 开始时间截 (2015-01-01) */ private final long twepoch = 1420041600000L; /** 机器id所占的位数 */ private final long workerIdBits = 5L; /** 数据标识id所占的位数 */ private final long datacenterIdBits = 5L; /** 支持的最大机器id，结果是31 (这个移位算法可以很快的计算出几位二进制数所能表示的最大十进制数) */ private final long maxWorkerId = -1L ^ (-1L &lt;&lt; workerIdBits); /** 支持的最大数据标识id，结果是31 */ private final long maxDatacenterId = -1L ^ (-1L &lt;&lt; datacenterIdBits); /** 序列在id中占的位数 */ private final long sequenceBits = 12L; /** 机器ID向左移12位 */ private final long workerIdShift = sequenceBits; /** 数据标识id向左移17位(12+5) */ private final long datacenterIdShift = sequenceBits + workerIdBits; /** 时间截向左移22位(5+5+12) */ private final long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits; /** 生成序列的掩码，这里为4095 (0b111111111111=0xfff=4095) */ private final long sequenceMask = -1L ^ (-1L &lt;&lt; sequenceBits); /** 工作机器ID(0~31) */ private long workerId; /** 数据中心ID(0~31) */ private long datacenterId; /** 毫秒内序列(0~4095) */ private long sequence = 0L; /** 上次生成ID的时间截 */ private long lastTimestamp = -1L; //==============================Constructors===================================== /** * 构造函数 * @param workerId 工作ID (0~31) * @param datacenterId 数据中心ID (0~31) */ public SnowflakeIdWorker(long workerId, long datacenterId) &#123; if (workerId &gt; maxWorkerId || workerId &lt; 0) &#123; throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", maxWorkerId)); &#125; if (datacenterId &gt; maxDatacenterId || datacenterId &lt; 0) &#123; throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0", maxDatacenterId)); &#125; this.workerId = workerId; this.datacenterId = datacenterId; &#125; // ==============================Methods========================================== /** * 获得下一个ID (该方法是线程安全的) * @return SnowflakeId */ public synchronized long nextId() &#123; long timestamp = timeGen(); //如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常 if (timestamp &lt; lastTimestamp) &#123; throw new RuntimeException( String.format("Clock moved backwards. Refusing to generate id for %d milliseconds", lastTimestamp - timestamp)); &#125; //如果是同一时间生成的，则进行毫秒内序列 if (lastTimestamp == timestamp) &#123; sequence = (sequence + 1) &amp; sequenceMask; //毫秒内序列溢出 if (sequence == 0) &#123; //阻塞到下一个毫秒,获得新的时间戳 timestamp = tilNextMillis(lastTimestamp); &#125; &#125; //时间戳改变，毫秒内序列重置 else &#123; sequence = 0L; &#125; //上次生成ID的时间截 lastTimestamp = timestamp; //移位并通过或运算拼到一起组成64位的ID return ((timestamp - twepoch) &lt;&lt; timestampLeftShift) // | (datacenterId &lt;&lt; datacenterIdShift) // | (workerId &lt;&lt; workerIdShift) // | sequence; &#125; /** * 阻塞到下一个毫秒，直到获得新的时间戳 * @param lastTimestamp 上次生成ID的时间截 * @return 当前时间戳 */ protected long tilNextMillis(long lastTimestamp) &#123; long timestamp = timeGen(); while (timestamp &lt;= lastTimestamp) &#123; timestamp = timeGen(); &#125; return timestamp; &#125; /** * 返回以毫秒为单位的当前时间 * @return 当前时间(毫秒) */ protected long timeGen() &#123; return System.currentTimeMillis(); &#125; //==============================Test============================================= /** 测试 */ public static void main(String[] args) &#123; SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0); for (int i = 0; i &lt; 1000; i++) &#123; long id = idWorker.nextId(); System.out.println(Long.toBinaryString(id)); System.out.println(id); &#125; &#125;&#125; baidu uid-generatorhttps://github.com/baidu/uid-generator]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[JVM-Profiling]]></title>
+    <url>%2F2017%2F11%2F07%2FJVM-Profiling%2F</url>
+    <content type="text"><![CDATA[https://yq.aliyun.com/articles/2390]]></content>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JVM-Optimization]]></title>
+    <url>%2F2017%2F11%2F06%2FJVM-Optimization%2F</url>
+    <content type="text"><![CDATA[http://blog.csdn.net/matt8/article/details/52298397 https://www.ibm.com/developerworks/cn/java/j-lo-jvm-optimize-experience/index.html#icomments https://www.ibm.com/developerworks/cn/java/j-lo-JVMGarbageCollection/#icomments Java ReentrantLock（重入锁）带来的改变 前言 ReentrantLock称为重入锁，它比内部锁synchronized拥有更强大的功能，它可中断、可定时，JDK5中，在高并发的情况下，它比synchronized有明显的性能优势，在JDK6中由于jvm的优化，两者差别不是很大。 synchronized原语和ReentrantLock在一般情况下没有什么区别，但是在非常复杂的同步应用中，请考虑使用ReentrantLock，特别是遇到下面2种需求的时候。1.某个线程在等待一个锁的控制权的这段时间需要中断2.需要分开处理一些wait-notify，ReentrantLock里面的Condition应用，能够控制notify哪个线程3.具有公平锁功能，每个到来的线程都将排队等候 先说第一种情况，ReentrantLock的lock机制有2种，忽略中断锁和响应中断锁，这给我们带来了很大的灵活性。比如：如果A、B2个线程去竞争锁，A线程得到了锁，B线程等待，但是A线程这个时候实在有太多事情要处理，就是一直不返回，B线程可能就会等不及了，想中断自己，不再等待这个锁了，转而处理其他事情。这个时候ReentrantLock就提供了2种机制，第一，B线程中断自己（或者别的线程中断它），但是ReentrantLock不去响应，继续让B线程等待，你再怎么中断，我全当耳边风（synchronized原语就是如此）；第二，B线程中断自己（或者别的线程中断它），ReentrantLock处理了这个中断，并且不再等待这个锁的到来，完全放弃。（如果你没有了解java的中断机制，请参考下相关资料，再回头看这篇文章，80%的人根本没有真正理解什么是java的中断，呵呵） 这里来做个试验，首先搞一个Buffer类，它有读操作和写操作，为了不读到脏数据，写和读都需要加锁，我们先用synchronized原语来加锁，如下： 1234567891011121314151617181920212223242526272829package com.eric.lock;public class Buffer &#123; private Object lock; public Buffer() &#123; lock = this; &#125; public void write() &#123; synchronized (lock) &#123; long startTime = System.currentTimeMillis(); System.out.println("开始往这个buff写入数据…"); // 模拟要处理很长时间 for (; ; ) &#123; if (System.currentTimeMillis() - startTime &gt; Integer.MAX_VALUE) break; &#125; System.out.println("终于写完了"); &#125; &#125; public void read() &#123; synchronized (lock) &#123; System.out.println("从这个buff读数据"); &#125; &#125;&#125; 接着，我们来定义2个线程，一个线程去写，一个线程去读。 http://www.importnew.com/15311.htmlG1垃圾回收]]></content>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JVM-Lock]]></title>
+    <url>%2F2017%2F11%2F06%2FJVM-Lock%2F</url>
+    <content type="text"><![CDATA[同步的原理JVM规范规定JVM基于进入和退出Monitor对象来实现方法同步和代码块同步，但两者的实现细节不一样。代码块同步是使用monitorenter和monitorexit指令实现，而方法同步是使用另外一种方式实现的，细节在JVM规范里并没有详细说明，但是方法的同步同样可以使用这两个指令来实现。monitorenter指令是在编译后插入到同步代码块的开始位置，而monitorexit是插入到方法结束处和异常处， JVM要保证每个monitorenter必须有对应的monitorexit与之配对。任何对象都有一个 monitor 与之关联，当且一个monitor 被持有后，它将处于锁定状态。线程执行到 monitorenter 指令时，将会尝试获取对象所对应的 monitor 的所有权，即尝试获得对象的锁。 Java对象头锁存在Java对象头里。如果对象是数组类型，则虚拟机用3个Word（字宽）存储对象头，如果对象是非数组类型，则用2字宽存储对象头。在32位虚拟机中，一字宽等于四字节，即32bit。 长度 内容 说明 32/64bit Mark Word 存储对象的hashCode或锁信息等 32/64bit Class Metadata Address 存储到对象类型数据的指针 32/64bit Array length 数组的长度（如果当前对象是数组） Java对象头里的Mark Word里默认存储对象的HashCode，分代年龄和锁标记位。32位JVM的Mark Word的默认存储结构如下： 25 bit 4bit 1bit是否是偏向锁 2bit锁标志位无锁状态 对象的hashCode 对象分代年龄 0 01 在运行期间Mark Word里存储的数据会随着锁标志位的变化而变化。Mark Word可能变化为存储以下4种数据： 几种锁的类型线程的阻塞和唤醒需要CPU从用户态转为核心态，频繁的阻塞和唤醒对CPU来说是一件负担很重的工作。Java SE1.6为了减少获得锁和释放锁所带来的性能消耗，引入了“偏向锁”和“轻量级锁”，所以在Java SE1.6里锁一共有四种状态，无锁状态，偏向锁状态，轻量级锁状态和重量级锁状态，它会随着竞争情况逐渐升级。锁可以升级但不能降级，意味着偏向锁升级成轻量级锁后不能降级成偏向锁。这种锁升级却不能降级的策略，目的是为了提高获得锁和释放锁的效率。 偏向锁Hotspot的作者经过以往的研究发现大多数情况下锁不仅不存在多线程竞争，而且总是由同一线程多次获得。偏向锁的目的是在某个线程获得锁之后，消除这个线程锁重入（CAS）的开销，看起来让这个线程得到了偏护。 偏向锁的进一步理解偏向锁的释放不需要做任何事情，这也就意味着加过偏向锁的MarkValue会一直保留偏向锁的状态，因此即便同一个线程持续不断地加锁解锁，也是没有开销的。 另一方面，偏向锁比轻量锁更容易被终结，轻量锁是在有锁竞争出现时升级为重量锁，而一般偏向锁是在有不同线程申请锁时升级为轻量锁，这也就意味着假如一个对象先被线程1加锁解锁，再被线程2加锁解锁，这过程中没有锁冲突，也一样会发生偏向锁失效，不同的是这回要先退化为无锁的状态，再加轻量锁，如图： 另外，JVM对那种会有多线程加锁，但不存在锁竞争的情况也做了优化，听起来比较拗口，但在现实应用中确实是可能出现这种情况，因为线程之前除了互斥之外也可能发生同步关系，被同步的两个线程（一前一后）对共享对象锁的竞争很可能是没有冲突的。对这种情况，JVM用一个epoch表示一个偏向锁的时间戳（真实地生成一个时间戳代价还是蛮大的，因此这里应当理解为一种类似时间戳的identifier），对epoch，官方是这么解释的： 偏向锁的获取当一个线程访问同步块并获取锁时，会在对象头和栈帧中的锁记录里存储锁偏向的线程ID，以后该线程在进入和退出同步块时不需要花费CAS操作来加锁和解锁，而只需简单的测试一下对象头的Mark Word里是否存储着指向当前线程的偏向锁，如果测试成功，表示线程已经获得了锁，如果测试失败，则需要再测试下Mark Word中偏向锁的标识是否设置成1（表示当前是偏向锁），如果没有设置，则使用CAS竞争锁，如果设置了，则尝试使用CAS将对象头的偏向锁指向当前线程。 偏向锁的撤销偏向锁使用了一种等到竞争出现才释放锁的机制，所以当其他线程尝试竞争偏向锁时，持有偏向锁的线程才会释放锁。偏向锁的撤销，需要等待全局安全点（在这个时间点上没有字节码正在执行），它会首先暂停拥有偏向锁的线程，然后检查持有偏向锁的线程是否活着，如果线程不处于活动状态，则将对象头设置成无锁状态，如果线程仍然活着，拥有偏向锁的栈会被执行，遍历偏向对象的锁记录，栈中的锁记录和对象头的Mark Word要么重新偏向于其他线程，要么恢复到无锁或者标记对象不适合作为偏向锁，最后唤醒暂停的线程。下图中的线程1演示了偏向锁初始化的流程，线程2演示了偏向锁撤销的流程。 偏向锁的设置关闭偏向锁：偏向锁在Java 6和Java 7里是默认启用的，但是它在应用程序启动几秒钟之后才激活，如有必要可以使用JVM参数来关闭延迟-XX：BiasedLockingStartupDelay = 0。如果你确定自己应用程序里所有的锁通常情况下处于竞争状态，可以通过JVM参数关闭偏向锁-XX:-UseBiasedLocking=false，那么默认会进入轻量级锁状态。 自旋锁线程的阻塞和唤醒需要CPU从用户态转为核心态，频繁的阻塞和唤醒对CPU来说是一件负担很重的工作。同时我们可以发现，很多对象锁的锁定状态只会持续很短的一段时间，例如整数的自加操作，在很短的时间内阻塞并唤醒线程显然不值得，为此引入了自旋锁。所谓“自旋”，就是让线程去执行一个无意义的循环，循环结束后再去重新竞争锁，如果竞争不到继续循环，循环过程中线程会一直处于running状态，但是基于JVM的线程调度，会出让时间片，所以其他线程依旧有申请锁和释放锁的机会。自旋锁省去了阻塞锁的时间空间（队列的维护等）开销，但是长时间自旋就变成了“忙式等待”，忙式等待显然还不如阻塞锁。所以自旋的次数一般控制在一个范围内，例如10,100等，在超出这个范围后，自旋锁会升级为阻塞锁。对自旋锁周期的选择上，HotSpot认为最佳时间应是一个线程上下文切换的时间，但目前并没有做到。经过调查，目前只是通过汇编暂停了几个CPU周期，除了自旋周期选择，HotSpot还进行许多其他的自旋优化策略，具体如下：如果平均负载小于CPUs则一直自旋如果有超过(CPUs/2)个线程正在自旋，则后来线程直接阻塞如果正在自旋的线程发现Owner发生了变化则延迟自旋时间（自旋计数）或进入阻塞 如果CPU处于节电模式则停止自旋自旋时间的最坏情况是CPU的存储延迟（CPU A存储了一个数据，到CPU B得知这个数据直接的时间差） 轻量级锁轻量级锁加锁线程在执行同步块之前，JVM会先在当前线程的栈桢中创建用于存储锁记录的空间，并将对象头中的Mark Word复制到锁记录中，官方称为Displaced Mark Word。然后线程尝试使用CAS将对象头中的Mark Word替换为指向锁记录的指针。如果成功，当前线程获得锁，如果失败，则自旋获取锁，当自旋获取锁仍然失败时，表示存在其他线程竞争锁(两条或两条以上的线程竞争同一个锁)，则轻量级锁会膨胀成重量级锁。 轻量级锁解锁轻量级解锁时，会使用原子的CAS操作来将Displaced Mark Word替换回到对象头，如果成功，则表示同步过程已完成。如果失败，表示有其他线程尝试过获取该锁，则要在释放锁的同时唤醒被挂起的线程。下图是两个线程同时争夺锁，导致锁膨胀的流程图。 锁的优缺点总结 锁 优点 缺点 适用场景 偏向锁 加锁和解锁不需要额外的消耗，和执行非同步方法比仅存在纳秒级的差距 如果线程间存在锁竞争，会带来额外的锁撤销的消耗 适用于只有一个线程访问同步块场景 轻量级锁 竞争的线程不会阻塞，提高了程序的响应速度 如果始终得不到锁竞争的线程使用自旋会消耗CPU 追求响应时间,锁占用时间很短 重量级锁 线程竞争不使用自旋，不会消耗CPU 线程阻塞，响应时间缓慢 追求吞吐量,锁占用时间较长 内容参考：http://luojinping.com/2015/07/09/java%E9%94%81%E4%BC%98%E5%8C%96/]]></content>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RocketMQ——消息发送与落盘（三）]]></title>
+    <url>%2F2017%2F11%2F03%2FRocketMQ-Message-send-and-persistence%2F</url>
+    <content type="text"><![CDATA[异步刷盘有两种方式1234567891011121314// Synchronization flushif (FlushDiskType.SYNC_FLUSH == this.defaultMessageStore.getMessageStoreConfig().getFlushDiskType()) &#123; final GroupCommitService service = (GroupCommitService) this.flushCommitLogService;&#125;// Asynchronous flushelse &#123; if (!this.defaultMessageStore.getMessageStoreConfig().isTransientStorePoolEnable()) &#123; // FlushRealTimeService flushCommitLogService.wakeup(); &#125; else &#123; // CommitRealTimeService commitLogService.wakeup(); &#125;&#125; 1234public boolean isTransientStorePoolEnable() &#123; return transientStorePoolEnable &amp;&amp; FlushDiskType.ASYNC_FLUSH == getFlushDiskType() &amp;&amp; BrokerRole.SLAVE != getBrokerRole();&#125; transientStorePoolEnable的具体含义是什么？FlushRealTimeService和CommitRealTimeService刷盘的方式有什么区别，在性能有什么区别？ 逻辑Offset队列: ConsumerQueue物理Offset队列: CommitLogMappedByteBuffer操纵MappedByteBuffer的线程或者进程必须对某一个文件的映射Buffer有独占权，在设计上，消息的顺序是由CommitLog决定，所以CommitLog在Append新的消息时，必须上锁进行互斥。 传统的synchronized叫做monitor lock，当一个线程进入了synchronized的代码块时，我们说，该线程own（拥有）了monitor lock。这种锁是一种重量级锁，用mutual exclusive（互斥）的特性来实现了同步的需求。 自旋锁，JDK1.6引进，我们知道，线程状态与状态的切换，是需要内核参与的，简单点来讲，这个过程是需要点时间的。线程B已经own了一个锁，这是线程A去尝试获取锁，本来线程A应该要挂起，JVM不让它挂起，让A在那里做自旋操作，JVM要赌当前持有锁的B会很快释放锁。如果线程B确实很快释放了锁，那对于A来讲是一个非常好事情，因为A可以不用切换状态，立刻持有锁。那什么时候会用到呢？http://blog.csdn.net/u013080921/article/details/42676231 Spin Lock(自旋锁)ReentrantLock(重入锁)异步刷盘机制http://blog.csdn.net/vonzhoufz/article/details/47248777 磁盘顺序读写与随机读写的差异https://kafka.apache.org/documentation/#design_filesystem http://blog.csdn.net/evankaka/article/details/48464013 需要好好研究：http://blog.csdn.net/javahongxi/article/details/72956619?locationNum=2&amp;fps=1虽然讲的是kafka，研究价值极高：http://blog.csdn.net/tototuzuoquan/article/details/73437890pagecache是一个现在操作系统带有的天然的缓存！！！！！ http://blog.csdn.net/mg0832058/article/details/5890688内存映射文件原理探索 如何查看内存的 PAGESIZE1getconf PAGESIZE 终于理解了！！！！ 首先，Kafka重度依赖底层操作系统提供的PageCache功能。当上层有写操作时，操作系统只是将数据写入PageCache，同时标记Page属性为Dirty。当读操作发生时，先从PageCache中查找，如果发生缺页才进行磁盘调度，最终返回需要的数据。实际上PageCache是把尽可能多的空闲内存都当做了磁盘缓存来使用。同时如果有其他进程申请内存，回收PageCache的代价又很小，所以现代的OS都支持PageCache。 所以说 commit(atLeastSize)的参数就是现代操作系统pagecache的大小。 http://www.jianshu.com/p/6494e33c9b1fConsume Queue 顺序写，顺序读 几乎都是完全命中Page Cache，和内存速度几乎一样Commit Log 顺序写，顺序跳跃读，相比完全的随机读，性能也还好 http://blog.csdn.net/mg0832058/article/details/5890688内存映射文件原理探索 http://www.jianshu.com/p/6494e33c9b1f1).充分利用page cache降低读数据的时间开销. 读取时尽可能让其命中page cache, 减少IO读操作, 所以内存越大越好. 如果系统中堆积的消息过多, 读数据要访问磁盘会不会由于随机读导致系统性能急剧下降, 答案是否定的.访问page cache 时, 即使只访问1k的消息, 系统也会提前预读出更多数据, 在下次读时, 就可能命中内存.随机访问Commit Log磁盘数据, 系统IO调度算法设置为NOOP方式, 会在一定程度上将完全的随机读变成顺序跳跃方式, 而顺序跳跃方式读较完全的随机读性能会高5倍以上.另外4k的消息在完全随机访问情况下, 仍然可以达到8K次每秒以上的读性能.由于Consume Queue存储数据量极少, 而且是顺序读, 在PAGECACHE预读作用下, Consume Queue的读性能几乎与内存一致, 即使堆积情况下. 所以可认为Consume Queue完全不会阻碍读性能.2).Commit Log中存储了所有的元信息, 包含消息体, 类似于Mysql、Oracle的redolog, 所以只要有Commit Log在, Consume Queue即使数据丢失, 仍然可以恢复出来. https://segmentfault.com/a/1190000003985468kafka底层原理 linux最多可以容忍多少大小的脏页。脏页－linux内核中的概念，因为硬盘的读写速度远赶不上内存的速度，系统就把读写比较频繁的数据事先放到内存中，以提高读写速度，这就叫高速缓存，linux是以页作为高速缓存的单位，当进程修改了高速缓存里的数据时，该页就被内核标记为脏页，内核将会在合适的时间把脏页的数据写到磁盘中去，以保持高速缓存中的数据和磁盘中的数据是一致的。 问题page cache是内存的东西（物理内存还是虚拟内存），我们写文件时先写进内存page cache，然后从page cache刷到disc上 现在MQ异步刷盘是有个间隔的，如果说pagecache中的数据一直没有被刷进磁盘，那所谓的脏页会越来越大，jvm crash后会丢失数据么。那什么时候是不会丢消息的 对于读是好理解的，但对于写，如果文件是顺序写的，commit log和consume queue都是顺序写的，那pagecache的存在如何让速度提升了？是从java heap到pagecache的速度提升了，还是说从pagecache到disc的速度提升了？ producer发送消息，如果是立马被消费这种场景1.对于consume queue，肯定是顺序读写，所以写进pagecache（物理内存）后，直接就从pagecache（物理内存）被读出来了2.对于commit log，虽然不是顺序读，但也是基本有序读，最后大部分也能命中pagecache，不需要走系统IO 如果是消费历史消息，很大程度上，会发现在pagecache（虚拟内存）中没有，由系统产生缺页中断，从磁盘中重新读到pagecache中（可能还会根据顺序预读很多），然后再将数据从pagecache复制到socket中传输到consumer。 MappedByteBuffer 能不能映射大于操作系统内存的文件？MappedByteBuffer所占用的内存是堆外内存，那什么时候才能被回收 http://www.iocoder.cn/RocketMQ/message-store/CommitRealTimeService 异步刷盘 &amp;&amp; 开启内存字节缓冲区 第一FlushRealTimeService 异步刷盘 &amp;&amp; 关闭内存字节缓冲区 第二GroupCommitService 同步刷盘 第三没看懂 http://blog.csdn.net/iie_libi/article/details/54289580零拷贝技术 Consumer 消费消息过程，使用了零拷贝技术，因为有小块数据传输的需求，效果会比 sendfile 更好，所以RocketMQ选择了mmap+write方式。① 优点：即使频繁调用，使用小块文件传输，效率也很高② 缺点：不能很好的利用 DMA 方式，会比 sendfile 多消耗CPU，内存安全性控制复杂，需要避免JVM Crash问题。 文件系统 建议选择ext4文件系统，删除文件的实时性强。调优：文件系统的io调度算法需要调整为deadline，因为deadline 算法在随机读情况下，可以合并读请求为顺序跳跃方式，从而提高读IO 吞吐量。 文件读写冲突？ 写文件的时候，如果消费者在读怎么办？依赖于操作系统对文件读写操作的处理，，，永远一个一个进程在写文件，如果其他进程需要访问文件，只能是读，或者是再创建一个副本，写文件。（读写锁+写时复制） 读写锁在哪里 提高pagecache？ RocketMQ用的是FileChannel.map()出来的MappedByteBuffer，这种Buffer是堆外内存，MQ怎么对这部分的内存进行回收？12345public static void clean(final ByteBuffer buffer) &#123; if (buffer == null || !buffer.isDirect() || buffer.capacity() == 0) return; invoke(invoke(viewed(buffer), "cleaner"), "clean");&#125; 1234567891011121314151617181920212223242526private static class Deallocator implements Runnable &#123; private static Unsafe unsafe = Unsafe.getUnsafe(); private long address; private long size; private int capacity; private Deallocator(long address, long size, int capacity) &#123; assert (address != 0); this.address = address; this.size = size; this.capacity = capacity; &#125; public void run() &#123; if (address == 0) &#123; // Paranoia return; &#125; unsafe.freeMemory(address); address = 0; Bits.unreserveMemory(size, capacity); &#125;&#125; 堆外内存的回收需要依赖显式Full GC或者隐式Full GC，一般来说DisableExplicitGC可以开，也可以关，但是如果禁用了显式GC，当系统没有足够的Full GC时，堆外内存无法回收。 想要提高pagecache的命中率，即尽量让访问的页在物理内存中，而不是在虚拟内存中，减少IO 读操作，所以从硬件的角度，当然是内存越大越好。而在软件角度，rocketmq有以下策略：尽量顺序读 如果需要随机读的话：访问 PAGECACHE 时，即使只访问 1k 的消息，系统也会提前预读出更多数据，在下次读时，就可能命中内存。 随机访问 Commit Log 磁盘数据，系统 IO 调度算法设置为NOOP 方式，会在一定程度上将完全的随机读变成顺序跳跃方式，而顺序跳跃方式读较完全的随机读性能会高5 倍以上。 可能的优化策略 1．线程绑定核+线程池（取模） a) 将每个线程绑定核，一个函数就可以 b) 优势：避免线程核间调度 2．改用互斥锁为读写锁 a) 读读场景的线程可以并行 3．使用xxhash代替crc算法，性能可以提高很多 a) 参考链接：https://cyan4973.github.io/xxHash/ 4．使用topic划分多个逻辑队列（链表） a) 避免topic的多次字符串的比较 5．改用STL的deque来替代MESA list a) Deque类似于vector，可以支持随机访问 b) 常量时间内在头部和尾部插入，删除元素 6．改用跳表来代替MESA list a) 跳表可以高并发+log（n）的随机访问 b) 不能删除元素 i. 设为标志位，当内存数据达到一定阈值时，写到磁盘或者持久化到leveldb中（hbase也是这样做的）。 java.nio.channels.FileChannel public abstract void force(boolean metaData) throws java.io.IOException Forces any updates to this channel’s file to be written to the storage device that contains it. If this channel’s file resides on a local storage device then when this method returns it is guaranteed that all changes made to the file since this channel was created, or since this method was last invoked, will have been written to that device. This is useful for ensuring that critical information is not lost in the event of a system crash. If the file does not reside on a local device then no such guarantee is made. The metaData parameter can be used to limit the number of I/O operations that this method is required to perform. Passing false for this parameter indicates that only updates to the file’s content need be written to storage; passing true indicates that updates to both the file’s content and metadata must be written, which generally requires at least one more I/O operation. Whether this parameter actually has any effect is dependent upon the underlying operating system and is therefore unspecified. Invoking this method may cause an I/O operation to occur even if the channel was only opened for reading. Some operating systems, for example, maintain a last-access time as part of a file’s metadata, and this time is updated whenever the file is read. Whether or not this is actually done is system-dependent and is therefore unspecified. This method is only guaranteed to force changes that were made to this channel’s file via the methods defined in this class. It may or may not force changes that were made by modifying the content of a mapped byte buffer obtained by invoking the map method. Invoking the force method of the mapped byte buffer will force changes made to the buffer’s content to be written. java.nio.MappedByteBuffer public final MappedByteBuffer force() Forces any changes made to this buffer’s content to be written to the storage device containing the mapped file. If the file mapped into this buffer resides on a local storage device then when this method returns it is guaranteed that all changes made to the buffer since it was created, or since this method was last invoked, will have been written to that device. If the file does not reside on a local device then no such guarantee is made. If this buffer was not mapped in read/write mode (java.nio.channels.FileChannel.MapMode.READ_WRITE) then invoking this method has no effect. 写得超级好的一篇文章 http://blog.csdn.net/a417930422/article/details/52585862 包括下面的问题： wangbin00162017-08-08 17:011楼楼主确定 零拷贝-sendfile 对应到java中为FileChannel.transferTo(long position, long count, WritableByteChannel target)//？？ rocketmq 文档上面写到 RocketMQ选择了第一种方式，mmap+write方式，因为有小块数据传输的需求，效果会比sendfile更好。 源码里面使用的是netty的FileRegion 用的是FileChannel.transferTo FileRegion fileRegion =new ManyMessageTransfer(response.encodeHeader(getMessageResult.getBufferTotalSize()), getMessageResult);channel.writeAndFlush(fileRegion) 回复 2条回复 a417930422 a4179304222017-09-21 10:35 回复wangbin0016：另外，rocketmq主要使用的是mmap，即java的MappedByteBuffer用于快速读写。 a417930422 a4179304222017-09-21 10:32 回复wangbin0016：rocketmq文档中写的是Consumer 消费消息过程使用了mmap+write，即内存映射文件的方式，请参照我写的rocketmq存储相关文章：http://blog.csdn.net/a417930422/article/details/52585180. 你说的netty的FileRegion其实是被rocketmq重新实现的ManyMessageTransfer，而transfer过程其实是将GetMessageResult对象的数据写到netty的channel中，本质是从内核获取数据直接发送至socket，不会复制到用户空间。 GetMessageResult其实是mmap的一个子缓冲区而已。 有兴趣可以看看源码 com.alibaba.rocketmq.store.DefaultMessageStore.getMessage方法]]></content>
+      <tags>
+        <tag>RocketMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Distributed-Transaction]]></title>
+    <url>%2F2017%2F11%2F03%2FDistributed-Transaction%2F</url>
+    <content type="text"><![CDATA[TCCRocketMQ事务功能 抽象出一个完整的系统不是所有的MQ系统都是支持这个HalfMsg的操作的，所以我们把这个系统抽成一个事务SOA服务 https://mp.weixin.qq.com/s?__biz=MzU4MTEyODIzMg==&amp;mid=2247483713&amp;idx=1&amp;sn=c9efdd6eda9d7bd32f82e42b2ca3fbe3&amp;chksm=fd4d1806ca3a9110474f9c0b1d2a886a9f994c4b8ed8d354a3c6bd8d8373cd012646443ebfca&amp;mpshare=1&amp;scene=1&amp;srcid=1110kSXANwBrbL2TWtA0NAK6&amp;key=86d1b0bfcae3874289b26357e30923b1734881e3a43437f4558c9c6be8f133e62f000fc4c315915ad48066faca9893f45a6515e6faebf3f27b85a03bf975ca15ecd8401181121b82a5d41040f7b5c565&amp;ascene=0&amp;uin=MjcyMjMxNTA0Mg%3D%3D&amp;devicetype=iMac+MacBookPro11%2C4+OSX+OSX+10.12+build(16A323)&amp;version=12010210&amp;nettype=WIFI&amp;fontScale=100&amp;pass_ticket=T2oTN5azeGV4Brh%2FOFJxtVGb2WVp1QN3ylyWucAGYWTJBOrOLdFJzJoRIwToLTv8 Spring Cloudhttp://www.jianshu.com/p/cf3a2884a8d2?open_source=weibo_searchhttps://www.atomikos.com/Blog/TransactionManagementAPIForRESTTCC https://github.com/beston123/Tarzan]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[OS-sync-async-blocking-noblocking]]></title>
+    <url>%2F2017%2F11%2F01%2FLinux-sync-async-blocking-noblocking%2F</url>
+    <content type="text"></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Curator-sync-and-mutual-exclusion-between-thread-and-process]]></title>
+    <url>%2F2017%2F10%2F28%2FCurator-sync-and-mutual-exclusion-between-thread-and-process%2F</url>
+    <content type="text"><![CDATA[Lockread write lockspin lockreentrant lockBarrierSemaphore###]]></content>
+      <tags>
+        <tag>Curator</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Cobar-Enhance-cobar-dataSource-with-dataHost]]></title>
+    <url>%2F2017%2F10%2F27%2FCobar-Enhance-cobar-dataSource-with-dataHost%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Cobar-Enhance-cobar-mysql-heartbeat]]></title>
+    <url>%2F2017%2F10%2F27%2FCobar-Enhance-cobar-mysql-heartbeat%2F</url>
+    <content type="text"><![CDATA[Cobar与MySQL心跳实现Cobar的心跳是用原生NIO写的，相对于用Netty来发送心跳，复杂度不在一个量级上。 网络抖动Cobar会向MySQL发送select user()的心跳，Cobar会在以下两种情况下进行数据源切换 Cobar向MySQL发送心跳数据失败，界定为Error Cobar向MySQL发送心跳数据，但30秒（默认）内没有收到MySQL回复，界定为Timeout 在阿里云VPC的环境中，网络抖动又是家常便饭，一旦网络出现抖动，Cobar立刻把对应dataNode的数据源从Master切到Slave或者从Slave切回Master，于是，慢SQL出现了。这时都意识到，这个数据源切换的策略不靠谱，需要重新设计。 不能一发现情况一，就认定是Error，网络抖动很有可能在几秒钟之内恢复回来，这里采用的策略是，发现情况一，再试3次，如果第3次还失败，等待n秒后再试一次，如果还发送心跳失败，那就是Error，需要切换数据源。 过滤抖动策略]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Thread-FAQ]]></title>
+    <url>%2F2017%2F10%2F27%2FThread-FAQ%2F</url>
+    <content type="text"><![CDATA[http://blog.csdn.net/zhandoushi1982/article/details/5506597线程的挂起操作实质上就是使线程进入“非可执行”状态下，在这个状态下CPU不会分给线程时间片，进入这个状态可以用来暂停一个线程的运行。在线程挂起后，可以通过重新唤醒线程来使之恢复运行。 ThreadLocalFuturePromiseDifference between ReentrantLock and syncJava线程面试题如果用了ReentrantLock，还需要设置自旋锁么？ 假如用sync做了线程互斥，A和B两个线程竞争monitor，A拿到了monitor，如果A迟迟不释放，B将永远等待，怎么避免这种情况？ CopyOnWrite 15个Java多线程面试题及回答 1)现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？ 这个线程问题通常会在第一轮或电话面试阶段被问到，目的是检测你对”join”方法是否熟悉。这个多线程问题比较简单，可以用join方法实现。 2)在Java中Lock接口比synchronized块的优势是什么？你需要实现一个高效的缓存，它允许多个用户读，但只允许一个用户写，以此来保持它的完整性，你会怎样去实现它？ lock接口在多线程和并发编程中最大的优势是它们为读和写分别提供了锁，它能满足你写像ConcurrentHashMap这样的高性能数据结构和有条件的阻塞。Java线程面试的问题越来越会根据面试者的回答来提问。我强烈建议在你去参加多线程的面试之前认真读一下Locks，因为当前其大量用于构建电子交易终统的客户端缓存和交易连接空间。 3)在java中wait和sleep方法的不同？ 通常会在电话面试中经常被问到的Java线程面试问题。最大的不同是在等待时wait会释放锁，而sleep一直持有锁。Wait通常被用于线程间交互，sleep通常被用于暂停执行。 4）用Java实现阻塞队列。 这是一个相对艰难的多线程面试问题，它能达到很多的目的。第一，它可以检测侯选者是否能实际的用Java线程写程序；第二，可以检测侯选者对并发场景的理解，并且你可以根据这个问很多问题。如果他用wait()和notify()方法来实现阻塞队列，你可以要求他用最新的Java 5中的并发类来再写一次。 5）用Java写代码来解决生产者——消费者问题。 与上面的问题很类似，但这个问题更经典，有些时候面试都会问下面的问题。在Java中怎么解决生产者——消费者问题，当然有很多解决方法，我已经分享了一种用阻塞队列实现的方法。有些时候他们甚至会问怎么实现哲学家进餐问题。 6）用Java编程一个会导致死锁的程序，你将怎么解决？ 这是我最喜欢的Java线程面试问题，因为即使死锁问题在写多线程并发程序时非常普遍，但是很多侯选者并不能写deadlock free code（无死锁代码？），他们很挣扎。只要告诉他们，你有N个资源和N个线程，并且你需要所有的资源来完成一个操作。为了简单这里的n可以替换为2，越大的数据会使问题看起来更复杂。通过避免Java中的死锁来得到关于死锁的更多信息。 7) 什么是原子操作，Java中的原子操作是什么？ 非常简单的java线程面试问题，接下来的问题是你需要同步一个原子操作。 8) Java中的volatile关键是什么作用？怎样使用它？在Java中它跟synchronized方法有什么不同？ 自从Java 5和Java内存模型改变以后，基于volatile关键字的线程问题越来越流行。应该准备好回答关于volatile变量怎样在并发环境中确保可见性。 9) 什么是竞争条件？你怎样发现和解决竞争？ 这是一道出现在多线程面试的高级阶段的问题。大多数的面试官会问最近你遇到的竞争条件，以及你是怎么解决的。有些时间他们会写简单的代码，然后让你检测出代码的竞争条件。可以参考我之前发布的关于Java竞争条件的文章。在我看来这是最好的java线程面试问题之一，它可以确切的检测候选者解决竞争条件的经验，or writing code which is free of data race or any other race condition。关于这方面最好的书是《Concurrency practices in Java》。 10) 你将如何使用thread dump？你将如何分析Thread dump？ 在UNIX中你可以使用kill -3，然后thread dump将会打印日志，在windows中你可以使用”CTRL+Break”。非常简单和专业的线程面试问题，但是如果他问你怎样分析它，就会很棘手。 11) 为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？ 这是另一个非常经典的java多线程面试问题。这也是我刚开始写线程程序时候的困惑。现在这个问题通常在电话面试或者是在初中级Java面试的第一轮被问到。这个问题的回答应该是这样的，当你调用start()方法时你将创建新的线程，并且执行在run()方法里的代码。但是如果你直接调用run()方法，它不会创建新的线程也不会执行调用线程的代码。阅读我之前写的《start与run方法的区别》这篇文章来获得更多信息。 12) Java中你怎样唤醒一个阻塞的线程？ 这是个关于线程和阻塞的棘手的问题，它有很多解决方法。如果线程遇到了IO阻塞，我并且不认为有一种方法可以中止线程。如果线程因为调用wait()、sleep()、或者join()方法而导致的阻塞，你可以中断线程，并且通过抛出InterruptedException来唤醒它。我之前写的《How to deal with blocking methods in java》有很多关于处理线程阻塞的信息。 13)在Java中CycliBarriar和CountdownLatch有什么区别？ 这个线程问题主要用来检测你是否熟悉JDK5中的并发包。这两个的区别是CyclicBarrier可以重复使用已经通过的障碍，而CountdownLatch不能重复使用。 14) 什么是不可变对象，它对写并发应用有什么帮助？ 另一个多线程经典面试问题，并不直接跟线程有关，但间接帮助很多。这个java面试问题可以变的非常棘手，如果他要求你写一个不可变对象，或者问你为什么String是不可变的。 15) 你在多线程环境中遇到的常见的问题是什么？你是怎么解决它的？ 多线程和并发程序中常遇到的有Memory-interface、竞争条件、死锁、活锁和饥饿。问题是没有止境的，如果你弄错了，将很难发现和调试。这是大多数基于面试的，而不是基于实际应用的Java线程问题。 http://www.importnew.com/27105.html]]></content>
+      <tags>
+        <tag>THread</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Cobar——原理整理]]></title>
+    <url>%2F2017%2F10%2F18%2FCobar-FAQ%2F</url>
+    <content type="text"><![CDATA[FrontendConnection默认的NioHandler是FrontendAuthenticator, 当认证信息发来时，FrontendConnection会把handler.handle()任务放入一个线程池中，当前的handler是默认的认证器，如果认证成功了，FrontendAuthenticator会反过来将FrontendConnection的handler替换成FrontendCommandHandler。 Handler是由NioConnection主动触发的，在Handler处理完信息后，需要将处理完后的response回写给NioConnection, NioConnection把数据放入NioProcessor的writeQueue。 Cobar将数据库连接池的大小暴露在配置文件中，但为了性能考虑（我觉得），没有严格将数据库的连接数保持在这个范围内，假设连接池的大小为50，在高并发的SQL执行下，连接数可能会冲击到80-90，此时需要注意MySQL的max_connections这个配置，如果这个值比较小，那Cobar在并发执行SQL时创建连接，而MySQL握手包的内容可能会发生变化，但Cobar不会处理这种异常情况，导致Cobar抛出一下错误： Cobar怎么处理半包和拆包]]></content>
+      <tags>
+        <tag>Cobar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Cobar-NIO-client]]></title>
+    <url>%2F2017%2F10%2F18%2FCobar-NIO-client%2F</url>
+    <content type="text"><![CDATA[Cobar作为一个数据库分库分表中间件，既是一台NIO Server，又是NIO Client]]></content>
+      <tags>
+        <tag>Cobar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Cobar-NIO-server]]></title>
+    <url>%2F2017%2F10%2F18%2FCobar-NIO-server%2F</url>
+    <content type="text"><![CDATA[Cobar作为一个数据库分库分表中间件，既是一台NIO Server，又是NIO Client]]></content>
+      <tags>
+        <tag>Cobar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Netty-原理整理]]></title>
+    <url>%2F2017%2F10%2F16%2FNetty-FAQ%2F</url>
+    <content type="text"><![CDATA[Netty 编解码器ByteToMessageDecoder与LengthFieldBasedFrameDecoder的区别 重要概念 Future and PromiseNetty处理的对象bytes and messages. 如何调试时间循环线程当我们用debug启动netty server时，我们不知道boss线程运行的代码，那怎么样才能发现boss线程当前的执行轨迹呢。如果能找到轨迹，对我们研究boss线程有非常大的帮助。 给boss时间循环线程池起个名字123456 NioEventLoopGroup boss = new NioEventLoopGroup(0, new ThreadFactory() &#123; @Override public Thread newThread(Runnable r) &#123; return new Thread(r, "boss-event-loop"); &#125;&#125;); 如果用的Intellij，就能实现这个效果，首先用debug模式启动netty server。在debug tag下，我们进入Threads，展开Thread Group “main”，发现boss-event-loop正在处于Running状态。选中boss-event-loop，右键点击suspend，之后就能看到代码停了下来，去Framestab中选择某一行进行断点调试。 聊天程序Web Socket技术Long Pooling技术 原生NIO可能会被问到的问题Netty线程管理，高低水位线(watermark)控制，高低水位指的是线程https://stackoverflow.com/questions/25281124/netty-4-high-and-low-write-watermarkshttp://adolgarev.blogspot.ru/2013/12/pipelining-and-flow-control.html?view=flipcard Netty线程模型，Netty异常对Inbound(入站)和Outbound(出站) Handler的影响Netty内存管理，怎么防止内存过度使用io模型，上面图里的问题，内存池怎么管理，怎么防止泄露。mq主从切换，但是网络原因master假死， 这时候slave升级为主，怎么办？和mysql主从切换一个道理，我不知道怎么办。或者怎么屏蔽。 Netty bind()方法123456789101112131415161718192021@Overrideprotected void doRegister() throws Exception &#123; boolean selected = false; for (;;) &#123; try &#123; selectionKey = javaChannel().register(eventLoop().unwrappedSelector(), 0, this); return; &#125; catch (CancelledKeyException e) &#123; if (!selected) &#123; // Force the Selector to select now as the "canceled" SelectionKey may still be // cached and not removed because no Select.select(..) operation was called yet. eventLoop().selectNow(); selected = true; &#125; else &#123; // We forced a select operation on the selector before but the SelectionKey is still cached // for whatever reason. JDK bug ? throw e; &#125; &#125; &#125;&#125; 注意到，register的第二个参数为0，也就是说，selector和serverSocketChannel之间仅仅有了注册关系，但没有指定selector到底interest什么事件，那问题是，selector和serverSocketChannel之间的OP_ACCEPT是什么时候完成的？ 用sendBuf和RecBuf做系统之间的限流，这好像是一个天然的事情Netty高性能开发备忘录http://blog.csdn.net/asdfayw/article/details/71730543 Netty中的那些坑http://www.jianshu.com/p/890525ff73cbhttp://www.jianshu.com/p/8f22675d71ac 用Netty开发中间件：高并发性能优化http://blog.csdn.net/dc_726/article/details/48978891]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[RocketMQ——延时消息投递原理分析]]></title>
+    <url>%2F2017%2F10%2F13%2FRocketMQ-Delay-message-delivery%2F</url>
+    <content type="text"><![CDATA[被动延时消费1234567891011121314consumer.registerMessageListener(new MessageListenerConcurrently() &#123; @Override public ConsumeConcurrentlyStatus consumeMessage(List&lt;MessageExt&gt; msgs, ConsumeConcurrentlyContext context) &#123; // 可能抛出异常 boolean success = doConsume(msgs); if (success) &#123; return ConsumeConcurrentlyStatus.CONSUME_SUCCESS; &#125; else &#123; return ConsumeConcurrentlyStatus.RECONSUME_LATER; &#125; &#125;&#125;); 主动延时消费12 分布式事务之 Best Effort Delivery]]></content>
+      <tags>
+        <tag>RocketMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Cobar——扩展Cobar Driver，防止单点故障]]></title>
+    <url>%2F2017%2F10%2F12%2FCobar-Enhance-cobar-driver-with-high-availability%2F</url>
+    <content type="text"><![CDATA[cobar作为一套完整的分库分表方案，其负载均衡功能是由cobar-driver提供的。 cobar-driver单点问题原始的cobar版的JDBC协议如下：jdbc:cobar://Cobar_A:8066/user，只能支持连接cobar集群中的某一台机器，当整个集群中的这台机器宕机后，即使集群中的其余机器仍然可以提供服务，客户端也无法创建新的连接。 HA cobar(jdbc)协议为了防止这种单点故障，需要对cobar-driver的源码进行修改，协议部分改造，URL的host部分不再只能填写一个host地址，而是像ZooKeeper一样，可以填写整个Cobar集群的地址：jdbc:cobar_cluster://cobar_1,cobar_2:8066/user，即使cobar_1宕机了，应用还是可以去cobar_2中继续创建新的连接以保证性能。]]></content>
+      <tags>
+        <tag>Cobar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Cobar——近实时监控Cobar前后端连接与线程池]]></title>
+    <url>%2F2017%2F10%2F12%2FCobar-How-to-monitor-cobar%2F</url>
+    <content type="text"></content>
+      <tags>
+        <tag>Cobar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RocketMQ——IndexService 原理分析]]></title>
+    <url>%2F2017%2F10%2F12%2FRocketMQ-Index-service%2F</url>
+    <content type="text"><![CDATA[RocmetMQ的IndexService设计原理 在RocketMQ中，IndexService底层是通过文件来存储的，所以，即使MQ的进程在中途重启过，索引的功能是不受影响的。索引文件的路径是 System.getProperty(&quot;user.home&quot;) + File.separator + &quot;store&quot;，文件名是文件创建的时间，可以有多个，但，在一个文件没有满的情况下，所有的topic的所有的列队的消息，全部都是顺序得存放在一个文件中的，这很重要，下面会详解。在MQ源码中，用IndexFile这个类代表索引文件，对于每一个index file，大小都是固定的，即，都是设计好的。index file在逻辑上被拆分成了3个部分，IndexHead + HashSlotPart + MsgIndexPart，IndexHead索引的开头，和索引的结构没有关系HashSlotParthash的槽位，是索引的目录，用于定位消息索引在该文件的「MsgIndexPart」的位置，可能有点绕，往下就会觉得很简单，每个槽位是等长的，占4 Byte，一个文件总的槽位数量也是定的，不可改变，槽位数越大，索引的消息越多。MsgIndexPart真实的消息索引，即，每个msgIndex段代表改消息在CommitLog上的PhyicOffset。每个msgIndex段也是等长的，占20 Byte（int + long + int + int）。等长的MsgIndexPart可以理解成功一个有capacity的数组，为了使数组的空间不浪费，那消息就要从前往后一个一个append进去。 所以，在默认配置下，每个索引文件的大小为int fileTotalSize = IndexHeader.INDEX_HEADER_SIZE + (hashSlotNum * hashSlotSize) + (indexNum * indexSize); CommitLogDispatcherBuildIndex调用dispatch12345public void dispatch(DispatchRequest request) &#123; if (DefaultMessageStore.this.messageStoreConfig.isMessageIndexEnable()) &#123; DefaultMessageStore.this.indexService.buildIndex(request); &#125;&#125; buildIndex时会构建好几个索引，topic#msgId=&gt;msgIndex, topic#key1=&gt;msgIndex, topic#key2=&gt;msgIndex123456789101112131415161718192021222324252627282930public void buildIndex(DispatchRequest req) &#123; IndexFile indexFile = retryGetAndCreateIndexFile(); if (indexFile != null) &#123; long endPhyOffset = indexFile.getEndPhyOffset(); DispatchRequest msg = req; String topic = msg.getTopic(); String keys = msg.getKeys(); ... if (req.getUniqKey() != null) &#123; // 构建UniqKey，也就是msgId的索引 indexFile = putKey(indexFile, msg, buildKey(topic, req.getUniqKey())); ... &#125; if (keys != null &amp;&amp; keys.length() &gt; 0) &#123; String[] keyset = keys.split(MessageConst.KEY_SEPARATOR); for (int i = 0; i &lt; keyset.length; i++) &#123; String key = keyset[i]; if (key.length() &gt; 0) &#123; // 构建业务Key的索引 indexFile = putKey(indexFile, msg, buildKey(topic, key)); ... &#125; &#125; &#125; &#125; else &#123; log.error("build index error, stop building index"); &#125;&#125;]]></content>
+      <tags>
+        <tag>RocketMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RocketMQ——Broker的主从复制原理分析（双写机制）]]></title>
+    <url>%2F2017%2F10%2F12%2FRocketMQ-Master-slave-high-availability%2F</url>
+    <content type="text"><![CDATA[12]]></content>
+      <tags>
+        <tag>RocketMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RocketMQ——事务消息原理分析]]></title>
+    <url>%2F2017%2F10%2F11%2FRocketMQ-Transactional-message%2F</url>
+    <content type="text"><![CDATA[https://help.aliyun.com/document_detail/43348.html?spm=5176.doc43490.6.566.Zd5Bl7 问题producer发送half msg时，broker如果当它是一条普通的消息，那consumer会立刻在long pooling中收到，但实现是不会收到的，是在哪一个环节设置的。事务消息，提交（COMMIT）后才生成 ConsumeQueue123456789101112131415161718class CommitLogDispatcherBuildConsumeQueue implements CommitLogDispatcher &#123; @Override public void dispatch(DispatchRequest request) &#123; final int tranType = MessageSysFlag.getTransactionValue(request.getSysFlag()); switch (tranType) &#123; case MessageSysFlag.TRANSACTION_NOT_TYPE: // 虽然所有的状态都会存储到commit log中，只有 TRANSACTION_COMMIT_TYPE 状态才会构建consume queue // 也就是说让consumer进行消费 case MessageSysFlag.TRANSACTION_COMMIT_TYPE: DefaultMessageStore.this.putMessagePositionInfo(request); break; case MessageSysFlag.TRANSACTION_PREPARED_TYPE: case MessageSysFlag.TRANSACTION_ROLLBACK_TYPE: break; &#125; &#125;&#125;]]></content>
+      <tags>
+        <tag>RocketMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Cobar——用分布式锁增强Cobar在集群环境的数据源切换]]></title>
+    <url>%2F2017%2F10%2F09%2FCobar-Cluster-datasource-switch-design-with-distributed-lock%2F</url>
+    <content type="text"><![CDATA[Cobar集群部署时是无状态的，只是集群中会相互发送对等的心跳让每一台Cobar都保存完整集群列表。但网络存在的情况是非常复杂的。 场景列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。 CobarA和CobarB初始启动后，后端的数据源都指向MySQL1-4。如果CobarA和MySQL_2之间的网络抖了下，但CobarB和MySQL_2的网络没有抖动。于是CobarA切到了MySQL_6上，CobarB还是在MySQL_2上。 问题Cobar_B上执行insert，Cobar_A上执行select，binlog需要时间]]></content>
+      <tags>
+        <tag>Cobar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[curator——分布式锁的实现之一]]></title>
+    <url>%2F2017%2F09%2F28%2FCurator-Distributed-lock%2F</url>
+    <content type="text"><![CDATA[MySQL实现 Redis ZooKeeper RedLock 12345678910111213141516171819202122232425public class InterProcessMutexTest &#123; public static final String LOCK_PATH = "/curator-kick-off/lock"; private static CuratorFramework client; @BeforeClass public static void before() &#123; client = CuratorFrameworkFactory.newClient( "127.0.0.1:2181", 1000 * 10, 3000, new ExponentialBackoffRetry( 1000, 3)); client.start(); &#125; @Test public void test() throws Exception &#123; InterProcessMutex lock = new InterProcessMutex(client, LOCK_PATH); boolean acquire = lock.acquire(5, TimeUnit.SECONDS); System.out.println(acquire); System.out.println("done"); lock.release(); System.in.read(); &#125;&#125;]]></content>
+      <tags>
+        <tag>Curator</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RocketMQ——Consumer Rebalance 原理分析]]></title>
+    <url>%2F2017%2F09%2F25%2FRocketMQ-Consumer-rebalance%2F</url>
+    <content type="text"></content>
+      <tags>
+        <tag>RocketMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RocketMQ——高性能PullRequest秘籍之长轮询(长轮询)原理分析]]></title>
+    <url>%2F2017%2F09%2F20%2FRocketMQ-Pull-message-with-long-polling%2F</url>
+    <content type="text"><![CDATA[分成两部分，Client和Broker Client:Broker:首先PullMessageProcessor用相应的线程池调用processRequest，去ConsumerQueue中找消息，如果找到了，没有什么好说的，直接用Netty模块将数据写进相应的channel，客户端获取到了数据后进行并行消费；如果没有消息，那么将当前的pullRequest放入PullRequestHoldService的pullRequestTable进行suspend。12345678910111213141516171819case ResponseCode.PULL_NOT_FOUND: if (brokerAllowSuspend &amp;&amp; hasSuspendFlag) &#123; long pollingTimeMills = suspendTimeoutMillisLong; if (!this.brokerController.getBrokerConfig().isLongPollingEnable()) &#123; pollingTimeMills = this.brokerController.getBrokerConfig().getShortPollingTimeMills(); &#125; String topic = requestHeader.getTopic(); long offset = requestHeader.getQueueOffset(); int queueId = requestHeader.getQueueId(); PullRequest pullRequest = new PullRequest(request, channel, pollingTimeMills, this.brokerController.getMessageStore().now(), offset, subscriptionData, messageFilter); this.brokerController.getPullRequestHoldService().suspendPullRequest(topic, queueId, pullRequest); // 此处将repsonse设置为null，remote-server将不会给对应的channel发送响应信息。那响应的信息何时发送，有两种情况： // 1. PullRequestHoldService hold了足够的时间后 // 2. 有新的信息被发送至队列后 response = null; break; &#125; 那么，消息刷入CommitLog后，怎么样让这个Hold住的PullRequest感知到消息的到来？答案是，DefaultMessageStore.ReputMessageService线程。ReputMessageService开启时就进行了一个近实时的空循环(Busy Spin)，不释放CPU进行等待事件12345678while (!this.isStopped()) &#123; try &#123; Thread.sleep(1); this.doReput(); &#125; catch (Exception e) &#123; DefaultMessageStore.log.warn(this.getServiceName() + " service has exception. ", e); &#125;&#125; 检测CommitLog中的MaxOffset是否在变大，变大了说明有新的消息已经存进了CommitLog，紧接着构建一个dispatchRequest，再让DefaultMessageStore调用doDispatch(dispatchRequest)，该方法并没有开启新的线程，一个做了几件事情，第一，将新的消息刷入consumerQueue，最小2页，作用也非常明显，到时候要获取一个消息，consumerQueue可以用logicOffset定位到CommitLog的PhyicOffset，是一个无法或缺的索引，第二，将新的消息写入index file用于后续更加复杂的查询，第三，计算bitmap。当doDispatch顺利执行完后。 重点来了，之后触发messageArrivingListener的arriving方法，让pullRequestHoldService调用notifyMessageArriving，开启新的线程再一次让PullMessageProcessor调用processRequest来处理原来的那个pullRequest，但此时由于consumerQueue已经构建好了，所以会正常获取到消息，正常用netty模块进行一个对client的应答。12345678910111213141516171819202122232425262728293031// 用一个接近空轮询private void doReput() &#123; for (boolean doNext = true; this.isCommitLogAvailable() &amp;&amp; doNext; ) &#123; ... SelectMappedBufferResult result = DefaultMessageStore.this.commitLog.getData(reputFromOffset); ... this.reputFromOffset = result.getStartOffset(); for (int readSize = 0; readSize &lt; result.getSize() &amp;&amp; doNext; ) &#123; DispatchRequest dispatchRequest = DefaultMessageStore.this.commitLog.checkMessageAndReturnSize(result.getByteBuffer(), false, false); int size = dispatchRequest.getMsgSize(); ... if (size &gt; 0) &#123; // dispatch到构建consumerQueue和index file的调度器中 DefaultMessageStore.this.doDispatch(dispatchRequest); if (BrokerRole.SLAVE != DefaultMessageStore.this.getMessageStoreConfig().getBrokerRole() &amp;&amp; DefaultMessageStore.this.brokerConfig.isLongPollingEnable()) &#123; // 通知suspend pullRequest的PullRequestHoldService解除对pullRequest的hold DefaultMessageStore.this.messageArrivingListener.arriving(dispatchRequest.getTopic(), dispatchRequest.getQueueId(), dispatchRequest.getConsumeQueueOffset() + 1, dispatchRequest.getTagsCode(), dispatchRequest.getStoreTimestamp(), dispatchRequest.getBitMap(), dispatchRequest.getPropertiesMap()); &#125; &#125; ... &#125; &#125;&#125; 整个过程时序图]]></content>
+      <tags>
+        <tag>RocketMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[tree-cache-single-thread-event-handler-in-curator]]></title>
+    <url>%2F2017%2F09%2F20%2Ftree-cache-single-thread-event-handler-in-curator%2F</url>
+    <content type="text"><![CDATA[GenericFutureListener.operationComplete(Future) is directly called by an I/O thread. Therefore, performing a time consuming task or a blocking operation in the handler method can cause an unexpected pause during I/O. If you need to perform a blocking operation on I/O completion, try to execute the operation in a different thread using a thread pool. 12345678910111213141516channel.writeAndFlush(request).addListener(new ChannelFutureListener() &#123; @Override public void operationComplete(ChannelFuture f) throws Exception &#123; if (f.isSuccess()) &#123; responseFuture.setSendRequestOK(true); return; &#125; else &#123; responseFuture.setSendRequestOK(false); &#125; responseTable.remove(opaque); responseFuture.setCause(f.cause()); responseFuture.putResponse(null); log.warn("send a request command to channel &lt;" + addr + "&gt; failed."); &#125;&#125;);]]></content>
+      <tags>
+        <tag>Curator</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[guava中的黑科技]]></title>
+    <url>%2F2017%2F09%2F19%2FGuava-Black-techs%2F</url>
+    <content type="text"><![CDATA[限流缓存集合BiMap反射并发]]></content>
+      <tags>
+        <tag>Guava</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[recipes-in-curator]]></title>
+    <url>%2F2017%2F09%2F19%2Frecipes-in-curator%2F</url>
+    <content type="text"></content>
+      <tags>
+        <tag>Curator</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Cobar——SQL如何被分库分表以及执行]]></title>
+    <url>%2F2017%2F09%2F19%2FCobar-How-sql-executes-in-cobar%2F</url>
+    <content type="text"></content>
+      <tags>
+        <tag>Cobar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MySQL Explain 整理]]></title>
+    <url>%2F2017%2F09%2F10%2FMySQL-Explain%2F</url>
+    <content type="text"><![CDATA[select id123456explain select * from student where stu_id = '1000003';explain delete from student where stu_id = '11111';#数值越大越先执行explain select * from (select * from student where stu_id = '1000003') tmp; #只有union的结果是没有 select id 的explain select * from student where stu_id = '1000003' union select * from student where stu_id = '1000004'; More info: MySQL DOC]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[实用Linux命令整理]]></title>
+    <url>%2F2017%2F09%2F09%2FLinux-Useful-command%2F</url>
+    <content type="text"><![CDATA[文件内容替换1sudo sed -i 's/aaa/bbb/g' `grep -Rl aaa order_migrate_conf/` 查找目录下的所有文件中是否含有某个字符串,并且只打印出文件名1grep -Rl 1496628000000 order_migrate_conf/ 查看超大文件，vim 慎用1less file.log 超大文件从后往前查找关键词kind_pay1tac file_path | grep kind_pay less file_path, G(go to file end), /kind_pay + enter, N(search key word reversely) 分类查看各种状态的TCP连接1ss -tan|awk 'NR&gt;1&#123;++S[$1]&#125;END&#123;for (a in S) print a,S[a]&#125;' 查看logs目录下所有文件夹及其内容的大小1du -sh logs/* 将需要交互的命令的结果重定向到文件中123telnet zk_ip 2181 | tee -a -i someFileenvi 查看上下文切换1nmon]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RocketMQ——Netty实现的远程同步与异步调用（二）]]></title>
+    <url>%2F2017%2F08%2F21%2FRocketMQ-Netty-imp-sync-and-async-invoke%2F</url>
+    <content type="text"><![CDATA[Netty IO框架netty是一个异步IO框架，异步API最大的特点就是基于事件，netty当然也不例外。 Remote同步调用 Remote异步调用异步调用不会使Caller线程等待，理论上可以在短时间内不限次数得调用，这将对系统造成非常大压力，所以在异步调用设计中引入了限流机制 ###]]></content>
+      <tags>
+        <tag>RocketMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RocketMQ在Intellij中的终极调试技巧（一）]]></title>
+    <url>%2F2017%2F08%2F20%2FRocketMQ-Debug-with-intellij%2F</url>
+    <content type="text"><![CDATA[调试难点如果虚拟机够多可以规划将MQ的各个部分部署在不同机器上，并且在所有子系统启动时加上远程调试。然后Intellij创建几个Remote debug窗口。 如果没有虚拟机，只有一台Mac，接下去的内容将对RocketMQ的调试有非常大的帮助。 调试界面 Name ServerBrokerBroker的调试最为麻烦，如果在学习RocketMQ的初期，建议单启动一个Broker，减少复杂度，关注主要流程代码。如果要深入学习和调试，要启动Master和Slave，开启主从同步功能，也是会发生端口和文件目录冲突的地方。 store的目录都为System.getProperty(&quot;user.home&quot;) + File.separator + &quot;store&quot;，所以我们需要对Master和Slave进行分离，方法很多种，这里介绍一种，在启动参数中配置不同的user.home。 Port的分离可以放在不同的配置文件中：broker-a.properties，broker-a-s.properties Master Broker123456789101112VM options:-Drocketmq.home.dir=/Users/eric/Code/middleware/incubator-rocketmq -Drocketmq.namesrv.addr=mac:9876 -Duser.home=/Users/eric/store/masterProgram arguments:-c /Users/eric/Code/middleware/incubator-rocketmq/conf/2m-2s-sync/broker-a.propertiesbroker-a.properties:brokerClusterName=DefaultClusterbrokerName=broker-abrokerId=0deleteWhen=04fileReservedTime=48brokerRole=SYNC_MASTERflushDiskType=ASYNC_FLUSHlistenPort=11111 Slave Broker123456789101112VM options:-Drocketmq.home.dir=/Users/eric/Code/middleware/incubator-rocketmq -Drocketmq.namesrv.addr=mac:9876 -Duser.home=/Users/eric/store/slaveProgram arguments:-c /Users/eric/Code/middleware/incubator-rocketmq/conf/2m-2s-sync/broker-a-s.propertiesbroker-a-s.properties:brokerClusterName=DefaultClusterbrokerName=broker-abrokerId=1deleteWhen=04fileReservedTime=48brokerRole=SLAVEflushDiskType=ASYNC_FLUSHlistenPort=22222 配置完后依次启动 Name Server, Master Broker, Slave Broker， Producer 完整的Store目录结构截图]]></content>
+      <tags>
+        <tag>RocketMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[面向问题的RocketMQ原理整理]]></title>
+    <url>%2F2017%2F08%2F09%2FRocketMQ-FAQ%2F</url>
+    <content type="text"><![CDATA[工作和学习中使用RocketMQ产生的困惑和总结，属于临时半成品文章，整理完了会单独成文。 为什么RocketMQ性能很高？主要是消息存储的方式影响着性能。 MQ为什么内部要使用好多队列？理论上队列入口要加锁（要么是程序的锁，要么是文件的锁）来保证同步，如果队列非常多，虽然不能把锁去掉，但可以减小并发线程对锁的竞争。这个是以前的结论，但实际情况是，consume queue只有一个线程来做。首先，commit log文件只有一个，假如要执行sendMessage，一定要用sync或者自旋锁（之后的版本为了考虑性能），消息都是顺序写进commit log的。对于一个topic的某一个consumer group，consumerQueue文件就有很多个，写consumerQueue文件由一个ReputMessageService的线程近实时空转而触发，也是单个线程。从写consumerQueue文件（send message）的角度来分析，多个队列是没有好处的。如果从读consumerQueue文件（pull message）的角度来分析。 MQ的NameServer集群节点中间有没有同步数据？与Zookeeper集群的区别是什么？MQ的topic有序性怎么保证MessageQueueSelector中的List mqs指的是所有的broker加起来的队列。 怎么让两个Broker中都有某个topic的信息，如果只有一个有，就没法做send的双broker负载均衡Client发送一个新的topic，在name server上是取不到信息的，所以先用在本地放上Map来缓存，那问题是Broker什么时候给name server发送创建Topic route info的请求？在checkMsg方法中，this.brokerController.registerBrokerAll(false, true);MQ的消费者端如果是用push的方式回调，执行listener会开启新的线程用来接收和返回（确认）ack，但一般我们会再开我们的新线程去做消费的事情，这个时候如果由于外界原因进程死亡，那么这些消息就丢失了。 哪些情况会引起rebalance?mq数量，客户端数量 怎么设计Netty的同步调用与异步调用？掌握CountDownLatch和（限流） 万一NameServer都被重启过，那producer或者consumer调用getTopicRouteInfo，信息从何而来？ UpdateRouteInfo应该会上传一个新的Topic的信息。 RocketMQ落盘是异步+定时的，还是就异步的？异步+定时，时间默认为500ms。 Client向broker pull message 都是以一个一个queue为单位的。processQueueTable代表，这里面的queue正在源源不断向broker请求数据中。而broker的queue的数量是可能发生变化的，所以，要时常对processQueueTable进行必要的整理。 一个Subscription对应一次rebalance调用，一般的情况是n个topic+1个Retry topic。每一次rebalance调用，都会对当前的topic分配broker中的MQ队列，如果分到n个，那个生成n个PullRequest。 RebalanceServer生成 PullRequest 会调用PullMessageService 放入 PullRequest的pullRequestQueue中，PullMessageService从pullRequestQueue队列中take出PullRequest，异步调用Netty。当网络将数据传输回来时，调用PullCallback中的ConsumeMessageService，遍历所有原始消费，对每个消息，生成一个ConsumeRequest，开启多线程进行消费。消费时，返回值怎么处理？比如 Re-consume-later, success。客户端开启一个线程定时去更新Broker的consumerOffset。 为什么一旦有producer发送了消息，consumer会几乎无延迟得立刻收到消息？首先网络层，和基于事件编程的Netty有关。跟网络有关，网络收到数据后，立刻进入回调代码。ReputService空轮询有关。 技巧 充分利用作者写好的单元测试，对原理的掌握会有帮助 RocketMQ有太多的事情是用 （短时间）定时+唤醒 的方式异步执行的，想要更好得了解原理，最好把定时的时间改得大一点，这样多线程的调试会好做很多。 未解决问题： Broker里面的protectBroker是用来做什么的？CommitLog和ConsumerQueue这两个文件的读写是顺序的么？效率怎么样？RocketMQ在哪几种情况下，可能会出现消息重复的问题？ 一个consume_group一开始订阅了*tag，之后加了具体的，会发生什么。 afka的发送消息性能非常高，常用于日志缓冲，是不是用「Oneway」的方式？不然producer发送请求，broker处理请求，producer接受响应，这三段的时间是无论如何都无法缩减的。RocketMQ的事务消息是什么？看到一段描述很有趣，当发送了分布式事务消息时，如果Producer因为意外宕机，Broker会回调Producer Group的另一一台Producer来确认事务状态。 Commit Log 中存储了所有的元信息，包含消息体，类似于 Mysql、Oracle 的 redolog，所以只要有 CommitLog 在，Consume Queue 即使数据丢失，仍然可以恢复出来。怎么理解？ 在Broker的SendMessageProcessor中，主干线程中只做了一件事，那就是把最新的消息Append到CommitLog中，并且通知Flush线程去force() mmap。所以，构建ConsumeQueue，构建索引这些事情都是异步的，那好像也没有看到通知这些线程，究竟是在哪里通知的呢？ Dispatcher（调度器）ReputMessageService。 Debug形式启动Producer，Producer发送消息，断点停止后，Producer发送消息会超时失败3次，但此时如果松开断点，让他执行完，那消息是在CommitLog中呢，还是不在？MQ在关闭的时候，CommitLog的内容和ConsumeQueue的内容需要能对上号的，但万一异常关闭导致没有对上号，应该怎么处理？CheckPoint机制有没有用？一个消息已经消费过了，能在控制台上选择进行重复投递么？可以。 Page Cache到底是个什么东西？对于不可读的Consume Queue，Consumer rebalance时会不会考虑到？如果没有考虑到，那不可读的队列也分给了Consumer，造成Consumer的浪费。看过源码了，没有问题。 topic中有readQ, writeQ, 那topic本身的权限是用来做什么的？多个namesrv不一致问题如果某个topic的consume queue上有数据，那设置可读可写队列为0后，数据是不是读不到了。（我知道不会丢失）写Consume queue完全是一个单线程DefaultMessageStore.ReputMessageService中，那就没有锁竞争了，一个Topic到底放多少个队列效率达到最高，是越少越好，还是越多越好？namesrv是无状态的，可以随意部署，但Broker启动后怎么是怎么知道新增加的namesrv的？如果发送了某个topic的某个tag的消息，那订阅了该topic的consumer是有可能过滤掉该tag的信息的。那怎么样才能知道该消息是“订阅了，被过滤了”的状态呢？ConsumerQueue文件删除了，能够复原么？原理index file删除了，能够复原么？原理ReputMessageService中空转监听是Commitog的offset，当有新的消息时，先是构建consume queue，然后通知PullMessageHoldService，那整个过程在哪里对消息进行过滤，过滤用的是tag，consume queue中也有tag的hash，是不是只需要对比这两个值就好？ 如果一个4G的文件用mmap映射到Java的MappedByteBuffer中，是绝对不可能整体加载进内存的。一个ByteBuffer就是一个有限的byte数组，但是，我们理论上可以在这个数组的任何位置（position）对数组进行读和写，然后映射进文件。如果OS能预感到我们的文件是顺序读写的，那么内存到文件的速度会非常快，如果是随机的，OS没法预测下次的读写位置，这样速度会变慢（这部分去查询下） PullConsumer：用consumer.pull(MessageQueue mq, String subExpression, long offset, int maxNums)方法去获取Broker的消息，如果第一次offset传了0，获取到了数据，第二次还是传0，还是能获取到数据，是什么原因？Broker的consumerOffset.json为什么不起作用？Pull和Push消费到的点什么时候会被persist到config/consumerOffset.json?详见MQClientInstance.persistAllConsumerOffset会把offsetTable定时发到Broker。 程序中处理MappedByteBuffer要特别注意些什么？A MemoryMappedBuffer has a fixed size, but the file it’s mapped to is elastic.所以一旦当前的程序（或者说当前的线程）对文件的内容失去了独占权，比如文件的内容被其它的线程改了，那原先的线程访问MappedByteBuffer对应位置的缓存就会抛出异常，所以，当我们要用MappedByteBuffer时，一定要确保在多线程下是互斥的。 RocketMQ发送，接受消息的性能与队列数量的关系。可以查看kafka相关的信息。 如果让你设计一个消息中间件？你会怎么设计？如果一个消息没有消费成功，会隔1s,5s,ns重新消费，这个是怎么实现的？构建IndexService是否可以做成异步？因为它如果卡住，会影响长轮询，从而影响消息接收的实时性。 Netty线程问题netty在触发channelRead0的时候，所用的线程是不是workEventLoopGroup所指定的线程nettyClientWorkerThread netty eventLoopGroup 是什么？网络端口映射Server:8080curl ‘localhost:8080’lsof -i:8080 待解决问题1234567org.apache.rocketmq.client.exception.MQClientException: No route info of this topic, binlog-msgSee http://rocketmq.apache.org/docs/faq/ for further details. at org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl.sendDefaultImpl(DefaultMQProducerImpl.java:537) at org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl.send(DefaultMQProducerImpl.java:1038) at org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl.send(DefaultMQProducerImpl.java:996) at org.apache.rocketmq.client.producer.DefaultMQProducer.send(DefaultMQProducer.java:212) at org.apache.rock 问题2017-10-11 07:21:38 WARN SendMessageThread_1 - Offset for /root/store/commitlog/00000000002147483648 not matched. Request offset: 4051326754958557513, index: -521875234, mappedFileSize: 1073741824, mappedFiles count: 12017-10-11 07:21:38 WARN SendMessageThread_1 - findMappedFileByOffset failure.java.lang.ArrayIndexOutOfBoundsException: -521875234 请教：rocketmq的这个异常应该如何解决呢？ RocketMQ水位线设置非常重要 RocketMQ 业务KEY相同导致哈希冲突RocketMQ协议RocketMQ LengthBasedField MQ系统限流和Flow ControlRocketMQ的NameServer是不是支持分布式一致性现在这个版本，当Master挂掉时，Slave可以升级成新的Master么]]></content>
+      <tags>
+        <tag>RocketMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Cobar——Reactor设计模式]]></title>
+    <url>%2F2017%2F07%2F24%2FCobar-Reactor-design-pattern%2F</url>
+    <content type="text"><![CDATA[I/O多路复用技术（multiplexing）是什么？引用下别人的言论： 作者：郭春阳链接：https://www.zhihu.com/question/28594409/answer/52835876来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。 下面举一个例子，模拟一个tcp服务器处理30个客户socket。假设你是一个老师，让30个学生解答一道题目，然后检查学生做的是否正确，你有下面几个选择：1. 第一种选择：按顺序逐个检查，先检查A，然后是B，之后是C、D。。。这中间如果有一个学生卡主，全班都会被耽误。这种模式就好比，你用循环挨个处理socket，根本不具有并发能力。2. 第二种选择：你创建30个分身，每个分身检查一个学生的答案是否正确。 这种类似于为每一个用户创建一个进程或者线程处理连接。3. 第三种选择，你站在讲台上等，谁解答完谁举手。这时C、D举手，表示他们解答问题完毕，你下去依次检查C、D的答案，然后继续回到讲台上等。此时E、A又举手，然后去处理E和A。。。 这种就是IO复用模型，Linux下的select、poll和epoll就是干这个的。将用户socket对应的fd注册进epoll，然后epoll帮你监听哪些socket上有消息到达，这样就避免了大量的无用操作。此时的socket应该采用非阻塞模式。这样，整个过程只在调用select、poll、epoll这些调用的时候才会阻塞，收发客户消息是不会阻塞的，整个进程或者线程就被充分利用起来，这就是事件驱动，所谓的reactor模式。 demultiplexinghttp://www.dre.vanderbilt.edu/~schmidt/PDF/reactor-siemens.pdf NIO原生API Cobar NIO Server线程模型]]></content>
+      <tags>
+        <tag>Cobar</tag>
+      </tags>
+  </entry>
+</search>

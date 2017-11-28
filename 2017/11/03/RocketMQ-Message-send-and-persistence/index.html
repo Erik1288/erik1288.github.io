@@ -94,19 +94,19 @@
 
 
 
-<meta name="description" content="逻辑Offset队列: ConsumerQueue物理Offset队列: CommitLogMappedByteBuffer操纵MappedByteBuffer的线程或者进程必须对某一个文件的映射Buffer有独占权，在设计上，消息的顺序是由CommitLog决定，所以CommitLog在Append新的消息时，必须上锁进行互斥。 传统的synchronized叫做monitor lock，当一">
+<meta name="description" content="异步刷盘有两种方式1234567891011121314// Synchronization flushif (FlushDiskType.SYNC_FLUSH == this.defaultMessageStore.getMessageStoreConfig().getFlushDiskType()) &amp;#123;    final GroupCommitService service = (G">
 <meta name="keywords" content="RocketMQ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RocketMQ——消息发送与落盘（三）">
 <meta property="og:url" content="http://yoursite.com/2017/11/03/RocketMQ-Message-send-and-persistence/index.html">
-<meta property="og:site_name" content="艾瑞克笔记">
-<meta property="og:description" content="逻辑Offset队列: ConsumerQueue物理Offset队列: CommitLogMappedByteBuffer操纵MappedByteBuffer的线程或者进程必须对某一个文件的映射Buffer有独占权，在设计上，消息的顺序是由CommitLog决定，所以CommitLog在Append新的消息时，必须上锁进行互斥。 传统的synchronized叫做monitor lock，当一">
+<meta property="og:site_name" content="艾瑞克小记">
+<meta property="og:description" content="异步刷盘有两种方式1234567891011121314// Synchronization flushif (FlushDiskType.SYNC_FLUSH == this.defaultMessageStore.getMessageStoreConfig().getFlushDiskType()) &amp;#123;    final GroupCommitService service = (G">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/11/03/RocketMQ-Message-send-and-persistence/disc-fall.gif">
-<meta property="og:updated_time" content="2017-11-03T10:29:39.000Z">
+<meta property="og:updated_time" content="2017-11-20T03:08:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RocketMQ——消息发送与落盘（三）">
-<meta name="twitter:description" content="逻辑Offset队列: ConsumerQueue物理Offset队列: CommitLogMappedByteBuffer操纵MappedByteBuffer的线程或者进程必须对某一个文件的映射Buffer有独占权，在设计上，消息的顺序是由CommitLog决定，所以CommitLog在Append新的消息时，必须上锁进行互斥。 传统的synchronized叫做monitor lock，当一">
+<meta name="twitter:description" content="异步刷盘有两种方式1234567891011121314// Synchronization flushif (FlushDiskType.SYNC_FLUSH == this.defaultMessageStore.getMessageStoreConfig().getFlushDiskType()) &amp;#123;    final GroupCommitService service = (G">
 <meta name="twitter:image" content="http://yoursite.com/2017/11/03/RocketMQ-Message-send-and-persistence/disc-fall.gif">
 
 
@@ -142,7 +142,7 @@
 
 
 
-  <title>RocketMQ——消息发送与落盘（三） | 艾瑞克笔记</title>
+  <title>RocketMQ——消息发送与落盘（三） | 艾瑞克小记</title>
   
 
 
@@ -178,7 +178,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">艾瑞克笔记</span>
+        <span class="site-title">艾瑞克小记</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -234,9 +234,43 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -274,7 +308,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -332,11 +366,55 @@
       
 
       
-        <p><img src="/2017/11/03/RocketMQ-Message-send-and-persistence/disc-fall.gif" alt="你想输入的替代文字"></p>
+        <h3 id="异步刷盘有两种方式"><a href="#异步刷盘有两种方式" class="headerlink" title="异步刷盘有两种方式"></a>异步刷盘有两种方式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Synchronization flush</span></div><div class="line"><span class="keyword">if</span> (FlushDiskType.SYNC_FLUSH == <span class="keyword">this</span>.defaultMessageStore.getMessageStoreConfig().getFlushDiskType()) &#123;</div><div class="line">    <span class="keyword">final</span> GroupCommitService service = (GroupCommitService) <span class="keyword">this</span>.flushCommitLogService;</div><div class="line">&#125;</div><div class="line"><span class="comment">// Asynchronous flush</span></div><div class="line"><span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.defaultMessageStore.getMessageStoreConfig().isTransientStorePoolEnable()) &#123;</div><div class="line">        <span class="comment">// FlushRealTimeService</span></div><div class="line">        flushCommitLogService.wakeup();</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// CommitRealTimeService</span></div><div class="line">        commitLogService.wakeup();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isTransientStorePoolEnable</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> transientStorePoolEnable &amp;&amp; FlushDiskType.ASYNC_FLUSH == getFlushDiskType()</div><div class="line">        &amp;&amp; BrokerRole.SLAVE != getBrokerRole();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>transientStorePoolEnable的具体含义是什么？<br>FlushRealTimeService和CommitRealTimeService刷盘的方式有什么区别，在性能有什么区别？</p>
+<p><img src="/2017/11/03/RocketMQ-Message-send-and-persistence/disc-fall.gif" alt="你想输入的替代文字"></p>
 <h3 id="逻辑Offset队列-ConsumerQueue"><a href="#逻辑Offset队列-ConsumerQueue" class="headerlink" title="逻辑Offset队列: ConsumerQueue"></a>逻辑Offset队列: ConsumerQueue</h3><h3 id="物理Offset队列-CommitLog"><a href="#物理Offset队列-CommitLog" class="headerlink" title="物理Offset队列: CommitLog"></a>物理Offset队列: CommitLog</h3><h3 id="MappedByteBuffer"><a href="#MappedByteBuffer" class="headerlink" title="MappedByteBuffer"></a>MappedByteBuffer</h3><p>操纵MappedByteBuffer的线程或者进程必须对某一个文件的映射Buffer有独占权，<br>在设计上，消息的顺序是由CommitLog决定，所以CommitLog在Append新的消息时，必须上锁进行互斥。</p>
 <p><em>传统的synchronized叫做monitor lock，当一个线程进入了synchronized的代码块时，我们说，该线程own（拥有）了monitor lock。这种锁是一种重量级锁，用mutual exclusive（互斥）的特性来实现了同步的需求。
 </em>自旋锁，JDK1.6引进，我们知道，线程状态与状态的切换，是需要内核参与的，简单点来讲，这个过程是需要点时间的。线程B已经own了一个锁，这是线程A去尝试获取锁，本来线程A应该要挂起，JVM不让它挂起，让A在那里做自旋操作，JVM要赌当前持有锁的B会很快释放锁。如果线程B确实很快释放了锁，那对于A来讲是一个非常好事情，因为A可以不用切换状态，立刻持有锁。那什么时候会用到呢？<a href="http://blog.csdn.net/u013080921/article/details/42676231" target="_blank" rel="external">http://blog.csdn.net/u013080921/article/details/42676231</a></p>
-<h4 id="Spin-Lock-自旋锁"><a href="#Spin-Lock-自旋锁" class="headerlink" title="Spin Lock(自旋锁)"></a>Spin Lock(自旋锁)</h4><h4 id="ReentrantLock-重入锁"><a href="#ReentrantLock-重入锁" class="headerlink" title="ReentrantLock(重入锁)"></a>ReentrantLock(重入锁)</h4>
+<h4 id="Spin-Lock-自旋锁"><a href="#Spin-Lock-自旋锁" class="headerlink" title="Spin Lock(自旋锁)"></a>Spin Lock(自旋锁)</h4><h4 id="ReentrantLock-重入锁"><a href="#ReentrantLock-重入锁" class="headerlink" title="ReentrantLock(重入锁)"></a>ReentrantLock(重入锁)</h4><h3 id="异步刷盘机制"><a href="#异步刷盘机制" class="headerlink" title="异步刷盘机制"></a>异步刷盘机制</h3><p><a href="http://blog.csdn.net/vonzhoufz/article/details/47248777" target="_blank" rel="external">http://blog.csdn.net/vonzhoufz/article/details/47248777</a></p>
+<h4 id="磁盘顺序读写与随机读写的差异"><a href="#磁盘顺序读写与随机读写的差异" class="headerlink" title="磁盘顺序读写与随机读写的差异"></a>磁盘顺序读写与随机读写的差异</h4><p><a href="https://kafka.apache.org/documentation/#design_filesystem" target="_blank" rel="external">https://kafka.apache.org/documentation/#design_filesystem</a></p>
+<p><a href="http://blog.csdn.net/evankaka/article/details/48464013" target="_blank" rel="external">http://blog.csdn.net/evankaka/article/details/48464013</a></p>
+<p>需要好好研究：<a href="http://blog.csdn.net/javahongxi/article/details/72956619?locationNum=2&amp;fps=1" target="_blank" rel="external">http://blog.csdn.net/javahongxi/article/details/72956619?locationNum=2&amp;fps=1</a><br>虽然讲的是kafka，研究价值极高：<a href="http://blog.csdn.net/tototuzuoquan/article/details/73437890" target="_blank" rel="external">http://blog.csdn.net/tototuzuoquan/article/details/73437890</a><br>pagecache是一个现在操作系统带有的天然的缓存！！！！！</p>
+<p><a href="http://blog.csdn.net/mg0832058/article/details/5890688" target="_blank" rel="external">http://blog.csdn.net/mg0832058/article/details/5890688</a><br>内存映射文件原理探索</p>
+<p>如何查看内存的 PAGESIZE<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">getconf PAGESIZE</div></pre></td></tr></table></figure></p>
+<p>终于理解了！！！！ 首先，Kafka重度依赖底层操作系统提供的PageCache功能。当上层有写操作时，操作系统只是将数据写入PageCache，同时标记Page属性为Dirty。当读操作发生时，先从PageCache中查找，如果发生缺页才进行磁盘调度，最终返回需要的数据。实际上PageCache是把尽可能多的空闲内存都当做了磁盘缓存来使用。同时如果有其他进程申请内存，回收PageCache的代价又很小，所以现代的OS都支持PageCache。 </p>
+<p>所以说 commit(atLeastSize)的参数就是现代操作系统pagecache的大小。</p>
+<p><a href="http://www.jianshu.com/p/6494e33c9b1f" target="_blank" rel="external">http://www.jianshu.com/p/6494e33c9b1f</a><br>Consume Queue 顺序写，顺序读 几乎都是完全命中Page Cache，和内存速度几乎一样<br>Commit Log 顺序写，顺序跳跃读，相比完全的随机读，性能也还好</p>
+<p><a href="http://blog.csdn.net/mg0832058/article/details/5890688" target="_blank" rel="external">http://blog.csdn.net/mg0832058/article/details/5890688</a><br>内存映射文件原理探索</p>
+<p><a href="http://www.jianshu.com/p/6494e33c9b1f" target="_blank" rel="external">http://www.jianshu.com/p/6494e33c9b1f</a><br>1).充分利用page cache降低读数据的时间开销. 读取时尽可能让其命中page cache, 减少IO读操作, 所以内存越大越好. 如果系统中堆积的消息过多, 读数据要访问磁盘会不会由于随机读导致系统性能急剧下降, 答案是否定的.<br>访问page cache 时, 即使只访问1k的消息, 系统也会提前预读出更多数据, 在下次读时, 就可能命中内存.<br>随机访问Commit Log磁盘数据, 系统IO调度算法设置为NOOP方式, 会在一定程度上将完全的随机读变成顺序跳跃方式, 而顺序跳跃方式读较完全的随机读性能会高5倍以上.<br>另外4k的消息在完全随机访问情况下, 仍然可以达到8K次每秒以上的读性能.<br>由于Consume Queue存储数据量极少, 而且是顺序读, 在PAGECACHE预读作用下, Consume Queue的读性能几乎与内存一致, 即使堆积情况下. 所以可认为Consume Queue完全不会阻碍读性能.<br>2).Commit Log中存储了所有的元信息, 包含消息体, 类似于Mysql、Oracle的redolog, 所以只要有Commit Log在, Consume Queue即使数据丢失, 仍然可以恢复出来.</p>
+<p><a href="https://segmentfault.com/a/1190000003985468" target="_blank" rel="external">https://segmentfault.com/a/1190000003985468</a><br>kafka底层原理</p>
+<p>linux最多可以容忍多少大小的脏页。脏页－linux内核中的概念，因为硬盘的读写速度远赶不上内存的速度，系统就把读写比较频繁的数据事先放到内存中，以提高读写速度，这就叫高速缓存，linux是以页作为高速缓存的单位，当进程修改了高速缓存里的数据时，该页就被内核标记为脏页，内核将会在合适的时间把脏页的数据写到磁盘中去，以保持高速缓存中的数据和磁盘中的数据是一致的。</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>page cache是内存的东西（物理内存还是虚拟内存），我们写文件时先写进内存page cache，然后从page cache刷到disc上</p>
+<p>现在MQ异步刷盘是有个间隔的，如果说pagecache中的数据一直没有被刷进磁盘，那所谓的脏页会越来越大，jvm crash后会丢失数据么。那什么时候是不会丢消息的</p>
+<p>对于读是好理解的，但对于写，如果文件是顺序写的，commit log和consume queue都是顺序写的，那pagecache的存在如何让速度提升了？是从java heap到pagecache的速度提升了，还是说从pagecache到disc的速度提升了？</p>
+<p>producer发送消息，如果是立马被消费这种场景<br>1.对于consume queue，肯定是顺序读写，所以写进pagecache（物理内存）后，直接就从pagecache（物理内存）被读出来了<br>2.对于commit log，虽然不是顺序读，但也是基本有序读，最后大部分也能命中pagecache，不需要走系统IO</p>
+<p>如果是消费历史消息，很大程度上，会发现在pagecache（虚拟内存）中没有，由系统产生缺页中断，从磁盘中重新读到pagecache中（可能还会根据顺序预读很多），然后再将数据从pagecache复制到socket中传输到consumer。</p>
+<p>MappedByteBuffer 能不能映射大于操作系统内存的文件？<br>MappedByteBuffer所占用的内存是堆外内存，那什么时候才能被回收</p>
+<p><a href="http://www.iocoder.cn/RocketMQ/message-store/" target="_blank" rel="external">http://www.iocoder.cn/RocketMQ/message-store/</a><br>CommitRealTimeService    异步刷盘 &amp;&amp; 开启内存字节缓冲区    第一<br>FlushRealTimeService    异步刷盘 &amp;&amp; 关闭内存字节缓冲区    第二<br>GroupCommitService    同步刷盘    第三<br>没看懂</p>
+<p><a href="http://blog.csdn.net/iie_libi/article/details/54289580" target="_blank" rel="external">http://blog.csdn.net/iie_libi/article/details/54289580</a><br>零拷贝技术</p>
+<p>Consumer 消费消息过程，使用了零拷贝技术，因为有小块数据传输的需求，效果会比 sendfile 更好，所以RocketMQ选择了mmap+write方式。<br>① 优点：即使频繁调用，使用小块文件传输，效率也很高<br>② 缺点：不能很好的利用 DMA 方式，会比 sendfile 多消耗CPU，内存安全性控制复杂，需要避免JVM Crash问题。</p>
+<p>文件系统</p>
+<p>建议选择ext4文件系统，删除文件的实时性强。<br>调优：文件系统的io调度算法需要调整为deadline，因为deadline 算法在随机读情况下，可以合并读请求为顺序跳跃方式，从而提高读IO 吞吐量。</p>
+<p>文件读写冲突？</p>
+<p>写文件的时候，如果消费者在读怎么办？<br>依赖于操作系统对文件读写操作的处理，，，永远一个一个进程在写文件，如果其他进程需要访问文件，只能是读，或者是再创建一个副本，写文件。（读写锁+写时复制） 读写锁在哪里</p>
+<p>提高pagecache？</p>
+<p>RocketMQ用的是FileChannel.map()出来的MappedByteBuffer，这种Buffer是堆外内存，MQ怎么对这部分的内存进行回收？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">clean</span><span class="params">(<span class="keyword">final</span> ByteBuffer buffer)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (buffer == <span class="keyword">null</span> || !buffer.isDirect() || buffer.capacity() == <span class="number">0</span>)</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    invoke(invoke(viewed(buffer), <span class="string">"cleaner"</span>), <span class="string">"clean"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Deallocator</span></span></div><div class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Unsafe unsafe = Unsafe.getUnsafe();</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> address;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> size;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> capacity;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Deallocator</span><span class="params">(<span class="keyword">long</span> address, <span class="keyword">long</span> size, <span class="keyword">int</span> capacity)</span> </span>&#123;</div><div class="line">        <span class="keyword">assert</span> (address != <span class="number">0</span>);</div><div class="line">        <span class="keyword">this</span>.address = address;</div><div class="line">        <span class="keyword">this</span>.size = size;</div><div class="line">        <span class="keyword">this</span>.capacity = capacity;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (address == <span class="number">0</span>) &#123;</div><div class="line">            <span class="comment">// Paranoia</span></div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        unsafe.freeMemory(address);</div><div class="line">        address = <span class="number">0</span>;</div><div class="line">        Bits.unreserveMemory(size, capacity);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>堆外内存的回收需要依赖显式Full GC或者隐式Full GC，一般来说DisableExplicitGC可以开，也可以关，但是如果禁用了显式GC，当系统没有足够的Full GC时，堆外内存无法回收。</p>
+<p>  想要提高pagecache的命中率，即尽量让访问的页在物理内存中，而不是在虚拟内存中，减少IO 读操作，所以从硬件的角度，当然是内存越大越好。<br>而在软件角度，rocketmq有以下策略：<br>尽量顺序读<br> 如果需要随机读的话：<br>访问 PAGECACHE 时，即使只访问 1k 的消息，系统也会提前预读出更多数据，在下次读时，就可能命中内存。<br> 随机访问 Commit Log 磁盘数据，系统 IO 调度算法设置为NOOP 方式，会在一定程度上将完全的随机读变成顺序跳跃方式，而顺序跳跃方式读较完全的随机读性能会高5 倍以上。</p>
+<p> 可能的优化策略</p>
+<p> 1．线程绑定核+线程池（取模）<br> a) 将每个线程绑定核，一个函数就可以<br> b) 优势：避免线程核间调度<br> 2．改用互斥锁为读写锁<br> a) 读读场景的线程可以并行<br> 3．使用xxhash代替crc算法，性能可以提高很多<br> a) 参考链接：<a href="https://cyan4973.github.io/xxHash/" target="_blank" rel="external">https://cyan4973.github.io/xxHash/</a><br> 4．使用topic划分多个逻辑队列（链表）<br> a) 避免topic的多次字符串的比较<br> 5．改用STL的deque来替代MESA list<br> a) Deque类似于vector，可以支持随机访问<br> b) 常量时间内在头部和尾部插入，删除元素<br> 6．改用跳表来代替MESA list<br> a) 跳表可以高并发+log（n）的随机访问<br> b) 不能删除元素<br> i. 设为标志位，当内存数据达到一定阈值时，写到磁盘或者持久化到leveldb中（hbase也是这样做的）。</p>
+<p> <em>java.nio.channels.FileChannel</em><br> <code>public abstract void force(boolean metaData) throws java.io.IOException</code><br> Forces any updates to this channel’s file to be written to the storage device that contains it.<br> If this channel’s file resides on a local storage device then when this method returns it is guaranteed that all changes made to the file since this channel was created, or since this method was last invoked, will have been written to that device. This is useful for ensuring that critical information is not lost in the event of a system crash.<br> If the file does not reside on a local device then no such guarantee is made.<br> The metaData parameter can be used to limit the number of I/O operations that this method is required to perform. Passing false for this parameter indicates that only updates to the file’s content need be written to storage; passing true indicates that updates to both the file’s content and metadata must be written, which generally requires at least one more I/O operation. Whether this parameter actually has any effect is dependent upon the underlying operating system and is therefore unspecified.<br> Invoking this method may cause an I/O operation to occur even if the channel was only opened for reading. Some operating systems, for example, maintain a last-access time as part of a file’s metadata, and this time is updated whenever the file is read. Whether or not this is actually done is system-dependent and is therefore unspecified.<br> This method is only guaranteed to force changes that were made to this channel’s file via the methods defined in this class. <strong>It may or may not force changes that were made by modifying the content of a mapped byte buffer obtained by invoking the map method. Invoking the force method of the mapped byte buffer will force changes made to the buffer’s content to be written.</strong></p>
+<p> <em>java.nio.MappedByteBuffer</em><br> <code>public final MappedByteBuffer force()</code><br> Forces any changes made to this buffer’s content to be written to the storage device containing the mapped file.<br> If the file mapped into this buffer resides on a local storage device then when this method returns it is guaranteed that all changes made to the buffer since it was created, or since this method was last invoked, will have been written to that device.<br> If the file does not reside on a local device then no such guarantee is made.<br> If this buffer was not mapped in read/write mode (java.nio.channels.FileChannel.MapMode.READ_WRITE) then invoking this method has no effect.</p>
+<h3 id="写得超级好的一篇文章"><a href="#写得超级好的一篇文章" class="headerlink" title="写得超级好的一篇文章"></a>写得超级好的一篇文章</h3><p> <a href="http://blog.csdn.net/a417930422/article/details/52585862" target="_blank" rel="external">http://blog.csdn.net/a417930422/article/details/52585862</a></p>
+<p>包括下面的问题：</p>
+<p>wangbin00162017-08-08 17:011楼<br>楼主确定 零拷贝-sendfile 对应到java中<br>为FileChannel.transferTo(long position, long count, WritableByteChannel target)//？？</p>
+<p>rocketmq 文档上面写到 RocketMQ选择了第一种方式，mmap+write方式，因为有小块数据传输的需求，效果会比sendfile更好。</p>
+<p>源码里面使用的是netty的FileRegion 用的是FileChannel.transferTo</p>
+<p>FileRegion fileRegion =<br>new ManyMessageTransfer(response.encodeHeader(getMessageResult.getBufferTotalSize()), getMessageResult);<br>channel.writeAndFlush(fileRegion)<br>            回复  2条回复<br>             a417930422<br>            a4179304222017-09-21 10:35<br>            回复wangbin0016：另外，rocketmq主要使用的是mmap，即java的MappedByteBuffer用于快速读写。<br>             a417930422<br>            a4179304222017-09-21 10:32<br>            回复wangbin0016：rocketmq文档中写的是Consumer 消费消息过程使用了mmap+write，即内存映射文件的方式，请参照我写的rocketmq存储相关文章：<a href="http://blog.csdn.net/a417930422/article/details/52585180" target="_blank" rel="external">http://blog.csdn.net/a417930422/article/details/52585180</a>.<br>            你说的netty的FileRegion其实是被rocketmq重新实现的ManyMessageTransfer，而transfer过程其实是将GetMessageResult对象的数据写到netty的channel中，本质是从内核获取数据直接发送至socket，不会复制到用户空间。<br>            GetMessageResult其实是mmap的一个子缓冲区而已。<br>            有兴趣可以看看源码 com.alibaba.rocketmq.store.DefaultMessageStore.getMessage方法</p>
+
       
     </div>
     
@@ -447,7 +525,7 @@
                alt="Eric Fei" />
           <p class="site-author-name" itemprop="name">Eric Fei</p>
            
-              <p class="site-description motion-element" itemprop="description">费红健的原创笔记 <br> 能用代码或者作图来说明问题，绝不废话</p>
+              <p class="site-description motion-element" itemprop="description">费红健的笔记 <br> 能用代码或者作图来说明问题，绝不废话</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -455,7 +533,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">50</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -468,7 +546,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -503,7 +581,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑Offset队列-ConsumerQueue"><span class="nav-number">1.</span> <span class="nav-text">逻辑Offset队列: ConsumerQueue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#物理Offset队列-CommitLog"><span class="nav-number">2.</span> <span class="nav-text">物理Offset队列: CommitLog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MappedByteBuffer"><span class="nav-number">3.</span> <span class="nav-text">MappedByteBuffer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spin-Lock-自旋锁"><span class="nav-number">3.1.</span> <span class="nav-text">Spin Lock(自旋锁)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ReentrantLock-重入锁"><span class="nav-number">3.2.</span> <span class="nav-text">ReentrantLock(重入锁)</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#异步刷盘有两种方式"><span class="nav-number">1.</span> <span class="nav-text">异步刷盘有两种方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑Offset队列-ConsumerQueue"><span class="nav-number">2.</span> <span class="nav-text">逻辑Offset队列: ConsumerQueue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#物理Offset队列-CommitLog"><span class="nav-number">3.</span> <span class="nav-text">物理Offset队列: CommitLog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MappedByteBuffer"><span class="nav-number">4.</span> <span class="nav-text">MappedByteBuffer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spin-Lock-自旋锁"><span class="nav-number">4.1.</span> <span class="nav-text">Spin Lock(自旋锁)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ReentrantLock-重入锁"><span class="nav-number">4.2.</span> <span class="nav-text">ReentrantLock(重入锁)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步刷盘机制"><span class="nav-number">5.</span> <span class="nav-text">异步刷盘机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#磁盘顺序读写与随机读写的差异"><span class="nav-number">5.1.</span> <span class="nav-text">磁盘顺序读写与随机读写的差异</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">6.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写得超级好的一篇文章"><span class="nav-number">7.</span> <span class="nav-text">写得超级好的一篇文章</span></a></li></ol></div>
             
 
           </div>
@@ -662,6 +740,323 @@
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 

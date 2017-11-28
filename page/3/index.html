@@ -94,16 +94,16 @@
 
 
 
-<meta name="description" content="费红健的原创笔记  能用代码或者作图来说明问题，绝不废话">
+<meta name="description" content="费红健的笔记  能用代码或者作图来说明问题，绝不废话">
 <meta property="og:type" content="website">
-<meta property="og:title" content="艾瑞克笔记">
+<meta property="og:title" content="艾瑞克小记">
 <meta property="og:url" content="http://yoursite.com/page/3/index.html">
-<meta property="og:site_name" content="艾瑞克笔记">
-<meta property="og:description" content="费红健的原创笔记  能用代码或者作图来说明问题，绝不废话">
+<meta property="og:site_name" content="艾瑞克小记">
+<meta property="og:description" content="费红健的笔记  能用代码或者作图来说明问题，绝不废话">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="艾瑞克笔记">
-<meta name="twitter:description" content="费红健的原创笔记  能用代码或者作图来说明问题，绝不废话">
+<meta name="twitter:title" content="艾瑞克小记">
+<meta name="twitter:description" content="费红健的笔记  能用代码或者作图来说明问题，绝不废话">
 
 
 
@@ -138,7 +138,7 @@
 
 
 
-  <title>艾瑞克笔记</title>
+  <title>艾瑞克小记</title>
   
 
 
@@ -176,7 +176,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">艾瑞克笔记</span>
+        <span class="site-title">艾瑞克小记</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -232,9 +232,43 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -263,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/RocketMQ-Master-slave-high-availability/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/03/Distributed-Transaction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -272,7 +306,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -282,7 +316,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/12/RocketMQ-Master-slave-high-availability/" itemprop="url">RocketMQ——Broker的主从复制原理分析（双写机制）</a></h1>
+                <a class="post-title-link" href="/2017/11/03/Distributed-Transaction/" itemprop="url">Distributed-Transaction</a></h1>
         
 
         <div class="post-meta">
@@ -294,8 +328,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T16:28:24+08:00">
-                2017-10-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-03T10:54:48+08:00">
+                2017-11-03
               </time>
             
 
@@ -334,8 +368,11 @@
       
         
           
-            <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
-<p><img src="https://ws3.sinaimg.cn/large/006tNbRwgy1fkfij3xtx8j31kw1514e0.jpg" alt=""></p>
+            <h3 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h3><h3 id="RocketMQ事务功能"><a href="#RocketMQ事务功能" class="headerlink" title="RocketMQ事务功能"></a>RocketMQ事务功能</h3><p><img src="/2017/11/03/Distributed-Transaction/transaction_rocketmq.gif" alt="你想输入的替代文字"></p>
+<h3 id="抽象出一个完整的系统"><a href="#抽象出一个完整的系统" class="headerlink" title="抽象出一个完整的系统"></a>抽象出一个完整的系统</h3><p>不是所有的MQ系统都是支持这个HalfMsg的操作的，所以我们把这个系统抽成一个事务SOA服务</p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzU4MTEyODIzMg==&amp;mid=2247483713&amp;idx=1&amp;sn=c9efdd6eda9d7bd32f82e42b2ca3fbe3&amp;chksm=fd4d1806ca3a9110474f9c0b1d2a886a9f994c4b8ed8d354a3c6bd8d8373cd012646443ebfca&amp;mpshare=1&amp;scene=1&amp;srcid=1110kSXANwBrbL2TWtA0NAK6&amp;key=86d1b0bfcae3874289b26357e30923b1734881e3a43437f4558c9c6be8f133e62f000fc4c315915ad48066faca9893f45a6515e6faebf3f27b85a03bf975ca15ecd8401181121b82a5d41040f7b5c565&amp;ascene=0&amp;uin=MjcyMjMxNTA0Mg%3D%3D&amp;devicetype=iMac+MacBookPro11%2C4+OSX+OSX+10.12+build(16A323)&amp;version=12010210&amp;nettype=WIFI&amp;fontScale=100&amp;pass_ticket=T2oTN5azeGV4Brh%2FOFJxtVGb2WVp1QN3ylyWucAGYWTJBOrOLdFJzJoRIwToLTv8" target="_blank" rel="external">https://mp.weixin.qq.com/s?__biz=MzU4MTEyODIzMg==&amp;mid=2247483713&amp;idx=1&amp;sn=c9efdd6eda9d7bd32f82e42b2ca3fbe3&amp;chksm=fd4d1806ca3a9110474f9c0b1d2a886a9f994c4b8ed8d354a3c6bd8d8373cd012646443ebfca&amp;mpshare=1&amp;scene=1&amp;srcid=1110kSXANwBrbL2TWtA0NAK6&amp;key=86d1b0bfcae3874289b26357e30923b1734881e3a43437f4558c9c6be8f133e62f000fc4c315915ad48066faca9893f45a6515e6faebf3f27b85a03bf975ca15ecd8401181121b82a5d41040f7b5c565&amp;ascene=0&amp;uin=MjcyMjMxNTA0Mg%3D%3D&amp;devicetype=iMac+MacBookPro11%2C4+OSX+OSX+10.12+build(16A323)&amp;version=12010210&amp;nettype=WIFI&amp;fontScale=100&amp;pass_ticket=T2oTN5azeGV4Brh%2FOFJxtVGb2WVp1QN3ylyWucAGYWTJBOrOLdFJzJoRIwToLTv8</a></p>
+<h3 id="Spring-Cloud"><a href="#Spring-Cloud" class="headerlink" title="Spring Cloud"></a>Spring Cloud</h3><p><a href="http://www.jianshu.com/p/cf3a2884a8d2?open_source=weibo_search" target="_blank" rel="external">http://www.jianshu.com/p/cf3a2884a8d2?open_source=weibo_search</a><br><a href="https://www.atomikos.com/Blog/TransactionManagementAPIForRESTTCC" target="_blank" rel="external">https://www.atomikos.com/Blog/TransactionManagementAPIForRESTTCC</a></p>
+<p><a href="https://github.com/beston123/Tarzan" target="_blank" rel="external">https://github.com/beston123/Tarzan</a></p>
 
           
         
@@ -384,7 +421,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/11/RocketMQ-Transactional-message/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/01/Linux-sync-async-blocking-noblocking/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -393,7 +430,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -403,7 +440,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/11/RocketMQ-Transactional-message/" itemprop="url">RocketMQ——事务消息原理分析</a></h1>
+                <a class="post-title-link" href="/2017/11/01/Linux-sync-async-blocking-noblocking/" itemprop="url">OS-sync-async-blocking-noblocking</a></h1>
         
 
         <div class="post-meta">
@@ -415,8 +452,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-11T16:27:43+08:00">
-                2017-10-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-01T15:01:02+08:00">
+                2017-11-01
               </time>
             
 
@@ -455,9 +492,126 @@
       
         
           
-            <p><a href="https://help.aliyun.com/document_detail/43348.html?spm=5176.doc43490.6.566.Zd5Bl7" target="_blank" rel="external">https://help.aliyun.com/document_detail/43348.html?spm=5176.doc43490.6.566.Zd5Bl7</a></p>
-<p><img src="/2017/10/11/RocketMQ-Transactional-message/transaction_rocketmq.gif" alt="你想输入的替代文字"></p>
-<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>producer发送half msg时，broker如果当它是一条普通的消息，那consumer会立刻在long pooling中收到，但实现是不会收到的，是在哪一个环节设置的。<br>事务消息，提交（COMMIT）后才生成 ConsumeQueue<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommitLogDispatcherBuildConsumeQueue</span> <span class="keyword">implements</span> <span class="title">CommitLogDispatcher</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatch</span><span class="params">(DispatchRequest request)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> tranType = MessageSysFlag.getTransactionValue(request.getSysFlag());</div><div class="line">        <span class="keyword">switch</span> (tranType) &#123;</div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_NOT_TYPE:</div><div class="line">            <span class="comment">// 虽然所有的状态都会存储到commit log中，只有 TRANSACTION_COMMIT_TYPE 状态才会构建consume queue</span></div><div class="line">            <span class="comment">// 也就是说让consumer进行消费</span></div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_COMMIT_TYPE:</div><div class="line">                DefaultMessageStore.<span class="keyword">this</span>.putMessagePositionInfo(request);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_PREPARED_TYPE:</div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_ROLLBACK_TYPE:</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/28/Curator-sync-and-mutual-exclusion-between-thread-and-process/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/28/Curator-sync-and-mutual-exclusion-between-thread-and-process/" itemprop="url">Curator-sync-and-mutual-exclusion-between-thread-and-process</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-28T10:46:49+08:00">
+                2017-10-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h3><h4 id="read-write-lock"><a href="#read-write-lock" class="headerlink" title="read write lock"></a>read write lock</h4><h4 id="spin-lock"><a href="#spin-lock" class="headerlink" title="spin lock"></a>spin lock</h4><h4 id="reentrant-lock"><a href="#reentrant-lock" class="headerlink" title="reentrant lock"></a>reentrant lock</h4><h3 id="Barrier"><a href="#Barrier" class="headerlink" title="Barrier"></a>Barrier</h3><h3 id="Semaphore"><a href="#Semaphore" class="headerlink" title="Semaphore"></a>Semaphore</h3><p>###</p>
 
           
         
@@ -506,7 +660,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/27/Cobar-Enhance-cobar-dataSource-with-dataHost/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -515,7 +669,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -525,7 +679,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/" itemprop="url">Cobar——用分布式锁增强Cobar在集群环境的数据源切换</a></h1>
+                <a class="post-title-link" href="/2017/10/27/Cobar-Enhance-cobar-dataSource-with-dataHost/" itemprop="url">Cobar-Enhance-cobar-dataSource-with-dataHost</a></h1>
         
 
         <div class="post-meta">
@@ -537,8 +691,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-09T17:31:06+08:00">
-                2017-10-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-27T16:03:12+08:00">
+                2017-10-27
               </time>
             
 
@@ -577,14 +731,7 @@
       
         
           
-            <p>Cobar集群部署时是无状态的，只是集群中会相互发送对等的心跳让每一台Cobar都保存完整集群列表。但网络存在的情况是非常复杂的。</p>
-<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>列举一种场景，有一个Cobar集群Cobar_Cluster，内部有两台机器，Cobar_A和Cobar_B，8台MySQL，MySQL1-8，MySQL1-4配置作Master，MySQL5-8台配置为Slave。</p>
-<p><img src="/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/sign.gif" alt=""></p>
-<p><img src="/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/normal.gif" alt=""></p>
-<p>CobarA和CobarB初始启动后，后端的数据源都指向MySQL1-4。如果CobarA和MySQL_2之间的网络抖了下，但CobarB和MySQL_2的网络没有抖动。于是CobarA切到了MySQL_6上，CobarB还是在MySQL_2上。</p>
-<p><img src="/2017/10/09/Cobar-Cluster-datasource-switch-design-with-distributed-lock/abnormal.gif" alt=""></p>
-<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>Cobar_B上执行insert，Cobar_A上执行select，binlog需要时间</p>
-
+            
           
         
       
@@ -632,7 +779,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/28/Curator-Distributed-lock/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/27/Cobar-Enhance-cobar-mysql-heartbeat/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -641,7 +788,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -651,7 +798,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/28/Curator-Distributed-lock/" itemprop="url">curator——分布式锁的实现之一</a></h1>
+                <a class="post-title-link" href="/2017/10/27/Cobar-Enhance-cobar-mysql-heartbeat/" itemprop="url">Cobar-Enhance-cobar-mysql-heartbeat</a></h1>
         
 
         <div class="post-meta">
@@ -663,8 +810,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-28T16:58:05+08:00">
-                2017-09-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-27T14:37:10+08:00">
+                2017-10-27
               </time>
             
 
@@ -703,13 +850,169 @@
       
         
           
-            <ul>
-<li>MySQL实现</li>
-<li>Redis</li>
-<li>ZooKeeper</li>
-<li>RedLock</li>
+            <h3 id="Cobar与MySQL心跳实现"><a href="#Cobar与MySQL心跳实现" class="headerlink" title="Cobar与MySQL心跳实现"></a>Cobar与MySQL心跳实现</h3><p>Cobar的心跳是用原生NIO写的，相对于用Netty来发送心跳，复杂度不在一个量级上。</p>
+<h3 id="网络抖动"><a href="#网络抖动" class="headerlink" title="网络抖动"></a>网络抖动</h3><p>Cobar会向MySQL发送<code>select user()</code>的心跳，Cobar会在以下两种情况下进行数据源切换</p>
+<ul>
+<li>Cobar向MySQL发送心跳数据失败，界定为Error</li>
+<li>Cobar向MySQL发送心跳数据，但30秒（默认）内没有收到MySQL回复，界定为Timeout</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InterProcessMutexTest</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String LOCK_PATH = <span class="string">"/curator-kick-off/lock"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> CuratorFramework client;</div><div class="line"></div><div class="line">    <span class="meta">@BeforeClass</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</div><div class="line">        client = CuratorFrameworkFactory.newClient(</div><div class="line">                <span class="string">"127.0.0.1:2181"</span>,</div><div class="line">                <span class="number">1000</span> * <span class="number">10</span>,</div><div class="line">                <span class="number">3000</span>, <span class="keyword">new</span> ExponentialBackoffRetry(</div><div class="line">                        <span class="number">1000</span>,</div><div class="line">                        <span class="number">3</span>));</div><div class="line">        client.start();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        InterProcessMutex lock = <span class="keyword">new</span> InterProcessMutex(client, LOCK_PATH);</div><div class="line">        <span class="keyword">boolean</span> acquire = lock.acquire(<span class="number">5</span>, TimeUnit.SECONDS);</div><div class="line">        System.out.println(acquire);</div><div class="line">        System.out.println(<span class="string">"done"</span>);</div><div class="line">        lock.release();</div><div class="line">        System.in.read();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在阿里云VPC的环境中，网络抖动又是家常便饭，一旦网络出现抖动，Cobar立刻把对应dataNode的数据源从Master切到Slave或者从Slave切回Master，于是，慢SQL出现了。这时都意识到，这个数据源切换的策略不靠谱，需要重新设计。</p>
+<p>不能一发现情况一，就认定是Error，网络抖动很有可能在几秒钟之内恢复回来，这里采用的策略是，发现情况一，再试3次，如果第3次还失败，等待n秒后再试一次，如果还发送心跳失败，那就是Error，需要切换数据源。</p>
+<h3 id="过滤抖动策略"><a href="#过滤抖动策略" class="headerlink" title="过滤抖动策略"></a>过滤抖动策略</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/27/Thread-FAQ/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/27/Thread-FAQ/" itemprop="url">Thread-FAQ</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-27T11:07:35+08:00">
+                2017-10-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://blog.csdn.net/zhandoushi1982/article/details/5506597" target="_blank" rel="external">http://blog.csdn.net/zhandoushi1982/article/details/5506597</a><br>线程的挂起操作实质上就是使线程进入“非可执行”状态下，在这个状态下CPU不会分给线程时间片，进入这个状态可以用来暂停一个线程的运行。在线程挂起后，可以通过重新唤醒线程来使之恢复运行。</p>
+<h3 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h3><h3 id="Future"><a href="#Future" class="headerlink" title="Future"></a>Future</h3><h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><h3 id="Difference-between-ReentrantLock-and-sync"><a href="#Difference-between-ReentrantLock-and-sync" class="headerlink" title="Difference between ReentrantLock and sync"></a>Difference between ReentrantLock and sync</h3><h3 id="Java线程面试题"><a href="#Java线程面试题" class="headerlink" title="Java线程面试题"></a>Java线程面试题</h3><p>如果用了ReentrantLock，还需要设置自旋锁么？</p>
+<p>假如用sync做了线程互斥，A和B两个线程竞争monitor，A拿到了monitor，如果A迟迟不释放，B将永远等待，怎么避免这种情况？</p>
+<p>CopyOnWrite</p>
+<p>15个Java多线程面试题及回答</p>
+<p>1)现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？</p>
+<p>这个线程问题通常会在第一轮或电话面试阶段被问到，目的是检测你对”join”方法是否熟悉。这个多线程问题比较简单，可以用join方法实现。</p>
+<p>2)在Java中Lock接口比synchronized块的优势是什么？你需要实现一个高效的缓存，它允许多个用户读，但只允许一个用户写，以此来保持它的完整性，你会怎样去实现它？</p>
+<p>lock接口在多线程和并发编程中最大的优势是它们为读和写分别提供了锁，它能满足你写像ConcurrentHashMap这样的高性能数据结构和有条件的阻塞。Java线程面试的问题越来越会根据面试者的回答来提问。我强烈建议在你去参加多线程的面试之前认真读一下Locks，因为当前其大量用于构建电子交易终统的客户端缓存和交易连接空间。</p>
+<p>3)在java中wait和sleep方法的不同？</p>
+<p>通常会在电话面试中经常被问到的Java线程面试问题。最大的不同是在等待时wait会释放锁，而sleep一直持有锁。Wait通常被用于线程间交互，sleep通常被用于暂停执行。</p>
+<p>4）用Java实现阻塞队列。</p>
+<p>这是一个相对艰难的多线程面试问题，它能达到很多的目的。第一，它可以检测侯选者是否能实际的用Java线程写程序；第二，可以检测侯选者对并发场景的理解，并且你可以根据这个问很多问题。如果他用wait()和notify()方法来实现阻塞队列，你可以要求他用最新的Java 5中的并发类来再写一次。</p>
+<p>5）用Java写代码来解决生产者——消费者问题。</p>
+<p>与上面的问题很类似，但这个问题更经典，有些时候面试都会问下面的问题。在Java中怎么解决生产者——消费者问题，当然有很多解决方法，我已经分享了一种用阻塞队列实现的方法。有些时候他们甚至会问怎么实现哲学家进餐问题。</p>
+<p>6）用Java编程一个会导致死锁的程序，你将怎么解决？</p>
+<p>这是我最喜欢的Java线程面试问题，因为即使死锁问题在写多线程并发程序时非常普遍，但是很多侯选者并不能写deadlock free code（无死锁代码？），他们很挣扎。只要告诉他们，你有N个资源和N个线程，并且你需要所有的资源来完成一个操作。为了简单这里的n可以替换为2，越大的数据会使问题看起来更复杂。通过避免Java中的死锁来得到关于死锁的更多信息。</p>
+<p>7) 什么是原子操作，Java中的原子操作是什么？</p>
+<p>非常简单的java线程面试问题，接下来的问题是你需要同步一个原子操作。</p>
+<p>8) Java中的volatile关键是什么作用？怎样使用它？在Java中它跟synchronized方法有什么不同？</p>
+<p>自从Java 5和Java内存模型改变以后，基于volatile关键字的线程问题越来越流行。应该准备好回答关于volatile变量怎样在并发环境中确保可见性。</p>
+<p>9) 什么是竞争条件？你怎样发现和解决竞争？</p>
+<p>这是一道出现在多线程面试的高级阶段的问题。大多数的面试官会问最近你遇到的竞争条件，以及你是怎么解决的。有些时间他们会写简单的代码，然后让你检测出代码的竞争条件。可以参考我之前发布的关于Java竞争条件的文章。在我看来这是最好的java线程面试问题之一，它可以确切的检测候选者解决竞争条件的经验，or writing code which is free of data race or any other race condition。关于这方面最好的书是《Concurrency practices in Java》。</p>
+<p>10) 你将如何使用thread dump？你将如何分析Thread dump？</p>
+<p>在UNIX中你可以使用kill -3，然后thread dump将会打印日志，在windows中你可以使用”CTRL+Break”。非常简单和专业的线程面试问题，但是如果他问你怎样分析它，就会很棘手。</p>
+<p>11) 为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？</p>
+<p>这是另一个非常经典的java多线程面试问题。这也是我刚开始写线程程序时候的困惑。现在这个问题通常在电话面试或者是在初中级Java面试的第一轮被问到。这个问题的回答应该是这样的，当你调用start()方法时你将创建新的线程，并且执行在run()方法里的代码。但是如果你直接调用run()方法，它不会创建新的线程也不会执行调用线程的代码。阅读我之前写的《start与run方法的区别》这篇文章来获得更多信息。</p>
+<p>12) Java中你怎样唤醒一个阻塞的线程？</p>
+<p>这是个关于线程和阻塞的棘手的问题，它有很多解决方法。如果线程遇到了IO阻塞，我并且不认为有一种方法可以中止线程。如果线程因为调用wait()、sleep()、或者join()方法而导致的阻塞，你可以中断线程，并且通过抛出InterruptedException来唤醒它。我之前写的《How to deal with blocking methods in java》有很多关于处理线程阻塞的信息。</p>
+<p>13)在Java中CycliBarriar和CountdownLatch有什么区别？</p>
+<p>这个线程问题主要用来检测你是否熟悉JDK5中的并发包。这两个的区别是CyclicBarrier可以重复使用已经通过的障碍，而CountdownLatch不能重复使用。</p>
+<p>14) 什么是不可变对象，它对写并发应用有什么帮助？</p>
+<p>另一个多线程经典面试问题，并不直接跟线程有关，但间接帮助很多。这个java面试问题可以变的非常棘手，如果他要求你写一个不可变对象，或者问你为什么String是不可变的。</p>
+<p>15) 你在多线程环境中遇到的常见的问题是什么？你是怎么解决它的？</p>
+<p>多线程和并发程序中常遇到的有Memory-interface、竞争条件、死锁、活锁和饥饿。问题是没有止境的，如果你弄错了，将很难发现和调试。这是大多数基于面试的，而不是基于实际应用的Java线程问题。</p>
+<p><a href="http://www.importnew.com/27105.html" target="_blank" rel="external">http://www.importnew.com/27105.html</a></p>
 
           
         
@@ -758,7 +1061,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/25/RocketMQ-Consumer-rebalance/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/Cobar-FAQ/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -767,7 +1070,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -777,7 +1080,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/25/RocketMQ-Consumer-rebalance/" itemprop="url">RocketMQ——Consumer Rebalance 原理分析</a></h1>
+                <a class="post-title-link" href="/2017/10/18/Cobar-FAQ/" itemprop="url">Cobar——原理整理</a></h1>
         
 
         <div class="post-meta">
@@ -789,8 +1092,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-25T16:58:43+08:00">
-                2017-09-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-18T20:24:04+08:00">
+                2017-10-18
               </time>
             
 
@@ -829,7 +1132,10 @@
       
         
           
-            
+            <p>FrontendConnection默认的NioHandler是FrontendAuthenticator, 当认证信息发来时，FrontendConnection会把handler.handle()任务放入一个线程池中，当前的handler是默认的认证器，如果认证成功了，FrontendAuthenticator会反过来将FrontendConnection的handler替换成FrontendCommandHandler。</p>
+<p>Handler是由NioConnection主动触发的，在Handler处理完信息后，需要将处理完后的response回写给NioConnection, NioConnection把数据放入NioProcessor的writeQueue。</p>
+<p>Cobar将数据库连接池的大小暴露在配置文件中，但为了性能考虑（我觉得），没有严格将数据库的连接数保持在这个范围内，假设连接池的大小为50，在高并发的SQL执行下，连接数可能会冲击到80-90，此时需要注意MySQL的max_connections这个配置，如果这个值比较小，那Cobar在并发执行SQL时创建连接，而MySQL握手包的内容可能会发生变化，但Cobar不会处理这种异常情况，导致Cobar抛出一下错误：<br><img src="https://ws4.sinaimg.cn/large/006tKfTcgy1fkmo3ieklej31kw0hz7il.jpg" alt="img"></p>
+<h3 id="Cobar怎么处理半包和拆包"><a href="#Cobar怎么处理半包和拆包" class="headerlink" title="Cobar怎么处理半包和拆包"></a>Cobar怎么处理半包和拆包</h3>
           
         
       
@@ -877,7 +1183,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/20/RocketMQ-Pull-message-with-long-polling/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/Cobar-NIO-client/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -886,7 +1192,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -896,7 +1202,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/20/RocketMQ-Pull-message-with-long-polling/" itemprop="url">RocketMQ——高性能PullRequest秘籍之长轮询(长轮询)原理分析</a></h1>
+                <a class="post-title-link" href="/2017/10/18/Cobar-NIO-client/" itemprop="url">Cobar-NIO-client</a></h1>
         
 
         <div class="post-meta">
@@ -908,8 +1214,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-20T16:58:52+08:00">
-                2017-09-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-18T11:13:59+08:00">
+                2017-10-18
               </time>
             
 
@@ -948,13 +1254,7 @@
       
         
           
-            <p>分成两部分，Client和Broker</p>
-<h3 id="Client"><a href="#Client" class="headerlink" title="Client:"></a>Client:</h3><h3 id="Broker"><a href="#Broker" class="headerlink" title="Broker:"></a>Broker:</h3><p>首先PullMessageProcessor用相应的线程池调用processRequest，去ConsumerQueue中找消息，<br>如果找到了，没有什么好说的，直接用Netty模块将数据写进相应的channel，客户端获取到了数据后进行并行消费；<br>如果没有消息，那么将当前的pullRequest放入PullRequestHoldService的pullRequestTable进行suspend。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">case</span> ResponseCode.PULL_NOT_FOUND:</div><div class="line">    <span class="keyword">if</span> (brokerAllowSuspend &amp;&amp; hasSuspendFlag) &#123;</div><div class="line">        <span class="keyword">long</span> pollingTimeMills = suspendTimeoutMillisLong;</div><div class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.brokerController.getBrokerConfig().isLongPollingEnable()) &#123;</div><div class="line">            pollingTimeMills = <span class="keyword">this</span>.brokerController.getBrokerConfig().getShortPollingTimeMills();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        String topic = requestHeader.getTopic();</div><div class="line">        <span class="keyword">long</span> offset = requestHeader.getQueueOffset();</div><div class="line">        <span class="keyword">int</span> queueId = requestHeader.getQueueId();</div><div class="line">        PullRequest pullRequest = <span class="keyword">new</span> PullRequest(request, channel, pollingTimeMills,</div><div class="line">            <span class="keyword">this</span>.brokerController.getMessageStore().now(), offset, subscriptionData, messageFilter);</div><div class="line">        <span class="keyword">this</span>.brokerController.getPullRequestHoldService().suspendPullRequest(topic, queueId, pullRequest);</div><div class="line">        <span class="comment">// 此处将repsonse设置为null，remote-server将不会给对应的channel发送响应信息。那响应的信息何时发送，有两种情况：</span></div><div class="line">        <span class="comment">// 1. PullRequestHoldService hold了足够的时间后</span></div><div class="line">        <span class="comment">// 2. 有新的信息被发送至队列后</span></div><div class="line">        response = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<p>那么，消息刷入CommitLog后，怎么样让这个Hold住的PullRequest感知到消息的到来？<br>答案是，DefaultMessageStore.ReputMessageService线程。<br>ReputMessageService开启时就进行了一个近实时的空循环，<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span> (!<span class="keyword">this</span>.isStopped()) &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        Thread.sleep(<span class="number">1</span>);</div><div class="line">        <span class="keyword">this</span>.doReput();</div><div class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">        DefaultMessageStore.log.warn(<span class="keyword">this</span>.getServiceName() + <span class="string">" service has exception. "</span>, e);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>检测CommitLog中的MaxOffset是否在变大，变大了说明有新的消息已经存进了CommitLog，紧接着构建一个dispatchRequest，再让DefaultMessageStore调用doDispatch(dispatchRequest)，<br>该方法并没有开启新的线程，一个做了几件事情，<br>第一，将新的消息刷入consumerQueue，最小2页，作用也非常明显，到时候要获取一个消息，consumerQueue可以用logicOffset定位到CommitLog的PhyicOffset，是一个无法或缺的索引，<br>第二，将新的消息写入index file用于后续更加复杂的查询，<br>第三，计算bitmap。当doDispatch顺利执行完后。</p>
-<p>重点来了，之后触发messageArrivingListener的arriving方法，让pullRequestHoldService调用notifyMessageArriving，<br>开启新的线程再一次让PullMessageProcessor调用processRequest来处理原来的那个pullRequest，但此时由于consumerQueue已经构建好了，所以会正常获取到消息，正常用netty模块进行一个对client的应答。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 用一个接近空轮询</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doReput</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">boolean</span> doNext = <span class="keyword">true</span>; <span class="keyword">this</span>.isCommitLogAvailable() &amp;&amp; doNext; ) &#123;</div><div class="line">        ...</div><div class="line">        SelectMappedBufferResult result = DefaultMessageStore.<span class="keyword">this</span>.commitLog.getData(reputFromOffset);</div><div class="line">        ...</div><div class="line">        <span class="keyword">this</span>.reputFromOffset = result.getStartOffset();</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> readSize = <span class="number">0</span>; readSize &lt; result.getSize() &amp;&amp; doNext; ) &#123;</div><div class="line">            DispatchRequest dispatchRequest =</div><div class="line">                DefaultMessageStore.<span class="keyword">this</span>.commitLog.checkMessageAndReturnSize(result.getByteBuffer(), <span class="keyword">false</span>, <span class="keyword">false</span>);</div><div class="line">            <span class="keyword">int</span> size = dispatchRequest.getMsgSize();</div><div class="line">            ...</div><div class="line">            <span class="keyword">if</span> (size &gt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="comment">// dispatch到构建consumerQueue和index file的调度器中</span></div><div class="line">                DefaultMessageStore.<span class="keyword">this</span>.doDispatch(dispatchRequest);</div><div class="line">                </div><div class="line">                <span class="keyword">if</span> (BrokerRole.SLAVE != DefaultMessageStore.<span class="keyword">this</span>.getMessageStoreConfig().getBrokerRole()</div><div class="line">                    &amp;&amp; DefaultMessageStore.<span class="keyword">this</span>.brokerConfig.isLongPollingEnable()) &#123;</div><div class="line">                    <span class="comment">// 通知suspend pullRequest的PullRequestHoldService解除对pullRequest的hold</span></div><div class="line">                    DefaultMessageStore.<span class="keyword">this</span>.messageArrivingListener.arriving(dispatchRequest.getTopic(),</div><div class="line">                        dispatchRequest.getQueueId(), dispatchRequest.getConsumeQueueOffset() + <span class="number">1</span>,</div><div class="line">                        dispatchRequest.getTagsCode(), dispatchRequest.getStoreTimestamp(),</div><div class="line">                        dispatchRequest.getBitMap(), dispatchRequest.getPropertiesMap());</div><div class="line">                &#125;</div><div class="line"></div><div class="line">            &#125; </div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>整个过程时序图</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tKfTcgy1fkeelo8oxpj30za0g2adr.jpg" alt=""></p>
+            <p>Cobar作为一个数据库分库分表中间件，既是一台NIO Server，又是NIO Client</p>
 
           
         
@@ -1003,7 +1303,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/20/tree-cache-single-thread-event-handler-in-curator/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/Cobar-NIO-server/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -1012,7 +1312,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -1022,7 +1322,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/20/tree-cache-single-thread-event-handler-in-curator/" itemprop="url">tree-cache-single-thread-event-handler-in-curator</a></h1>
+                <a class="post-title-link" href="/2017/10/18/Cobar-NIO-server/" itemprop="url">Cobar-NIO-server</a></h1>
         
 
         <div class="post-meta">
@@ -1034,8 +1334,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-20T15:32:22+08:00">
-                2017-09-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-18T11:13:40+08:00">
+                2017-10-18
               </time>
             
 
@@ -1074,8 +1374,8 @@
       
         
           
-            <p>GenericFutureListener.operationComplete(Future) is directly called by an I/O thread. Therefore, performing a time consuming task or a blocking operation in the handler method can cause an unexpected pause during I/O. If you need to perform a blocking operation on I/O completion, try to execute the operation in a different thread using a thread pool.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">channel.writeAndFlush(request).addListener(<span class="keyword">new</span> ChannelFutureListener() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operationComplete</span><span class="params">(ChannelFuture f)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">if</span> (f.isSuccess()) &#123;</div><div class="line">            responseFuture.setSendRequestOK(<span class="keyword">true</span>);</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            responseFuture.setSendRequestOK(<span class="keyword">false</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        responseTable.remove(opaque);</div><div class="line">        responseFuture.setCause(f.cause());</div><div class="line">        responseFuture.putResponse(<span class="keyword">null</span>);</div><div class="line">        log.warn(<span class="string">"send a request command to channel &lt;"</span> + addr + <span class="string">"&gt; failed."</span>);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+            <p>Cobar作为一个数据库分库分表中间件，既是一台NIO Server，又是NIO Client</p>
+
           
         
       
@@ -1123,7 +1423,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/19/Guava-Black-techs/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/16/Netty-FAQ/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Fei">
@@ -1132,7 +1432,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
+      <meta itemprop="name" content="艾瑞克小记">
     </span>
 
     
@@ -1142,7 +1442,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/19/Guava-Black-techs/" itemprop="url">guava中的黑科技</a></h1>
+                <a class="post-title-link" href="/2017/10/16/Netty-FAQ/" itemprop="url">Netty-原理整理</a></h1>
         
 
         <div class="post-meta">
@@ -1154,8 +1454,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-19T17:39:05+08:00">
-                2017-09-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-16T14:25:04+08:00">
+                2017-10-16
               </time>
             
 
@@ -1194,245 +1494,20 @@
       
         
           
-            <h3 id="限流"><a href="#限流" class="headerlink" title="限流"></a>限流</h3><h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><h4 id="BiMap"><a href="#BiMap" class="headerlink" title="BiMap"></a>BiMap</h4><h3 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h3><h3 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h3>
-          
-        
-      
-    </div>
-    
-    
-    
+            <h3 id="Netty-编解码器"><a href="#Netty-编解码器" class="headerlink" title="Netty 编解码器"></a>Netty 编解码器</h3><p>ByteToMessageDecoder与LengthFieldBasedFrameDecoder的区别</p>
+<h3 id="重要概念-Future-and-Promise"><a href="#重要概念-Future-and-Promise" class="headerlink" title="重要概念 Future and Promise"></a>重要概念 Future and Promise</h3><h3 id="Netty处理的对象"><a href="#Netty处理的对象" class="headerlink" title="Netty处理的对象"></a>Netty处理的对象</h3><p>bytes and messages.</p>
+<h3 id="如何调试时间循环线程"><a href="#如何调试时间循环线程" class="headerlink" title="如何调试时间循环线程"></a>如何调试时间循环线程</h3><p>当我们用debug启动netty server时，我们不知道boss线程运行的代码，那怎么样才能发现boss线程当前的执行轨迹呢。如果能找到轨迹，对我们研究boss线程有非常大的帮助。</p>
+<p>给boss时间循环线程池起个名字<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"> NioEventLoopGroup boss = <span class="keyword">new</span> NioEventLoopGroup(<span class="number">0</span>, <span class="keyword">new</span> ThreadFactory() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Thread(r, <span class="string">"boss-event-loop"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>如果用的Intellij，就能实现这个效果，首先用debug模式启动netty server。在debug tag下，我们进入Threads，展开<strong>Thread Group “main”</strong>，发现<strong>boss-event-loop</strong>正在处于Running状态。选中<strong>boss-event-loop</strong>，右键点击<strong>suspend</strong>，之后就能看到代码停了下来，去<strong>Frames</strong>tab中选择某一行进行断点调试。</p>
+<h3 id="聊天程序"><a href="#聊天程序" class="headerlink" title="聊天程序"></a>聊天程序</h3><p>Web Socket技术<br>Long Pooling技术</p>
+<h3 id="原生NIO可能会被问到的问题"><a href="#原生NIO可能会被问到的问题" class="headerlink" title="原生NIO可能会被问到的问题"></a>原生NIO可能会被问到的问题</h3><h3 id="Netty线程管理，高低水位线-watermark-控制，高低水位指的是线程"><a href="#Netty线程管理，高低水位线-watermark-控制，高低水位指的是线程" class="headerlink" title="Netty线程管理，高低水位线(watermark)控制，高低水位指的是线程"></a>Netty线程管理，高低水位线(watermark)控制，高低水位指的是线程</h3><p><a href="https://stackoverflow.com/questions/25281124/netty-4-high-and-low-write-watermarks" target="_blank" rel="external">https://stackoverflow.com/questions/25281124/netty-4-high-and-low-write-watermarks</a><br><a href="http://adolgarev.blogspot.ru/2013/12/pipelining-and-flow-control.html?view=flipcard" target="_blank" rel="external">http://adolgarev.blogspot.ru/2013/12/pipelining-and-flow-control.html?view=flipcard</a></p>
+<h3 id="Netty线程模型，Netty异常对Inbound-入站-和Outbound-出站-Handler的影响"><a href="#Netty线程模型，Netty异常对Inbound-入站-和Outbound-出站-Handler的影响" class="headerlink" title="Netty线程模型，Netty异常对Inbound(入站)和Outbound(出站) Handler的影响"></a>Netty线程模型，Netty异常对Inbound(入站)和Outbound(出站) Handler的影响</h3><h3 id="Netty内存管理，怎么防止内存过度使用"><a href="#Netty内存管理，怎么防止内存过度使用" class="headerlink" title="Netty内存管理，怎么防止内存过度使用"></a>Netty内存管理，怎么防止内存过度使用</h3><p>io模型，上面图里的问题，内存池怎么管理，怎么防止泄露。<br>mq主从切换，但是网络原因master假死， 这时候slave升级为主，怎么办？<br>和mysql主从切换一个道理，我不知道怎么办。或者怎么屏蔽。</p>
+<h3 id="Netty-bind-方法"><a href="#Netty-bind-方法" class="headerlink" title="Netty bind()方法"></a>Netty bind()方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doRegister</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    <span class="keyword">boolean</span> selected = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">for</span> (;;) &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            selectionKey = javaChannel().register(eventLoop().unwrappedSelector(), <span class="number">0</span>, <span class="keyword">this</span>);</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125; <span class="keyword">catch</span> (CancelledKeyException e) &#123;</div><div class="line">            <span class="keyword">if</span> (!selected) &#123;</div><div class="line">                <span class="comment">// Force the Selector to select now as the "canceled" SelectionKey may still be</span></div><div class="line">                <span class="comment">// cached and not removed because no Select.select(..) operation was called yet.</span></div><div class="line">                eventLoop().selectNow();</div><div class="line">                selected = <span class="keyword">true</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">// We forced a select operation on the selector before but the SelectionKey is still cached</span></div><div class="line">                <span class="comment">// for whatever reason. JDK bug ?</span></div><div class="line">                <span class="keyword">throw</span> e;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意到，register的第二个参数为0，也就是说，selector和serverSocketChannel之间仅仅有了注册关系，但没有指定selector到底interest什么事件，那问题是，selector和serverSocketChannel之间的OP_ACCEPT是什么时候完成的？</p>
+<h3 id="用sendBuf和RecBuf做系统之间的限流，这好像是一个天然的事情"><a href="#用sendBuf和RecBuf做系统之间的限流，这好像是一个天然的事情" class="headerlink" title="用sendBuf和RecBuf做系统之间的限流，这好像是一个天然的事情"></a>用sendBuf和RecBuf做系统之间的限流，这好像是一个天然的事情</h3><h3 id="Netty高性能开发备忘录"><a href="#Netty高性能开发备忘录" class="headerlink" title="Netty高性能开发备忘录"></a>Netty高性能开发备忘录</h3><p><a href="http://blog.csdn.net/asdfayw/article/details/71730543" target="_blank" rel="external">http://blog.csdn.net/asdfayw/article/details/71730543</a></p>
+<h3 id="Netty中的那些坑"><a href="#Netty中的那些坑" class="headerlink" title="Netty中的那些坑"></a>Netty中的那些坑</h3><p><a href="http://www.jianshu.com/p/890525ff73cb" target="_blank" rel="external">http://www.jianshu.com/p/890525ff73cb</a><br><a href="http://www.jianshu.com/p/8f22675d71ac" target="_blank" rel="external">http://www.jianshu.com/p/8f22675d71ac</a></p>
+<h3 id="用Netty开发中间件：高并发性能优化"><a href="#用Netty开发中间件：高并发性能优化" class="headerlink" title="用Netty开发中间件：高并发性能优化"></a>用Netty开发中间件：高并发性能优化</h3><p><a href="http://blog.csdn.net/dc_726/article/details/48978891" target="_blank" rel="external">http://blog.csdn.net/dc_726/article/details/48978891</a></p>
 
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/19/recipes-in-curator/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/19/recipes-in-curator/" itemprop="url">recipes-in-curator</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-19T17:05:45+08:00">
-                2017-09-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/19/Cobar-How-sql-executes-in-cobar/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/19/Cobar-How-sql-executes-in-cobar/" itemprop="url">Cobar——SQL如何被分库分表以及执行</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-19T16:58:28+08:00">
-                2017-09-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
           
         
       
@@ -1471,7 +1546,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1509,7 +1584,7 @@
                alt="Eric Fei" />
           <p class="site-author-name" itemprop="name">Eric Fei</p>
            
-              <p class="site-description motion-element" itemprop="description">费红健的原创笔记 <br> 能用代码或者作图来说明问题，绝不废话</p>
+              <p class="site-description motion-element" itemprop="description">费红健的笔记 <br> 能用代码或者作图来说明问题，绝不废话</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -1517,7 +1592,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">50</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1530,7 +1605,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1708,6 +1783,323 @@
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 
