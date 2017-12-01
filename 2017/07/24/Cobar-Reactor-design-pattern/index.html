@@ -94,21 +94,21 @@
 
 
 
-<meta name="description" content="I/O多路复用技术（multiplexing）是什么？引用下别人的言论： 作者：郭春阳链接：https://www.zhihu.com/question/28594409/answer/52835876来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。 下面举一个例子，模拟一个tcp服务器处理30个客户socket。假设你是一个老师，让30个学生解答一道题目，然后检查学">
+<meta name="description" content="I/O多路复用（multiplexing）和 行为分用（demultiplexing）不急，我们先看例子: 假设一个班上有5个老师，其中一个为主考官，让3000个学生现场画一幅图，然后给每个学生一个分数。学生在画图之前有时间思考，但不能动笔，等到作画有灵感了，举手向老师示意，老师来现场看你作画。 你有下面几个选择：  第一种选择：一个老师（多了也是乱）按顺序逐个检查，先检查A，然后是B，之后是C、">
 <meta name="keywords" content="Cobar">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cobar——Reactor设计模式">
 <meta property="og:url" content="http://yoursite.com/2017/07/24/Cobar-Reactor-design-pattern/index.html">
 <meta property="og:site_name" content="艾瑞克小记">
-<meta property="og:description" content="I/O多路复用技术（multiplexing）是什么？引用下别人的言论： 作者：郭春阳链接：https://www.zhihu.com/question/28594409/answer/52835876来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。 下面举一个例子，模拟一个tcp服务器处理30个客户socket。假设你是一个老师，让30个学生解答一道题目，然后检查学">
+<meta property="og:description" content="I/O多路复用（multiplexing）和 行为分用（demultiplexing）不急，我们先看例子: 假设一个班上有5个老师，其中一个为主考官，让3000个学生现场画一幅图，然后给每个学生一个分数。学生在画图之前有时间思考，但不能动笔，等到作画有灵感了，举手向老师示意，老师来现场看你作画。 你有下面几个选择：  第一种选择：一个老师（多了也是乱）按顺序逐个检查，先检查A，然后是B，之后是C、">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/07/24/Cobar-Reactor-design-pattern/CobarReactorSign.gif">
 <meta property="og:image" content="http://yoursite.com/2017/07/24/Cobar-Reactor-design-pattern/NioRegister.gif">
 <meta property="og:image" content="http://yoursite.com/2017/07/24/Cobar-Reactor-design-pattern/CobarReactor.gif">
-<meta property="og:updated_time" content="2017-11-01T06:33:59.000Z">
+<meta property="og:updated_time" content="2017-12-01T02:28:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cobar——Reactor设计模式">
-<meta name="twitter:description" content="I/O多路复用技术（multiplexing）是什么？引用下别人的言论： 作者：郭春阳链接：https://www.zhihu.com/question/28594409/answer/52835876来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。 下面举一个例子，模拟一个tcp服务器处理30个客户socket。假设你是一个老师，让30个学生解答一道题目，然后检查学">
+<meta name="twitter:description" content="I/O多路复用（multiplexing）和 行为分用（demultiplexing）不急，我们先看例子: 假设一个班上有5个老师，其中一个为主考官，让3000个学生现场画一幅图，然后给每个学生一个分数。学生在画图之前有时间思考，但不能动笔，等到作画有灵感了，举手向老师示意，老师来现场看你作画。 你有下面几个选择：  第一种选择：一个老师（多了也是乱）按顺序逐个检查，先检查A，然后是B，之后是C、">
 <meta name="twitter:image" content="http://yoursite.com/2017/07/24/Cobar-Reactor-design-pattern/CobarReactorSign.gif">
 
 
@@ -368,13 +368,26 @@
       
 
       
-        <h3 id="I-O多路复用技术（multiplexing）是什么？"><a href="#I-O多路复用技术（multiplexing）是什么？" class="headerlink" title="I/O多路复用技术（multiplexing）是什么？"></a>I/O多路复用技术（multiplexing）是什么？</h3><p>引用下别人的言论：</p>
-<p>作者：郭春阳<br>链接：<a href="https://www.zhihu.com/question/28594409/answer/52835876" target="_blank" rel="external">https://www.zhihu.com/question/28594409/answer/52835876</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-<p>下面举一个例子，模拟一个tcp服务器处理30个客户socket。假设你是一个老师，让30个学生解答一道题目，然后检查学生做的是否正确，你有下面几个选择：1. 第一种选择：按顺序逐个检查，先检查A，然后是B，之后是C、D。。。这中间如果有一个学生卡主，全班都会被耽误。这种模式就好比，你用循环挨个处理socket，根本不具有并发能力。2. 第二种选择：你创建30个分身，每个分身检查一个学生的答案是否正确。 这种类似于为每一个用户创建一个进程或者线程处理连接。3. 第三种选择，你站在讲台上等，谁解答完谁举手。这时C、D举手，表示他们解答问题完毕，你下去依次检查C、D的答案，然后继续回到讲台上等。此时E、A又举手，然后去处理E和A。。。 这种就是IO复用模型，Linux下的select、poll和epoll就是干这个的。将用户socket对应的fd注册进epoll，然后epoll帮你监听哪些socket上有消息到达，这样就避免了大量的无用操作。此时的socket应该采用非阻塞模式。这样，整个过程只在调用select、poll、epoll这些调用的时候才会阻塞，收发客户消息是不会阻塞的，整个进程或者线程就被充分利用起来，这就是事件驱动，所谓的reactor模式。</p>
-<h3 id="demultiplexing"><a href="#demultiplexing" class="headerlink" title="demultiplexing"></a>demultiplexing</h3><p><a href="http://www.dre.vanderbilt.edu/~schmidt/PDF/reactor-siemens.pdf" target="_blank" rel="external">http://www.dre.vanderbilt.edu/~schmidt/PDF/reactor-siemens.pdf</a></p>
-<p><img src="/2017/07/24/Cobar-Reactor-design-pattern/CobarReactorSign.gif" alt=""></p>
-<h3 id="NIO原生API"><a href="#NIO原生API" class="headerlink" title="NIO原生API"></a>NIO原生API</h3><p><img src="/2017/07/24/Cobar-Reactor-design-pattern/NioRegister.gif" alt=""></p>
-<h3 id="Cobar-NIO-Server线程模型"><a href="#Cobar-NIO-Server线程模型" class="headerlink" title="Cobar NIO Server线程模型"></a>Cobar NIO Server线程模型</h3><p><img src="/2017/07/24/Cobar-Reactor-design-pattern/CobarReactor.gif" alt=""></p>
+        <h3 id="I-O多路复用（multiplexing）和-行为分用（demultiplexing）"><a href="#I-O多路复用（multiplexing）和-行为分用（demultiplexing）" class="headerlink" title="I/O多路复用（multiplexing）和 行为分用（demultiplexing）"></a>I/O多路复用（multiplexing）和 行为分用（demultiplexing）</h3><p>不急，我们先看例子:</p>
+<p>假设一个班上有5个老师，其中一个为主考官，让3000个学生现场画一幅图，然后给每个学生一个分数。学生在画图之前有时间思考，但不能动笔，等到作画有灵感了，举手向老师示意，老师来现场看你作画。</p>
+<p>你有下面几个选择：</p>
+<ol>
+<li><p>第一种选择：一个老师（多了也是乱）按顺序逐个检查，先检查A，然后是B，之后是C、D。。。这中间如果有一个学生画得特别慢，全班都会被耽误。这种模式就好比，你用循环挨个处理socket，根本不具有并发能力。</p>
+</li>
+<li><p>第二种选择：你创建3000个分身，让每个分身检查一个学生的作画过程，由于本身只有5名老师，分身不具备检查的功能，只能发一些比如「开始」「结束」的指令，所以理论上这5个老师在所有的分身中来回切换。 这种类似于为每一个用户创建一个线程处理连接。缺点是需要太多的分身</p>
+</li>
+<li><p>第三种选择，你先创建100个分身，5名老师站在讲台上等，你作为主考官，谁思考完谁举手。这时C、D、G几乎同时举手，表示他们已经想好怎么画了，你自己不下去亲自处理，你派你10个分身中的三个下去依次检查C、D、G的作画，你然后继续等，分身由另外四位老师管理，分身处理完会自动归队。此时E、A又举手，然后去处理E和A。。。 </p>
+</li>
+</ol>
+<p>这种就是IO复用模型，Linux下的select、poll和epoll就是干这个的。将用户socket对应的fd注册进epoll，然后epoll帮你监听哪些socket上有消息到达，这样就避免了大量的无用操作。此时的socket应该采用非阻塞模式。这样，整个过程只在调用select、poll、epoll这些调用的时候才会阻塞，收发客户消息是不会阻塞的，整个进程或者线程就被充分利用起来，这就是事件驱动，所谓的reactor模式。</p>
+<p>如果以上学生和老师场景都不变，但现场作画改成现场算高数题目（高等数学题目）。那分身设置为100合理不？</p>
+<p>多路复用（multiplexing）体现在：主考官一个人去检查所有学生的举手示意情况，所有的连接被一个线程复用了。<br>单路分用（demultiplexing）体现在：主考官自己不处理具体的作画批改，而是把任务分用到各个分身去。</p>
+<h3 id="Cobar-Reactor"><a href="#Cobar-Reactor" class="headerlink" title="Cobar Reactor"></a>Cobar Reactor</h3><p><img src="/2017/07/24/Cobar-Reactor-design-pattern/CobarReactorSign.gif" alt=""></p>
+<h4 id="NIO原生API"><a href="#NIO原生API" class="headerlink" title="NIO原生API"></a>NIO原生API</h4><p><img src="/2017/07/24/Cobar-Reactor-design-pattern/NioRegister.gif" alt=""></p>
+<h4 id="Cobar-NIO-Server线程模型"><a href="#Cobar-NIO-Server线程模型" class="headerlink" title="Cobar NIO Server线程模型"></a>Cobar NIO Server线程模型</h4><p><img src="/2017/07/24/Cobar-Reactor-design-pattern/CobarReactor.gif" alt=""></p>
+<h4 id="Cobar的整个模型非常像-Fork-Join"><a href="#Cobar的整个模型非常像-Fork-Join" class="headerlink" title="Cobar的整个模型非常像 Fork/Join"></a>Cobar的整个模型非常像 Fork/Join</h4><p>Forks and Joins: When a job arrives at a fork point, it is split into N sub-jobs which are then serviced by n tasks. After being serviced, each sub-job waits until all other sub-jobs are done processing. Then, they are joined again and leave the system. Thus, in parallel programming, we require synchronization as all the parallel processes wait for several other processes to occur.</p>
+<h3 id="如何深刻理解reactor和proactor？"><a href="#如何深刻理解reactor和proactor？" class="headerlink" title="如何深刻理解reactor和proactor？"></a>如何深刻理解reactor和proactor？</h3><p>reactor：能收了你跟俺说一声。<br>proactor: 你给我收十个字节，收好了跟俺说一声。</p>
+<p>Refer:<br><a href="http://www.dre.vanderbilt.edu/~schmidt/PDF/reactor-siemens.pdf" target="_blank" rel="external">http://www.dre.vanderbilt.edu/~schmidt/PDF/reactor-siemens.pdf</a></p>
 
       
     </div>
@@ -411,8 +424,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/09/RocketMQ-FAQ/" rel="prev" title="面向问题的RocketMQ原理整理">
-                面向问题的RocketMQ原理整理 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/08/20/RocketMQ-Debug-with-intellij/" rel="prev" title="RocketMQ在Intellij中的终极调试技巧（一）">
+                RocketMQ在Intellij中的终极调试技巧（一） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -490,7 +503,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -503,7 +516,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -538,7 +551,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#I-O多路复用技术（multiplexing）是什么？"><span class="nav-number">1.</span> <span class="nav-text">I/O多路复用技术（multiplexing）是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#demultiplexing"><span class="nav-number">2.</span> <span class="nav-text">demultiplexing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NIO原生API"><span class="nav-number">3.</span> <span class="nav-text">NIO原生API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cobar-NIO-Server线程模型"><span class="nav-number">4.</span> <span class="nav-text">Cobar NIO Server线程模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#I-O多路复用（multiplexing）和-行为分用（demultiplexing）"><span class="nav-number">1.</span> <span class="nav-text">I/O多路复用（multiplexing）和 行为分用（demultiplexing）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cobar-Reactor"><span class="nav-number">2.</span> <span class="nav-text">Cobar Reactor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO原生API"><span class="nav-number">2.1.</span> <span class="nav-text">NIO原生API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cobar-NIO-Server线程模型"><span class="nav-number">2.2.</span> <span class="nav-text">Cobar NIO Server线程模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cobar的整个模型非常像-Fork-Join"><span class="nav-number">2.3.</span> <span class="nav-text">Cobar的整个模型非常像 Fork/Join</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何深刻理解reactor和proactor？"><span class="nav-number">3.</span> <span class="nav-text">如何深刻理解reactor和proactor？</span></a></li></ol></div>
             
 
           </div>

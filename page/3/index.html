@@ -297,249 +297,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/03/Distributed-Transaction/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克小记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/03/Distributed-Transaction/" itemprop="url">Distributed-Transaction</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-03T10:54:48+08:00">
-                2017-11-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h3><h3 id="RocketMQ事务功能"><a href="#RocketMQ事务功能" class="headerlink" title="RocketMQ事务功能"></a>RocketMQ事务功能</h3><p><img src="/2017/11/03/Distributed-Transaction/transaction_rocketmq.gif" alt="你想输入的替代文字"></p>
-<h3 id="抽象出一个完整的系统"><a href="#抽象出一个完整的系统" class="headerlink" title="抽象出一个完整的系统"></a>抽象出一个完整的系统</h3><p>不是所有的MQ系统都是支持这个HalfMsg的操作的，所以我们把这个系统抽成一个事务SOA服务</p>
-<p><a href="https://mp.weixin.qq.com/s?__biz=MzU4MTEyODIzMg==&amp;mid=2247483713&amp;idx=1&amp;sn=c9efdd6eda9d7bd32f82e42b2ca3fbe3&amp;chksm=fd4d1806ca3a9110474f9c0b1d2a886a9f994c4b8ed8d354a3c6bd8d8373cd012646443ebfca&amp;mpshare=1&amp;scene=1&amp;srcid=1110kSXANwBrbL2TWtA0NAK6&amp;key=86d1b0bfcae3874289b26357e30923b1734881e3a43437f4558c9c6be8f133e62f000fc4c315915ad48066faca9893f45a6515e6faebf3f27b85a03bf975ca15ecd8401181121b82a5d41040f7b5c565&amp;ascene=0&amp;uin=MjcyMjMxNTA0Mg%3D%3D&amp;devicetype=iMac+MacBookPro11%2C4+OSX+OSX+10.12+build(16A323)&amp;version=12010210&amp;nettype=WIFI&amp;fontScale=100&amp;pass_ticket=T2oTN5azeGV4Brh%2FOFJxtVGb2WVp1QN3ylyWucAGYWTJBOrOLdFJzJoRIwToLTv8" target="_blank" rel="external">https://mp.weixin.qq.com/s?__biz=MzU4MTEyODIzMg==&amp;mid=2247483713&amp;idx=1&amp;sn=c9efdd6eda9d7bd32f82e42b2ca3fbe3&amp;chksm=fd4d1806ca3a9110474f9c0b1d2a886a9f994c4b8ed8d354a3c6bd8d8373cd012646443ebfca&amp;mpshare=1&amp;scene=1&amp;srcid=1110kSXANwBrbL2TWtA0NAK6&amp;key=86d1b0bfcae3874289b26357e30923b1734881e3a43437f4558c9c6be8f133e62f000fc4c315915ad48066faca9893f45a6515e6faebf3f27b85a03bf975ca15ecd8401181121b82a5d41040f7b5c565&amp;ascene=0&amp;uin=MjcyMjMxNTA0Mg%3D%3D&amp;devicetype=iMac+MacBookPro11%2C4+OSX+OSX+10.12+build(16A323)&amp;version=12010210&amp;nettype=WIFI&amp;fontScale=100&amp;pass_ticket=T2oTN5azeGV4Brh%2FOFJxtVGb2WVp1QN3ylyWucAGYWTJBOrOLdFJzJoRIwToLTv8</a></p>
-<h3 id="Spring-Cloud"><a href="#Spring-Cloud" class="headerlink" title="Spring Cloud"></a>Spring Cloud</h3><p><a href="http://www.jianshu.com/p/cf3a2884a8d2?open_source=weibo_search" target="_blank" rel="external">http://www.jianshu.com/p/cf3a2884a8d2?open_source=weibo_search</a><br><a href="https://www.atomikos.com/Blog/TransactionManagementAPIForRESTTCC" target="_blank" rel="external">https://www.atomikos.com/Blog/TransactionManagementAPIForRESTTCC</a></p>
-<p><a href="https://github.com/beston123/Tarzan" target="_blank" rel="external">https://github.com/beston123/Tarzan</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/01/Linux-sync-async-blocking-noblocking/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克小记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/01/Linux-sync-async-blocking-noblocking/" itemprop="url">OS-sync-async-blocking-noblocking</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-01T15:01:02+08:00">
-                2017-11-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/28/Curator-sync-and-mutual-exclusion-between-thread-and-process/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -679,7 +436,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/27/Cobar-Enhance-cobar-dataSource-with-dataHost/" itemprop="url">Cobar-Enhance-cobar-dataSource-with-dataHost</a></h1>
+                <a class="post-title-link" href="/2017/10/27/Cobar-Enhance-cobar-dataSource-with-dataHost/" itemprop="url">Cobar——扩展Cobar，用Datahost维度来增强数据源</a></h1>
         
 
         <div class="post-meta">
@@ -731,7 +488,9 @@
       
         
           
-            
+            <p><img src="/2017/10/27/Cobar-Enhance-cobar-dataSource-with-dataHost/datasource-on-datanode.gif" alt=""></p>
+<p><img src="/2017/10/27/Cobar-Enhance-cobar-dataSource-with-dataHost/datasource-on-datahost.gif" alt=""></p>
+
           
         
       
@@ -906,161 +665,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/27/Thread-FAQ/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克小记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/27/Thread-FAQ/" itemprop="url">Thread-FAQ</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-27T11:07:35+08:00">
-                2017-10-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://blog.csdn.net/zhandoushi1982/article/details/5506597" target="_blank" rel="external">http://blog.csdn.net/zhandoushi1982/article/details/5506597</a><br>线程的挂起操作实质上就是使线程进入“非可执行”状态下，在这个状态下CPU不会分给线程时间片，进入这个状态可以用来暂停一个线程的运行。在线程挂起后，可以通过重新唤醒线程来使之恢复运行。</p>
-<h3 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h3><h3 id="Future"><a href="#Future" class="headerlink" title="Future"></a>Future</h3><h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><h3 id="Difference-between-ReentrantLock-and-sync"><a href="#Difference-between-ReentrantLock-and-sync" class="headerlink" title="Difference between ReentrantLock and sync"></a>Difference between ReentrantLock and sync</h3><h3 id="Java线程面试题"><a href="#Java线程面试题" class="headerlink" title="Java线程面试题"></a>Java线程面试题</h3><p>如果用了ReentrantLock，还需要设置自旋锁么？</p>
-<p>假如用sync做了线程互斥，A和B两个线程竞争monitor，A拿到了monitor，如果A迟迟不释放，B将永远等待，怎么避免这种情况？</p>
-<p>CopyOnWrite</p>
-<p>15个Java多线程面试题及回答</p>
-<p>1)现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？</p>
-<p>这个线程问题通常会在第一轮或电话面试阶段被问到，目的是检测你对”join”方法是否熟悉。这个多线程问题比较简单，可以用join方法实现。</p>
-<p>2)在Java中Lock接口比synchronized块的优势是什么？你需要实现一个高效的缓存，它允许多个用户读，但只允许一个用户写，以此来保持它的完整性，你会怎样去实现它？</p>
-<p>lock接口在多线程和并发编程中最大的优势是它们为读和写分别提供了锁，它能满足你写像ConcurrentHashMap这样的高性能数据结构和有条件的阻塞。Java线程面试的问题越来越会根据面试者的回答来提问。我强烈建议在你去参加多线程的面试之前认真读一下Locks，因为当前其大量用于构建电子交易终统的客户端缓存和交易连接空间。</p>
-<p>3)在java中wait和sleep方法的不同？</p>
-<p>通常会在电话面试中经常被问到的Java线程面试问题。最大的不同是在等待时wait会释放锁，而sleep一直持有锁。Wait通常被用于线程间交互，sleep通常被用于暂停执行。</p>
-<p>4）用Java实现阻塞队列。</p>
-<p>这是一个相对艰难的多线程面试问题，它能达到很多的目的。第一，它可以检测侯选者是否能实际的用Java线程写程序；第二，可以检测侯选者对并发场景的理解，并且你可以根据这个问很多问题。如果他用wait()和notify()方法来实现阻塞队列，你可以要求他用最新的Java 5中的并发类来再写一次。</p>
-<p>5）用Java写代码来解决生产者——消费者问题。</p>
-<p>与上面的问题很类似，但这个问题更经典，有些时候面试都会问下面的问题。在Java中怎么解决生产者——消费者问题，当然有很多解决方法，我已经分享了一种用阻塞队列实现的方法。有些时候他们甚至会问怎么实现哲学家进餐问题。</p>
-<p>6）用Java编程一个会导致死锁的程序，你将怎么解决？</p>
-<p>这是我最喜欢的Java线程面试问题，因为即使死锁问题在写多线程并发程序时非常普遍，但是很多侯选者并不能写deadlock free code（无死锁代码？），他们很挣扎。只要告诉他们，你有N个资源和N个线程，并且你需要所有的资源来完成一个操作。为了简单这里的n可以替换为2，越大的数据会使问题看起来更复杂。通过避免Java中的死锁来得到关于死锁的更多信息。</p>
-<p>7) 什么是原子操作，Java中的原子操作是什么？</p>
-<p>非常简单的java线程面试问题，接下来的问题是你需要同步一个原子操作。</p>
-<p>8) Java中的volatile关键是什么作用？怎样使用它？在Java中它跟synchronized方法有什么不同？</p>
-<p>自从Java 5和Java内存模型改变以后，基于volatile关键字的线程问题越来越流行。应该准备好回答关于volatile变量怎样在并发环境中确保可见性。</p>
-<p>9) 什么是竞争条件？你怎样发现和解决竞争？</p>
-<p>这是一道出现在多线程面试的高级阶段的问题。大多数的面试官会问最近你遇到的竞争条件，以及你是怎么解决的。有些时间他们会写简单的代码，然后让你检测出代码的竞争条件。可以参考我之前发布的关于Java竞争条件的文章。在我看来这是最好的java线程面试问题之一，它可以确切的检测候选者解决竞争条件的经验，or writing code which is free of data race or any other race condition。关于这方面最好的书是《Concurrency practices in Java》。</p>
-<p>10) 你将如何使用thread dump？你将如何分析Thread dump？</p>
-<p>在UNIX中你可以使用kill -3，然后thread dump将会打印日志，在windows中你可以使用”CTRL+Break”。非常简单和专业的线程面试问题，但是如果他问你怎样分析它，就会很棘手。</p>
-<p>11) 为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？</p>
-<p>这是另一个非常经典的java多线程面试问题。这也是我刚开始写线程程序时候的困惑。现在这个问题通常在电话面试或者是在初中级Java面试的第一轮被问到。这个问题的回答应该是这样的，当你调用start()方法时你将创建新的线程，并且执行在run()方法里的代码。但是如果你直接调用run()方法，它不会创建新的线程也不会执行调用线程的代码。阅读我之前写的《start与run方法的区别》这篇文章来获得更多信息。</p>
-<p>12) Java中你怎样唤醒一个阻塞的线程？</p>
-<p>这是个关于线程和阻塞的棘手的问题，它有很多解决方法。如果线程遇到了IO阻塞，我并且不认为有一种方法可以中止线程。如果线程因为调用wait()、sleep()、或者join()方法而导致的阻塞，你可以中断线程，并且通过抛出InterruptedException来唤醒它。我之前写的《How to deal with blocking methods in java》有很多关于处理线程阻塞的信息。</p>
-<p>13)在Java中CycliBarriar和CountdownLatch有什么区别？</p>
-<p>这个线程问题主要用来检测你是否熟悉JDK5中的并发包。这两个的区别是CyclicBarrier可以重复使用已经通过的障碍，而CountdownLatch不能重复使用。</p>
-<p>14) 什么是不可变对象，它对写并发应用有什么帮助？</p>
-<p>另一个多线程经典面试问题，并不直接跟线程有关，但间接帮助很多。这个java面试问题可以变的非常棘手，如果他要求你写一个不可变对象，或者问你为什么String是不可变的。</p>
-<p>15) 你在多线程环境中遇到的常见的问题是什么？你是怎么解决它的？</p>
-<p>多线程和并发程序中常遇到的有Memory-interface、竞争条件、死锁、活锁和饥饿。问题是没有止境的，如果你弄错了，将很难发现和调试。这是大多数基于面试的，而不是基于实际应用的Java线程问题。</p>
-<p><a href="http://www.importnew.com/27105.html" target="_blank" rel="external">http://www.importnew.com/27105.html</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/Cobar-FAQ/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1135,246 +739,7 @@
             <p>FrontendConnection默认的NioHandler是FrontendAuthenticator, 当认证信息发来时，FrontendConnection会把handler.handle()任务放入一个线程池中，当前的handler是默认的认证器，如果认证成功了，FrontendAuthenticator会反过来将FrontendConnection的handler替换成FrontendCommandHandler。</p>
 <p>Handler是由NioConnection主动触发的，在Handler处理完信息后，需要将处理完后的response回写给NioConnection, NioConnection把数据放入NioProcessor的writeQueue。</p>
 <p>Cobar将数据库连接池的大小暴露在配置文件中，但为了性能考虑（我觉得），没有严格将数据库的连接数保持在这个范围内，假设连接池的大小为50，在高并发的SQL执行下，连接数可能会冲击到80-90，此时需要注意MySQL的max_connections这个配置，如果这个值比较小，那Cobar在并发执行SQL时创建连接，而MySQL握手包的内容可能会发生变化，但Cobar不会处理这种异常情况，导致Cobar抛出一下错误：<br><img src="https://ws4.sinaimg.cn/large/006tKfTcgy1fkmo3ieklej31kw0hz7il.jpg" alt="img"></p>
-<h3 id="Cobar怎么处理半包和拆包"><a href="#Cobar怎么处理半包和拆包" class="headerlink" title="Cobar怎么处理半包和拆包"></a>Cobar怎么处理半包和拆包</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/Cobar-NIO-client/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克小记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/18/Cobar-NIO-client/" itemprop="url">Cobar-NIO-client</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-18T11:13:59+08:00">
-                2017-10-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Cobar作为一个数据库分库分表中间件，既是一台NIO Server，又是NIO Client</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/Cobar-NIO-server/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克小记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/18/Cobar-NIO-server/" itemprop="url">Cobar-NIO-server</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-18T11:13:40+08:00">
-                2017-10-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Cobar作为一个数据库分库分表中间件，既是一台NIO Server，又是NIO Client</p>
+<h3 id="Cobar怎么处理半包和拆包"><a href="#Cobar怎么处理半包和拆包" class="headerlink" title="Cobar怎么处理半包和拆包"></a>Cobar怎么处理半包和拆包</h3><h3 id="hexo-new-Cobar-Extend-Database"><a href="#hexo-new-Cobar-Extend-Database" class="headerlink" title="hexo new Cobar-Extend-Database"></a>hexo new Cobar-Extend-Database</h3><p>Percona XtraBackup<br>分片数不能变，非常简单得扩容</p>
 
           
         
@@ -1501,12 +866,621 @@
 <p>如果用的Intellij，就能实现这个效果，首先用debug模式启动netty server。在debug tag下，我们进入Threads，展开<strong>Thread Group “main”</strong>，发现<strong>boss-event-loop</strong>正在处于Running状态。选中<strong>boss-event-loop</strong>，右键点击<strong>suspend</strong>，之后就能看到代码停了下来，去<strong>Frames</strong>tab中选择某一行进行断点调试。</p>
 <h3 id="聊天程序"><a href="#聊天程序" class="headerlink" title="聊天程序"></a>聊天程序</h3><p>Web Socket技术<br>Long Pooling技术</p>
 <h3 id="原生NIO可能会被问到的问题"><a href="#原生NIO可能会被问到的问题" class="headerlink" title="原生NIO可能会被问到的问题"></a>原生NIO可能会被问到的问题</h3><h3 id="Netty线程管理，高低水位线-watermark-控制，高低水位指的是线程"><a href="#Netty线程管理，高低水位线-watermark-控制，高低水位指的是线程" class="headerlink" title="Netty线程管理，高低水位线(watermark)控制，高低水位指的是线程"></a>Netty线程管理，高低水位线(watermark)控制，高低水位指的是线程</h3><p><a href="https://stackoverflow.com/questions/25281124/netty-4-high-and-low-write-watermarks" target="_blank" rel="external">https://stackoverflow.com/questions/25281124/netty-4-high-and-low-write-watermarks</a><br><a href="http://adolgarev.blogspot.ru/2013/12/pipelining-and-flow-control.html?view=flipcard" target="_blank" rel="external">http://adolgarev.blogspot.ru/2013/12/pipelining-and-flow-control.html?view=flipcard</a></p>
+<p>看下这个文章，是不是可以用Netty的限流来完成这个事情</p>
 <h3 id="Netty线程模型，Netty异常对Inbound-入站-和Outbound-出站-Handler的影响"><a href="#Netty线程模型，Netty异常对Inbound-入站-和Outbound-出站-Handler的影响" class="headerlink" title="Netty线程模型，Netty异常对Inbound(入站)和Outbound(出站) Handler的影响"></a>Netty线程模型，Netty异常对Inbound(入站)和Outbound(出站) Handler的影响</h3><h3 id="Netty内存管理，怎么防止内存过度使用"><a href="#Netty内存管理，怎么防止内存过度使用" class="headerlink" title="Netty内存管理，怎么防止内存过度使用"></a>Netty内存管理，怎么防止内存过度使用</h3><p>io模型，上面图里的问题，内存池怎么管理，怎么防止泄露。<br>mq主从切换，但是网络原因master假死， 这时候slave升级为主，怎么办？<br>和mysql主从切换一个道理，我不知道怎么办。或者怎么屏蔽。</p>
 <h3 id="Netty-bind-方法"><a href="#Netty-bind-方法" class="headerlink" title="Netty bind()方法"></a>Netty bind()方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doRegister</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    <span class="keyword">boolean</span> selected = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">for</span> (;;) &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            selectionKey = javaChannel().register(eventLoop().unwrappedSelector(), <span class="number">0</span>, <span class="keyword">this</span>);</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125; <span class="keyword">catch</span> (CancelledKeyException e) &#123;</div><div class="line">            <span class="keyword">if</span> (!selected) &#123;</div><div class="line">                <span class="comment">// Force the Selector to select now as the "canceled" SelectionKey may still be</span></div><div class="line">                <span class="comment">// cached and not removed because no Select.select(..) operation was called yet.</span></div><div class="line">                eventLoop().selectNow();</div><div class="line">                selected = <span class="keyword">true</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">// We forced a select operation on the selector before but the SelectionKey is still cached</span></div><div class="line">                <span class="comment">// for whatever reason. JDK bug ?</span></div><div class="line">                <span class="keyword">throw</span> e;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>注意到，register的第二个参数为0，也就是说，selector和serverSocketChannel之间仅仅有了注册关系，但没有指定selector到底interest什么事件，那问题是，selector和serverSocketChannel之间的OP_ACCEPT是什么时候完成的？</p>
 <h3 id="用sendBuf和RecBuf做系统之间的限流，这好像是一个天然的事情"><a href="#用sendBuf和RecBuf做系统之间的限流，这好像是一个天然的事情" class="headerlink" title="用sendBuf和RecBuf做系统之间的限流，这好像是一个天然的事情"></a>用sendBuf和RecBuf做系统之间的限流，这好像是一个天然的事情</h3><h3 id="Netty高性能开发备忘录"><a href="#Netty高性能开发备忘录" class="headerlink" title="Netty高性能开发备忘录"></a>Netty高性能开发备忘录</h3><p><a href="http://blog.csdn.net/asdfayw/article/details/71730543" target="_blank" rel="external">http://blog.csdn.net/asdfayw/article/details/71730543</a></p>
 <h3 id="Netty中的那些坑"><a href="#Netty中的那些坑" class="headerlink" title="Netty中的那些坑"></a>Netty中的那些坑</h3><p><a href="http://www.jianshu.com/p/890525ff73cb" target="_blank" rel="external">http://www.jianshu.com/p/890525ff73cb</a><br><a href="http://www.jianshu.com/p/8f22675d71ac" target="_blank" rel="external">http://www.jianshu.com/p/8f22675d71ac</a></p>
 <h3 id="用Netty开发中间件：高并发性能优化"><a href="#用Netty开发中间件：高并发性能优化" class="headerlink" title="用Netty开发中间件：高并发性能优化"></a>用Netty开发中间件：高并发性能优化</h3><p><a href="http://blog.csdn.net/dc_726/article/details/48978891" target="_blank" rel="external">http://blog.csdn.net/dc_726/article/details/48978891</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/13/RocketMQ-Delay-message-delivery/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/13/RocketMQ-Delay-message-delivery/" itemprop="url">RocketMQ——延时消息投递原理分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-13T10:38:19+08:00">
+                2017-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="被动延时消费"><a href="#被动延时消费" class="headerlink" title="被动延时消费"></a>被动延时消费</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">consumer.registerMessageListener(<span class="keyword">new</span> MessageListenerConcurrently() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> ConsumeConcurrentlyStatus <span class="title">consumeMessage</span><span class="params">(List&lt;MessageExt&gt; msgs,</span></span></div><div class="line"><span class="function"><span class="params">        ConsumeConcurrentlyContext context)</span> </span>&#123;</div><div class="line">        <span class="comment">// 可能抛出异常</span></div><div class="line">        <span class="keyword">boolean</span> success = doConsume(msgs);</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> (success) &#123;</div><div class="line">            <span class="keyword">return</span> ConsumeConcurrentlyStatus.CONSUME_SUCCESS;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> ConsumeConcurrentlyStatus.RECONSUME_LATER;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="主动延时消费"><a href="#主动延时消费" class="headerlink" title="主动延时消费"></a>主动延时消费</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<h3 id="分布式事务之-Best-Effort-Delivery"><a href="#分布式事务之-Best-Effort-Delivery" class="headerlink" title="分布式事务之 Best Effort Delivery"></a>分布式事务之 Best Effort Delivery</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/" itemprop="url">Cobar——扩展Cobar Driver，防止单点故障</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T20:07:23+08:00">
+                2017-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>cobar作为一套完整的分库分表方案，其负载均衡功能是由cobar-driver提供的。</p>
+<h3 id="cobar-driver单点问题"><a href="#cobar-driver单点问题" class="headerlink" title="cobar-driver单点问题"></a>cobar-driver单点问题</h3><p>原始的cobar版的JDBC协议如下：<code>jdbc:cobar://Cobar_A:8066/user</code>，只能支持连接cobar集群中的某一台机器，当整个集群中的这台机器宕机后，即使集群中的其余机器仍然可以提供服务，客户端也无法创建新的连接。</p>
+<p><img src="/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/before-cobar-driver.gif" alt=""></p>
+<h3 id="HA-cobar-jdbc-协议"><a href="#HA-cobar-jdbc-协议" class="headerlink" title="HA cobar(jdbc)协议"></a>HA cobar(jdbc)协议</h3><p>为了防止这种单点故障，需要对cobar-driver的源码进行修改，协议部分改造，URL的host部分不再只能填写一个host地址，而是像ZooKeeper一样，可以填写整个Cobar集群的地址：jdbc:cobar_cluster://cobar_1,cobar_2:8066/user，即使cobar_1宕机了，应用还是可以去cobar_2中继续创建新的连接以保证性能。</p>
+<p><img src="/2017/10/12/Cobar-Enhance-cobar-driver-with-high-availability/after-cobar-driver.gif" alt=""></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/Cobar-How-to-monitor-cobar/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/12/Cobar-How-to-monitor-cobar/" itemprop="url">Cobar——近实时监控Cobar前后端连接与线程池</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T20:04:26+08:00">
+                2017-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/RocketMQ-Index-service/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/12/RocketMQ-Index-service/" itemprop="url">RocketMQ——IndexService 原理分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T19:29:40+08:00">
+                2017-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="RocmetMQ的IndexService设计原理"><a href="#RocmetMQ的IndexService设计原理" class="headerlink" title="RocmetMQ的IndexService设计原理"></a>RocmetMQ的IndexService设计原理</h4><p><img src="/2017/10/12/RocketMQ-Index-service/index-file.gif" alt="你想输入的替代文字"></p>
+<p>在RocketMQ中，IndexService底层是通过文件来存储的，所以，即使MQ的进程在中途重启过，索引的功能是不受影响的。<br>索引文件的路径是 <code>System.getProperty(&quot;user.home&quot;) + File.separator + &quot;store&quot;</code>，文件名是文件创建的时间，可以有多个，但，<br>在一个文件没有满的情况下，所有的topic的所有的列队的消息，全部都是顺序得存放在一个文件中的。<br><img src="http://upload-images.jianshu.io/upload_images/716353-2ed415df19a3040b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>在MQ源码中，用IndexFile这个类代表索引文件，对于每一个index file，大小都是固定的，即，都是设计好的。<br>index file在逻辑上被拆分成了3个部分，IndexHead + HashSlotPart + MsgIndexPart，<br>IndexHead<br>索引的开头，和索引的结构没有关系<br>HashSlotPart<br>hash的槽位，是索引的目录，用于定位消息索引在该文件的「MsgIndexPart」的位置，<br>可能有点绕，往下就会觉得很简单，每个槽位是等长的，占4 Byte，一个文件总的槽位数量也是定的，不可改变，槽位数越大，索引的消息越多。<br>MsgIndexPart<br>真实的消息索引，即，每个msgIndex段代表改消息在CommitLog上的PhyicOffset。每个msgIndex段也是等长的，占20 Byte（int + long + int + int）。<br>等长的MsgIndexPart可以理解成功一个有capacity的数组，为了使数组的空间不浪费，那消息就要从前往后一个一个append进去。</p>
+<p>所以，在默认配置下，<br>每个索引文件的大小为<br><code>int fileTotalSize = IndexHeader.INDEX_HEADER_SIZE + (hashSlotNum * hashSlotSize) + (indexNum * indexSize);</code></p>
+<p>CommitLogDispatcherBuildIndex调用dispatch<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatch</span><span class="params">(DispatchRequest request)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (DefaultMessageStore.<span class="keyword">this</span>.messageStoreConfig.isMessageIndexEnable()) &#123;</div><div class="line">        DefaultMessageStore.<span class="keyword">this</span>.indexService.buildIndex(request);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>buildIndex时会构建好几个索引，topic#msgId=&gt;msgIndex, topic#key1=&gt;msgIndex, topic#key2=&gt;msgIndex<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildIndex</span><span class="params">(DispatchRequest req)</span> </span>&#123;</div><div class="line">    IndexFile indexFile = retryGetAndCreateIndexFile();</div><div class="line">    <span class="keyword">if</span> (indexFile != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">long</span> endPhyOffset = indexFile.getEndPhyOffset();</div><div class="line">        DispatchRequest msg = req;</div><div class="line">        String topic = msg.getTopic();</div><div class="line">        String keys = msg.getKeys();</div><div class="line"></div><div class="line">        ...</div><div class="line">        <span class="keyword">if</span> (req.getUniqKey() != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="comment">// 构建UniqKey，也就是msgId的索引</span></div><div class="line">            indexFile = putKey(indexFile, msg, buildKey(topic, req.getUniqKey()));</div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (keys != <span class="keyword">null</span> &amp;&amp; keys.length() &gt; <span class="number">0</span>) &#123;</div><div class="line">            String[] keyset = keys.split(MessageConst.KEY_SEPARATOR);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; keyset.length; i++) &#123;</div><div class="line">                String key = keyset[i];</div><div class="line">                <span class="keyword">if</span> (key.length() &gt; <span class="number">0</span>) &#123;</div><div class="line">                    <span class="comment">// 构建业务Key的索引</span></div><div class="line">                    indexFile = putKey(indexFile, msg, buildKey(topic, key));</div><div class="line">                    ...</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        log.error(<span class="string">"build index error, stop building index"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/12/RocketMQ-Master-slave-high-availability/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/12/RocketMQ-Master-slave-high-availability/" itemprop="url">RocketMQ——Broker的主从复制原理分析（双写机制）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-12T16:28:24+08:00">
+                2017-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<p><img src="https://ws3.sinaimg.cn/large/006tNbRwgy1fkfij3xtx8j31kw1514e0.jpg" alt=""></p>
 
           
         
@@ -1592,7 +1566,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1605,7 +1579,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

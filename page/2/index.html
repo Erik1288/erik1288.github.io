@@ -297,133 +297,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/10/JVM-CAS-Campare-and-swap/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克小记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/10/JVM-CAS-Campare-and-swap/" itemprop="url">JVM-CAS-Campare-and-swap</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-10T19:48:55+08:00">
-                2017-11-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>仅供学习交流,如有错误请指出,如要转载请加上出处,谢谢</p>
-</blockquote>
-<h3 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h3><p>硬件指令</p>
-<h3 id="基于CAS的无所化（Lock-Free）设计"><a href="#基于CAS的无所化（Lock-Free）设计" class="headerlink" title="基于CAS的无所化（Lock-Free）设计"></a>基于CAS的无所化（Lock-Free）设计</h3><p>也就是所谓的乐观锁<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 自旋锁</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpinLock</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> AtomicBoolean canLock = <span class="keyword">new</span> AtomicBoolean(<span class="keyword">true</span>);</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">boolean</span> b;</div><div class="line">        <span class="keyword">do</span> &#123;</div><div class="line">            b = canLock.compareAndSet(<span class="keyword">true</span>, <span class="keyword">false</span>);</div><div class="line">        &#125; <span class="keyword">while</span> (!b);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">release</span><span class="params">()</span> </span>&#123;</div><div class="line">        canLock.compareAndSet(<span class="keyword">false</span>, <span class="keyword">true</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>调用lock方法时，<code>canLock</code>初始为true，cas成功执行，返回修改后的值，也就是false。然后循环在while中，只要canLock没有被重置会true，cas一直是失败的。CPU被该线程长久占用着。</p>
-<h3 id="ABA问题"><a href="#ABA问题" class="headerlink" title="ABA问题"></a>ABA问题</h3><p>CAS本身是没有任何问题的，是操作系统的指令。但是，当我们用CAS原理来设计无锁化的互斥机制时，就一定会产生ABA问题。</p>
-<h3 id="优化ABA"><a href="#优化ABA" class="headerlink" title="优化ABA"></a>优化ABA</h3><p>对于某些系统，ABA不会产生问题，但也有不能容忍ABA的系统</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/10/Distributed-Transaction-TCC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -857,133 +730,37 @@
       
         
           
-            <h3 id="Volatile关键词"><a href="#Volatile关键词" class="headerlink" title="Volatile关键词"></a>Volatile关键词</h3><h4 id="主内存与线程工作内存"><a href="#主内存与线程工作内存" class="headerlink" title="主内存与线程工作内存"></a>主内存与线程工作内存</h4><h3 id="MVCC-Copy-on-write"><a href="#MVCC-Copy-on-write" class="headerlink" title="MVCC Copy on write"></a>MVCC Copy on write</h3><p>CopyOnWriteArrayList 实现细节</p>
+            <h3 id="Volatile关键词"><a href="#Volatile关键词" class="headerlink" title="Volatile关键词"></a>Volatile关键词</h3><p>volatile的实现原理</p>
+<p>1.可见性</p>
+<p>处理器为了提高处理速度，不直接和内存进行通讯，而是将系统内存的数据独到内部缓存后再进行操作，但操作完后不知什么时候会写到内存。</p>
+<p>如果对声明了volatile变量进行写操作时，JVM会向处理器发送一条Lock前缀的指令，将这个变量所在缓存行的数据写会到系统内存。 这一步确保了如果有其他线程对声明了volatile变量进行修改，则立即更新主内存中数据。</p>
+<p>但这时候其他处理器的缓存还是旧的，所以在多处理器环境下，为了保证各个处理器缓存一致，每个处理会通过嗅探在总线上传播的数据来检查 自己的缓存是否过期，当处理器发现自己缓存行对应的内存地址被修改了，就会将当前处理器的缓存行设置成无效状态，当处理器要对这个数据进行修改操作时，会强制重新从系统内存把数据读到处理器缓存里。 这一步确保了其他线程获得的声明了volatile变量都是从主内存中获取最新的。</p>
+<p>2.有序性</p>
+<p>Lock前缀指令实际上相当于一个内存屏障（也成内存栅栏），它确保指令重排序时不会把其后面的指令排到内存屏障之前的位置，也不会把前面的指令排到内存屏障的后面；即在执行到内存屏障这句指令时，在它前面的操作已经全部完成。</p>
+<p>作者：Ruheng<br>链接：<a href="http://www.jianshu.com/p/7798161d7472" target="_blank" rel="external">http://www.jianshu.com/p/7798161d7472</a><br>來源：简书<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<h4 id="主内存与线程工作内存"><a href="#主内存与线程工作内存" class="headerlink" title="主内存与线程工作内存"></a>主内存与线程工作内存</h4><h3 id="MVCC-Copy-on-write"><a href="#MVCC-Copy-on-write" class="headerlink" title="MVCC Copy on write"></a>MVCC Copy on write</h3><p>CopyOnWriteArrayList 实现细节</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CopyOnWriteArrayList</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">/** The lock protecting all mutators */</span></div><div class="line">    <span class="keyword">final</span> <span class="keyword">transient</span> ReentrantLock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line"></div><div class="line">    <span class="comment">/** The array, accessed only via getArray/setArray. */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> Object[] array;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Gets the array.  Non-private so as to also be accessible</span></div><div class="line"><span class="comment">     * from CopyOnWriteArraySet class.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="keyword">final</span> Object[] getArray() &#123;</div><div class="line">        <span class="keyword">return</span> array;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Sets the array.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setArray</span><span class="params">(Object[] a)</span> </span>&#123;</div><div class="line">        array = a;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * &#123;<span class="doctag">@inheritDoc</span>&#125;</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="doctag">@inheritDoc</span>&#125;</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> get(getArray(), index);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Appends the specified element to the end of this list.</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> e element to be appended to this list</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; (as specified by &#123;<span class="doctag">@link</span> Collection#add&#125;)</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</div><div class="line">        lock.lock();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Object[] elements = getArray();</div><div class="line">            <span class="keyword">int</span> len = elements.length;</div><div class="line">            Object[] newElements = Arrays.copyOf(elements, len + <span class="number">1</span>);</div><div class="line">            newElements[len] = e;</div><div class="line">            setArray(newElements);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            lock.unlock();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * Removes the element at the specified position in this list.</span></div><div class="line"><span class="comment">     * Shifts any subsequent elements to the left (subtracts one from their</span></div><div class="line"><span class="comment">     * indices).  Returns the element that was removed from the list.</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="doctag">@inheritDoc</span>&#125;</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</div><div class="line">        lock.lock();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Object[] elements = getArray();</div><div class="line">            <span class="keyword">int</span> len = elements.length;</div><div class="line">            E oldValue = get(elements, index);</div><div class="line">            <span class="keyword">int</span> numMoved = len - index - <span class="number">1</span>;</div><div class="line">            <span class="keyword">if</span> (numMoved == <span class="number">0</span>)</div><div class="line">                setArray(Arrays.copyOf(elements, len - <span class="number">1</span>));</div><div class="line">            <span class="keyword">else</span> &#123;</div><div class="line">                Object[] newElements = <span class="keyword">new</span> Object[len - <span class="number">1</span>];</div><div class="line">                System.arraycopy(elements, <span class="number">0</span>, newElements, <span class="number">0</span>, index);</div><div class="line">                System.arraycopy(elements, index + <span class="number">1</span>, newElements, index,</div><div class="line">                                 numMoved);</div><div class="line">                setArray(newElements);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> oldValue;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            lock.unlock();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>可以看到，对CopyOnWriteArrayList的「写」操作，代码中都是有加互斥锁——ReentrantLock的，而对于「读」操作，没有任何锁机制。所以也就决定了CopyOnWriteArrayList一般在有大量并发读，少量并发写的场景下使用。</p>
 <blockquote>
 <p>参考：<a href="http://www.cnblogs.com/aigongsi/archive/2012/04/01/2429166.html" target="_blank" rel="external">http://www.cnblogs.com/aigongsi/archive/2012/04/01/2429166.html</a></p>
 </blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/08/Distributed-unique-id/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克小记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/08/Distributed-unique-id/" itemprop="url">Distributed-unique-id</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-08T14:39:03+08:00">
-                2017-11-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * Twitter_Snowflake&lt;br&gt;</span></div><div class="line"><span class="comment"> * SnowFlake的结构如下(每部分用-分开):&lt;br&gt;</span></div><div class="line"><span class="comment"> * 0 - 0000000000 0000000000 0000000000 0000000000 0 - 00000 - 00000 - 000000000000 &lt;br&gt;</span></div><div class="line"><span class="comment"> * 1位标识，由于long基本类型在Java中是带符号的，最高位是符号位，正数是0，负数是1，所以id一般是正数，最高位是0&lt;br&gt;</span></div><div class="line"><span class="comment"> * 41位时间截(毫秒级)，注意，41位时间截不是存储当前时间的时间截，而是存储时间截的差值（当前时间截 - 开始时间截)</span></div><div class="line"><span class="comment"> * 得到的值），这里的的开始时间截，一般是我们的id生成器开始使用的时间，由我们程序来指定的（如下下面程序IdWorker类的startTime属性）。41位的时间截，可以使用69年，年T = (1L &lt;&lt; 41) / (1000L * 60 * 60 * 24 * 365) = 69&lt;br&gt;</span></div><div class="line"><span class="comment"> * 10位的数据机器位，可以部署在1024个节点，包括5位datacenterId和5位workerId&lt;br&gt;</span></div><div class="line"><span class="comment"> * 12位序列，毫秒内的计数，12位的计数顺序号支持每个节点每毫秒(同一机器，同一时间截)产生4096个ID序号&lt;br&gt;</span></div><div class="line"><span class="comment"> * 加起来刚好64位，为一个Long型。&lt;br&gt;</span></div><div class="line"><span class="comment"> * SnowFlake的优点是，整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞(由数据中心ID和机器ID作区分)，并且效率较高，经测试，SnowFlake每秒能够产生26万ID左右。</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SnowflakeIdWorker</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// ==============================Fields===========================================</span></div><div class="line">    <span class="comment">/** 开始时间截 (2015-01-01) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> twepoch = <span class="number">1420041600000L</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** 机器id所占的位数 */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> workerIdBits = <span class="number">5L</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** 数据标识id所占的位数 */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> datacenterIdBits = <span class="number">5L</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** 支持的最大机器id，结果是31 (这个移位算法可以很快的计算出几位二进制数所能表示的最大十进制数) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> maxWorkerId = -<span class="number">1L</span> ^ (-<span class="number">1L</span> &lt;&lt; workerIdBits);</div><div class="line"></div><div class="line">    <span class="comment">/** 支持的最大数据标识id，结果是31 */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> maxDatacenterId = -<span class="number">1L</span> ^ (-<span class="number">1L</span> &lt;&lt; datacenterIdBits);</div><div class="line"></div><div class="line">    <span class="comment">/** 序列在id中占的位数 */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> sequenceBits = <span class="number">12L</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** 机器ID向左移12位 */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> workerIdShift = sequenceBits;</div><div class="line"></div><div class="line">    <span class="comment">/** 数据标识id向左移17位(12+5) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> datacenterIdShift = sequenceBits + workerIdBits;</div><div class="line"></div><div class="line">    <span class="comment">/** 时间截向左移22位(5+5+12) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;</div><div class="line"></div><div class="line">    <span class="comment">/** 生成序列的掩码，这里为4095 (0b111111111111=0xfff=4095) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> sequenceMask = -<span class="number">1L</span> ^ (-<span class="number">1L</span> &lt;&lt; sequenceBits);</div><div class="line"></div><div class="line">    <span class="comment">/** 工作机器ID(0~31) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> workerId;</div><div class="line"></div><div class="line">    <span class="comment">/** 数据中心ID(0~31) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> datacenterId;</div><div class="line"></div><div class="line">    <span class="comment">/** 毫秒内序列(0~4095) */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> sequence = <span class="number">0L</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** 上次生成ID的时间截 */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> lastTimestamp = -<span class="number">1L</span>;</div><div class="line"></div><div class="line">    <span class="comment">//==============================Constructors=====================================</span></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 构造函数</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> workerId 工作ID (0~31)</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> datacenterId 数据中心ID (0~31)</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SnowflakeIdWorker</span><span class="params">(<span class="keyword">long</span> workerId, <span class="keyword">long</span> datacenterId)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (workerId &gt; maxWorkerId || workerId &lt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(String.format(<span class="string">"worker Id can't be greater than %d or less than 0"</span>, maxWorkerId));</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (datacenterId &gt; maxDatacenterId || datacenterId &lt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(String.format(<span class="string">"datacenter Id can't be greater than %d or less than 0"</span>, maxDatacenterId));</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.workerId = workerId;</div><div class="line">        <span class="keyword">this</span>.datacenterId = datacenterId;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// ==============================Methods==========================================</span></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 获得下一个ID (该方法是线程安全的)</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> SnowflakeId</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">long</span> <span class="title">nextId</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> timestamp = timeGen();</div><div class="line"></div><div class="line">        <span class="comment">//如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常</span></div><div class="line">        <span class="keyword">if</span> (timestamp &lt; lastTimestamp) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(</div><div class="line">                    String.format(<span class="string">"Clock moved backwards.  Refusing to generate id for %d milliseconds"</span>, lastTimestamp - timestamp));</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//如果是同一时间生成的，则进行毫秒内序列</span></div><div class="line">        <span class="keyword">if</span> (lastTimestamp == timestamp) &#123;</div><div class="line">            sequence = (sequence + <span class="number">1</span>) &amp; sequenceMask;</div><div class="line">            <span class="comment">//毫秒内序列溢出</span></div><div class="line">            <span class="keyword">if</span> (sequence == <span class="number">0</span>) &#123;</div><div class="line">                <span class="comment">//阻塞到下一个毫秒,获得新的时间戳</span></div><div class="line">                timestamp = tilNextMillis(lastTimestamp);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//时间戳改变，毫秒内序列重置</span></div><div class="line">        <span class="keyword">else</span> &#123;</div><div class="line">            sequence = <span class="number">0L</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//上次生成ID的时间截</span></div><div class="line">        lastTimestamp = timestamp;</div><div class="line"></div><div class="line">        <span class="comment">//移位并通过或运算拼到一起组成64位的ID</span></div><div class="line">        <span class="keyword">return</span> ((timestamp - twepoch) &lt;&lt; timestampLeftShift) <span class="comment">//</span></div><div class="line">                | (datacenterId &lt;&lt; datacenterIdShift) <span class="comment">//</span></div><div class="line">                | (workerId &lt;&lt; workerIdShift) <span class="comment">//</span></div><div class="line">                | sequence;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 阻塞到下一个毫秒，直到获得新的时间戳</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> lastTimestamp 上次生成ID的时间截</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> 当前时间戳</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">long</span> <span class="title">tilNextMillis</span><span class="params">(<span class="keyword">long</span> lastTimestamp)</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> timestamp = timeGen();</div><div class="line">        <span class="keyword">while</span> (timestamp &lt;= lastTimestamp) &#123;</div><div class="line">            timestamp = timeGen();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> timestamp;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 返回以毫秒为单位的当前时间</span></div><div class="line"><span class="comment">     * <span class="doctag">@return</span> 当前时间(毫秒)</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">long</span> <span class="title">timeGen</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> System.currentTimeMillis();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//==============================Test=============================================</span></div><div class="line">    <span class="comment">/** 测试 */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        SnowflakeIdWorker idWorker = <span class="keyword">new</span> SnowflakeIdWorker(<span class="number">0</span>, <span class="number">0</span>);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) &#123;</div><div class="line">            <span class="keyword">long</span> id = idWorker.nextId();</div><div class="line">            System.out.println(Long.toBinaryString(id));</div><div class="line">            System.out.println(id);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="baidu-uid-generator"><a href="#baidu-uid-generator" class="headerlink" title="baidu uid-generator"></a>baidu uid-generator</h3><p><a href="https://github.com/baidu/uid-generator" target="_blank" rel="external">https://github.com/baidu/uid-generator</a></p>
+<p>七、volatile的应用场景</p>
+<p>synchronized关键字是防止多个线程同时执行一段代码，那么就会很影响程序执行效率，而volatile关键字在某些情况下性能要优于synchronized，但是要注意volatile关键字是无法替代synchronized关键字的，因为volatile关键字无法保证操作的原子性。通常来说，使用volatile必须具备以下2个条件：</p>
+<p>1）对变量的写操作不依赖于当前值</p>
+<p>2）该变量没有包含在具有其他变量的不变式中</p>
+<p>下面列举几个Java中使用volatile的几个场景。</p>
+<p>①.状态标记量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">volatile</span> <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</div><div class="line"> <span class="comment">//线程1</span></div><div class="line"><span class="keyword">while</span>(!flag)&#123;</div><div class="line">    doSomething();</div><div class="line">&#125;</div><div class="line">  <span class="comment">//线程2</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFlag</span><span class="params">()</span> </span>&#123;</div><div class="line">    flag = <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>根据状态标记，终止线程。</p>
+<p>②.单例模式中的double check</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(instance==<span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">synchronized</span> (Singleton.class) &#123;</div><div class="line">                <span class="keyword">if</span>(instance==<span class="keyword">null</span>)</div><div class="line">                    instance = <span class="keyword">new</span> Singleton();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>为什么要使用volatile 修饰instance？</p>
+<p>主要在于instance = new Singleton()这句，这并非是一个原子操作，事实上在 JVM 中这句话大概做了下面 3 件事情:</p>
+<p>1.给 instance 分配内存</p>
+<p>2.调用 Singleton 的构造函数来初始化成员变量</p>
+<p>3.将instance对象指向分配的内存空间（执行完这步 instance 就为非 null 了）。</p>
+<p>但是在 JVM 的即时编译器中存在指令重排序的优化。也就是说上面的第二步和第三步的顺序是不能保证的，最终的执行顺序可能是 1-2-3 也可能是 1-3-2。如果是后者，则在 3 执行完毕、2 未执行之前，被线程二抢占了，这时 instance 已经是非 null 了（但却没有初始化），所以线程二会直接返回 instance，然后使用，然后顺理成章地报错。</p>
+<p>作者：Ruheng<br>链接：<a href="http://www.jianshu.com/p/7798161d7472" target="_blank" rel="external">http://www.jianshu.com/p/7798161d7472</a><br>來源：简书<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
 
           
         
@@ -1633,6 +1410,248 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/03/Distributed-Transaction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/03/Distributed-Transaction/" itemprop="url">Distributed-Transaction</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-03T10:54:48+08:00">
+                2017-11-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h3><h3 id="RocketMQ事务功能"><a href="#RocketMQ事务功能" class="headerlink" title="RocketMQ事务功能"></a>RocketMQ事务功能</h3><p><img src="/2017/11/03/Distributed-Transaction/transaction_rocketmq.gif" alt="你想输入的替代文字"></p>
+<h3 id="Spring-Cloud"><a href="#Spring-Cloud" class="headerlink" title="Spring Cloud"></a>Spring Cloud</h3><p><a href="http://www.jianshu.com/p/cf3a2884a8d2?open_source=weibo_search" target="_blank" rel="external">http://www.jianshu.com/p/cf3a2884a8d2?open_source=weibo_search</a><br><a href="https://www.atomikos.com/Blog/TransactionManagementAPIForRESTTCC" target="_blank" rel="external">https://www.atomikos.com/Blog/TransactionManagementAPIForRESTTCC</a></p>
+<p><a href="https://github.com/beston123/Tarzan" target="_blank" rel="external">https://github.com/beston123/Tarzan</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/01/Linux-sync-async-blocking-noblocking/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eric Fei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="艾瑞克小记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/01/Linux-sync-async-blocking-noblocking/" itemprop="url">OS-sync-async-blocking-noblocking</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-01T15:01:02+08:00">
+                2017-11-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://github.com/calidion/calidion.github.io/issues/40" target="_blank" rel="external">https://github.com/calidion/calidion.github.io/issues/40</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1683,7 +1702,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1696,7 +1715,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

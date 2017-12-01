@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="MySQL实现 Redis ZooKeeper RedLock  12345678910111213141516171819202122232425public class InterProcessMutexTest &amp;#123;    public static final String LOCK_PATH = &quot;/curator-kick-off/lock&quot;;    private stat">
+<meta name="description" content="MySQL实现Redishttp://blog.csdn.net/bolg_hero/article/details/78532920 ZooKeeper RedLock 12345678910111213141516171819202122232425public class InterProcessMutexTest &amp;#123;    public static final String L">
 <meta name="keywords" content="Curator">
 <meta property="og:type" content="article">
 <meta property="og:title" content="curator——分布式锁的实现之一">
 <meta property="og:url" content="http://yoursite.com/2017/09/28/Curator-Distributed-lock/index.html">
 <meta property="og:site_name" content="艾瑞克小记">
-<meta property="og:description" content="MySQL实现 Redis ZooKeeper RedLock  12345678910111213141516171819202122232425public class InterProcessMutexTest &amp;#123;    public static final String LOCK_PATH = &quot;/curator-kick-off/lock&quot;;    private stat">
+<meta property="og:description" content="MySQL实现Redishttp://blog.csdn.net/bolg_hero/article/details/78532920 ZooKeeper RedLock 12345678910111213141516171819202122232425public class InterProcessMutexTest &amp;#123;    public static final String L">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-31T08:56:23.000Z">
+<meta property="og:updated_time" content="2017-11-28T09:22:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="curator——分布式锁的实现之一">
-<meta name="twitter:description" content="MySQL实现 Redis ZooKeeper RedLock  12345678910111213141516171819202122232425public class InterProcessMutexTest &amp;#123;    public static final String LOCK_PATH = &quot;/curator-kick-off/lock&quot;;    private stat">
+<meta name="twitter:description" content="MySQL实现Redishttp://blog.csdn.net/bolg_hero/article/details/78532920 ZooKeeper RedLock 12345678910111213141516171819202122232425public class InterProcessMutexTest &amp;#123;    public static final String L">
 
 
 
@@ -364,12 +364,8 @@
       
 
       
-        <ul>
-<li>MySQL实现</li>
-<li>Redis</li>
-<li>ZooKeeper</li>
-<li>RedLock</li>
-</ul>
+        <h3 id="MySQL实现"><a href="#MySQL实现" class="headerlink" title="MySQL实现"></a>MySQL实现</h3><h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><p><a href="http://blog.csdn.net/bolg_hero/article/details/78532920" target="_blank" rel="external">http://blog.csdn.net/bolg_hero/article/details/78532920</a></p>
+<h3 id="ZooKeeper"><a href="#ZooKeeper" class="headerlink" title="ZooKeeper"></a>ZooKeeper</h3><p> RedLock</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InterProcessMutexTest</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String LOCK_PATH = <span class="string">"/curator-kick-off/lock"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> CuratorFramework client;</div><div class="line"></div><div class="line">    <span class="meta">@BeforeClass</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</div><div class="line">        client = CuratorFrameworkFactory.newClient(</div><div class="line">                <span class="string">"127.0.0.1:2181"</span>,</div><div class="line">                <span class="number">1000</span> * <span class="number">10</span>,</div><div class="line">                <span class="number">3000</span>, <span class="keyword">new</span> ExponentialBackoffRetry(</div><div class="line">                        <span class="number">1000</span>,</div><div class="line">                        <span class="number">3</span>));</div><div class="line">        client.start();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        InterProcessMutex lock = <span class="keyword">new</span> InterProcessMutex(client, LOCK_PATH);</div><div class="line">        <span class="keyword">boolean</span> acquire = lock.acquire(<span class="number">5</span>, TimeUnit.SECONDS);</div><div class="line">        System.out.println(acquire);</div><div class="line">        System.out.println(<span class="string">"done"</span>);</div><div class="line">        lock.release();</div><div class="line">        System.in.read();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
@@ -465,8 +461,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
@@ -481,7 +486,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -494,7 +499,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -519,6 +524,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL实现"><span class="nav-number">1.</span> <span class="nav-text">MySQL实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis"><span class="nav-number">2.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZooKeeper"><span class="nav-number">3.</span> <span class="nav-text">ZooKeeper</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

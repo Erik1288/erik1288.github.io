@@ -94,19 +94,19 @@
 
 
 
-<meta name="description" content="https://help.aliyun.com/document_detail/43348.html?spm=5176.doc43490.6.566.Zd5Bl7  问题producer发送half msg时，broker如果当它是一条普通的消息，那consumer会立刻在long pooling中收到，但实现是不会收到的，是在哪一个环节设置的。事务消息，提交（COMMIT）后才生成 Consum">
+<meta name="description" content="https://help.aliyun.com/document_detail/43348.html?spm=5176.doc43490.6.566.Zd5Bl7  问题producer发送half msg时，broker如果当它是一条普通的消息，那consumer会立刻在long pooling中收到，但实现是不会收到的，是在哪一个环节设置的?事务消息，提交（COMMIT）后才生成 Consum">
 <meta name="keywords" content="RocketMQ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RocketMQ——事务消息原理分析">
 <meta property="og:url" content="http://yoursite.com/2017/10/11/RocketMQ-Transactional-message/index.html">
 <meta property="og:site_name" content="艾瑞克小记">
-<meta property="og:description" content="https://help.aliyun.com/document_detail/43348.html?spm=5176.doc43490.6.566.Zd5Bl7  问题producer发送half msg时，broker如果当它是一条普通的消息，那consumer会立刻在long pooling中收到，但实现是不会收到的，是在哪一个环节设置的。事务消息，提交（COMMIT）后才生成 Consum">
+<meta property="og:description" content="https://help.aliyun.com/document_detail/43348.html?spm=5176.doc43490.6.566.Zd5Bl7  问题producer发送half msg时，broker如果当它是一条普通的消息，那consumer会立刻在long pooling中收到，但实现是不会收到的，是在哪一个环节设置的?事务消息，提交（COMMIT）后才生成 Consum">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/10/11/RocketMQ-Transactional-message/transaction_rocketmq.gif">
-<meta property="og:updated_time" content="2017-11-05T10:16:44.000Z">
+<meta property="og:updated_time" content="2017-12-01T09:38:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RocketMQ——事务消息原理分析">
-<meta name="twitter:description" content="https://help.aliyun.com/document_detail/43348.html?spm=5176.doc43490.6.566.Zd5Bl7  问题producer发送half msg时，broker如果当它是一条普通的消息，那consumer会立刻在long pooling中收到，但实现是不会收到的，是在哪一个环节设置的。事务消息，提交（COMMIT）后才生成 Consum">
+<meta name="twitter:description" content="https://help.aliyun.com/document_detail/43348.html?spm=5176.doc43490.6.566.Zd5Bl7  问题producer发送half msg时，broker如果当它是一条普通的消息，那consumer会立刻在long pooling中收到，但实现是不会收到的，是在哪一个环节设置的?事务消息，提交（COMMIT）后才生成 Consum">
 <meta name="twitter:image" content="http://yoursite.com/2017/10/11/RocketMQ-Transactional-message/transaction_rocketmq.gif">
 
 
@@ -368,7 +368,7 @@
       
         <p><a href="https://help.aliyun.com/document_detail/43348.html?spm=5176.doc43490.6.566.Zd5Bl7" target="_blank" rel="external">https://help.aliyun.com/document_detail/43348.html?spm=5176.doc43490.6.566.Zd5Bl7</a></p>
 <p><img src="/2017/10/11/RocketMQ-Transactional-message/transaction_rocketmq.gif" alt="你想输入的替代文字"></p>
-<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>producer发送half msg时，broker如果当它是一条普通的消息，那consumer会立刻在long pooling中收到，但实现是不会收到的，是在哪一个环节设置的。<br>事务消息，提交（COMMIT）后才生成 ConsumeQueue<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommitLogDispatcherBuildConsumeQueue</span> <span class="keyword">implements</span> <span class="title">CommitLogDispatcher</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatch</span><span class="params">(DispatchRequest request)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> tranType = MessageSysFlag.getTransactionValue(request.getSysFlag());</div><div class="line">        <span class="keyword">switch</span> (tranType) &#123;</div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_NOT_TYPE:</div><div class="line">            <span class="comment">// 虽然所有的状态都会存储到commit log中，只有 TRANSACTION_COMMIT_TYPE 状态才会构建consume queue</span></div><div class="line">            <span class="comment">// 也就是说让consumer进行消费</span></div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_COMMIT_TYPE:</div><div class="line">                DefaultMessageStore.<span class="keyword">this</span>.putMessagePositionInfo(request);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_PREPARED_TYPE:</div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_ROLLBACK_TYPE:</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>producer发送half msg时，broker如果当它是一条普通的消息，那consumer会立刻在long pooling中收到，但实现是不会收到的，是在哪一个环节设置的?<br>事务消息，提交（COMMIT）后才生成 ConsumeQueue<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommitLogDispatcherBuildConsumeQueue</span> <span class="keyword">implements</span> <span class="title">CommitLogDispatcher</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatch</span><span class="params">(DispatchRequest request)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> tranType = MessageSysFlag.getTransactionValue(request.getSysFlag());</div><div class="line">        <span class="keyword">switch</span> (tranType) &#123;</div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_NOT_TYPE:</div><div class="line">            <span class="comment">// 虽然所有的状态都会存储到commit log中，只有 TRANSACTION_COMMIT_TYPE 状态才会构建consume queue</span></div><div class="line">            <span class="comment">// 也就是说让consumer进行消费</span></div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_COMMIT_TYPE:</div><div class="line">                DefaultMessageStore.<span class="keyword">this</span>.putMessagePositionInfo(request);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_PREPARED_TYPE:</div><div class="line">            <span class="keyword">case</span> MessageSysFlag.TRANSACTION_ROLLBACK_TYPE:</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -488,7 +488,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -501,7 +501,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

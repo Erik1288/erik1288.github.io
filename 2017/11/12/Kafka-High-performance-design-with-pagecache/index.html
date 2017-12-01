@@ -104,7 +104,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/11/12/Kafka-High-performance-design-with-pagecache/disk_read_write_speed.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/11/12/Kafka-High-performance-design-with-pagecache/read_write.gif">
-<meta property="og:updated_time" content="2017-11-17T01:54:24.000Z">
+<meta property="og:updated_time" content="2017-12-01T07:04:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafka——高速低延时之秘诀「Page Cache」">
 <meta name="twitter:description" content="一切的秘密，都在下面的几篇文章中  http://blog.csdn.net/tototuzuoquan/article/details/73437890 http://www.jianshu.com/p/eba0067b1e1a大神作者 https://tech.meituan.com/kafka-fs-design-theory.html java.nio.channels.FileChan">
@@ -387,6 +387,13 @@
 <p>Because this copying is done within the kernel, sendfile() is more<br>efficient than the combination of read(2) and write(2), which would<br>require transferring data to and from user space.</p>
 <p><img src="/2017/11/12/Kafka-High-performance-design-with-pagecache/read_write.gif" alt="你想输入的替代文字"></p>
 <p>conventional read and write</p>
+<p>关于脏页，有什么需要注意的？</p>
+<p><a href="http://blog.csdn.net/stark_summer/article/details/50144591" target="_blank" rel="external">http://blog.csdn.net/stark_summer/article/details/50144591</a></p>
+<p>Tips</p>
+<ol>
+<li>Kafka官方并不建议通过Broker端的log.flush.interval.messages和log.flush.interval.ms来强制写盘，认为数据的可靠性应该通过Replica来保证，而强制Flush数据到磁盘会对整体性能产生影响。</li>
+<li>可以通过调整/proc/sys/vm/dirty_background_ratio和/proc/sys/vm/dirty_ratio来调优性能。<br>a. 脏页率超过第一个指标会启动pdflush开始Flush Dirty PageCache。<br>b. 脏页率超过第二个指标会阻塞所有的写操作来进行Flush。<br>c. 根据不同的业务需求可以适当的降低dirty_background_ratio和提高dirty_ratio。</li>
+</ol>
 
       
     </div>
@@ -417,8 +424,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/12/SourceCode-Map/" rel="next" title="SourceCode-Map">
-                <i class="fa fa-chevron-left"></i> SourceCode-Map
+              <a href="/2017/11/10/JVM-CAS-Campare-and-swap/" rel="next" title="JVM-CAS-Campare-and-swap">
+                <i class="fa fa-chevron-left"></i> JVM-CAS-Campare-and-swap
               </a>
             
           </div>
@@ -506,7 +513,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -519,7 +526,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

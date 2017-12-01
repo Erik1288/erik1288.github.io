@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Kafka," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -94,18 +94,16 @@
 
 
 
-<meta name="description" content="Kafka写CommitLog时用了什么锁机制? sync;lock-free;reentrant lock 第九课. Kafka高性能之道    9.1 顺序写磁盘    9.2 零拷贝    9.3 批处理    9.4 基于ISR的动态平衡一致性算法">
-<meta name="keywords" content="Kafka">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Kafka-FAQ">
-<meta property="og:url" content="http://yoursite.com/2017/11/17/Kafka-FAQ/index.html">
+<meta name="description" content="费红健的笔记  能用代码或者作图来说明问题，绝不废话">
+<meta property="og:type" content="website">
+<meta property="og:title" content="艾瑞克小记">
+<meta property="og:url" content="http://yoursite.com/tags/分布式事务/index.html">
 <meta property="og:site_name" content="艾瑞克小记">
-<meta property="og:description" content="Kafka写CommitLog时用了什么锁机制? sync;lock-free;reentrant lock 第九课. Kafka高性能之道    9.1 顺序写磁盘    9.2 零拷贝    9.3 批处理    9.4 基于ISR的动态平衡一致性算法">
+<meta property="og:description" content="费红健的笔记  能用代码或者作图来说明问题，绝不废话">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-20T09:28:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kafka-FAQ">
-<meta name="twitter:description" content="Kafka写CommitLog时用了什么锁机制? sync;lock-free;reentrant lock 第九课. Kafka高性能之道    9.1 顺序写磁盘    9.2 零拷贝    9.3 批处理    9.4 基于ISR的动态平衡一致性算法">
+<meta name="twitter:title" content="艾瑞克小记">
+<meta name="twitter:description" content="费红健的笔记  能用代码或者作图来说明问题，绝不废话">
 
 
 
@@ -134,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/11/17/Kafka-FAQ/"/>
+  <link rel="canonical" href="http://yoursite.com/tags/分布式事务/"/>
 
 
 
 
 
-  <title>Kafka-FAQ | 艾瑞克小记</title>
+  <title>标签: 分布式事务 | 艾瑞克小记</title>
   
 
 
@@ -165,7 +163,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -283,153 +281,82 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block tag">
 
-  
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <h1>分布式事务<small>标签</small>
+        </h1>
+      </div>
 
-  
-  
-  
+      
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/17/Kafka-FAQ/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克小记">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
-        
-          <h1 class="post-title" itemprop="name headline">Kafka-FAQ</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
+            <a class="post-title-link" href="/2017/11/10/Distributed-Transaction-TCC/" itemprop="url">
               
-                <span class="post-meta-item-text">发表于</span>
+                <span itemprop="name">Distributed-Transaction-TCC</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-17T15:33:16+08:00">
-                2017-11-17
-              </time>
-            
+            </a>
+        
+      </h2>
 
-            
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-11-10T19:03:55+08:00"
+              content="2017-11-10" >
+          11-10
+        </time>
+      </div>
 
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>Kafka写CommitLog时用了什么锁机制?</p>
-<p>sync;lock-free;reentrant lock</p>
-<p>第九课. Kafka高性能之道<br>    9.1 顺序写磁盘<br>    9.2 零拷贝<br>    9.3 批处理<br>    9.4 基于ISR的动态平衡一致性算法</p>
-
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Kafka/" rel="tag"># Kafka</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/11/16/Linux-Zero-Copy/" rel="next" title="Linux-Zero-Copy">
-                <i class="fa fa-chevron-left"></i> Linux-Zero-Copy
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/20/Interview-Questions/" rel="prev" title="Interview-Questions">
-                Interview-Questions <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
+      
+        
 
-    <div class="post-spread">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/2017/11/03/Distributed-Transaction/" itemprop="url">
+              
+                <span itemprop="name">Distributed-Transaction</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-11-03T10:54:48+08:00"
+              content="2017-11-03" >
+          11-03
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
       
     </div>
+
   </div>
+  
+  
+  
+
+  
 
 
           </div>
@@ -437,10 +364,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -477,7 +400,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -490,7 +413,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -628,10 +551,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-
+  
 
   
 
