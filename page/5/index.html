@@ -297,138 +297,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/20/RocketMQ-Debug-with-intellij/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Eric Fei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/716353-e3467dec6f10f505.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="艾瑞克小记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/20/RocketMQ-Debug-with-intellij/" itemprop="url">RocketMQ在Intellij中的终极调试技巧（一）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-20T13:28:52+08:00">
-                2017-08-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="调试难点"><a href="#调试难点" class="headerlink" title="调试难点"></a>调试难点</h3><p>如果虚拟机够多<br>可以规划将MQ的各个部分部署在不同机器上，并且在所有子系统启动时加上远程调试。然后Intellij创建几个Remote debug窗口。</p>
-<p>如果没有虚拟机，只有一台Mac，接下去的内容将对RocketMQ的调试有非常大的帮助。</p>
-<h3 id="调试界面"><a href="#调试界面" class="headerlink" title="调试界面"></a>调试界面</h3><p><img src="http://upload-images.jianshu.io/upload_images/716353-1c36c4f4f54283e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h3 id="Name-Server"><a href="#Name-Server" class="headerlink" title="Name Server"></a>Name Server</h3><h3 id="Broker"><a href="#Broker" class="headerlink" title="Broker"></a>Broker</h3><p>Broker的调试最为麻烦，<br>如果在学习RocketMQ的初期，建议单启动一个Broker，减少复杂度，关注主要流程代码。<br>如果要深入学习和调试，要启动Master和Slave，开启主从同步功能，也是会发生端口和文件目录冲突的地方。</p>
-<p>store的目录都为<code>System.getProperty(&quot;user.home&quot;) + File.separator + &quot;store&quot;</code>，<br>所以我们需要对Master和Slave进行分离，方法很多种，这里介绍一种，在启动参数中配置不同的<code>user.home</code>。</p>
-<p>Port的分离可以放在不同的配置文件中：broker-a.properties，broker-a-s.properties</p>
-<h4 id="Master-Broker"><a href="#Master-Broker" class="headerlink" title="Master Broker"></a>Master Broker</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">VM options:-Drocketmq.home.dir=/Users/eric/Code/middleware/incubator-rocketmq -Drocketmq.namesrv.addr=mac:9876 -Duser.home=/Users/eric/store/master</div><div class="line">Program arguments:-c /Users/eric/Code/middleware/incubator-rocketmq/conf/2m-2s-sync/broker-a.properties</div><div class="line"></div><div class="line">broker-a.properties:</div><div class="line">brokerClusterName=DefaultCluster</div><div class="line">brokerName=broker-a</div><div class="line">brokerId=0</div><div class="line">deleteWhen=04</div><div class="line">fileReservedTime=48</div><div class="line">brokerRole=SYNC_MASTER</div><div class="line">flushDiskType=ASYNC_FLUSH</div><div class="line">listenPort=11111</div></pre></td></tr></table></figure>
-<p><img src="http://upload-images.jianshu.io/upload_images/716353-269519f3558de100.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h4 id="Slave-Broker"><a href="#Slave-Broker" class="headerlink" title="Slave Broker"></a>Slave Broker</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">VM options:-Drocketmq.home.dir=/Users/eric/Code/middleware/incubator-rocketmq -Drocketmq.namesrv.addr=mac:9876 -Duser.home=/Users/eric/store/slave</div><div class="line">Program arguments:-c /Users/eric/Code/middleware/incubator-rocketmq/conf/2m-2s-sync/broker-a-s.properties</div><div class="line"></div><div class="line">broker-a-s.properties:</div><div class="line">brokerClusterName=DefaultCluster</div><div class="line">brokerName=broker-a</div><div class="line">brokerId=1</div><div class="line">deleteWhen=04</div><div class="line">fileReservedTime=48</div><div class="line">brokerRole=SLAVE</div><div class="line">flushDiskType=ASYNC_FLUSH</div><div class="line">listenPort=22222</div></pre></td></tr></table></figure>
-<p><img src="http://upload-images.jianshu.io/upload_images/716353-473218e8e6936674.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>配置完后依次启动 Name Server, Master Broker, Slave Broker， Producer</p>
-<p>完整的Store目录结构截图</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1fkedpuigp8j317e1a80zy.jpg" alt=""></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/24/Cobar-Reactor-design-pattern/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -605,7 +473,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
